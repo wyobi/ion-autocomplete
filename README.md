@@ -1,32 +1,44 @@
-ion-google-place
+ion-autocomplete
 ================
 
-Ionic directive for a location dropdown that utilizes google maps
+Configurable Ionic directive for an autocomplete dropdown.
 
-![Animated demo](https://github.com/israelidanny/ion-google-place/raw/master/demo.gif)
+![Animated demo](https://github.com/guylabs/ion-autocomplete/raw/master/demo.gif)
 
 This is a simple directive for an autocomplete overlay location field built for Ionic Framework.
 
 #Installation
 
-Installation should be dead simple, you can grab a copy from bower:
+1. Use bower to install the new module:
 ```bash
-bower install ion-google-place
+bower install ion-autocomplete
 ```
-
-Or clone this repository.
-
-For the geolocation service to work, you'll need to have Google Maps javascript API somewhere in your HEAD tag:
-`<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>`
-
-You'll need to add `ion-google-place` as a dependency on your Ionic app:
+2. Import the `ion-autocomplete` javascript and css file into your HTML file:
+```html
+<script src="bower_components/ion-autocomplete/dist/ion-autocomplete.js"></script>
+<link href="bower_components/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">
+```
+3. Add `ion-autocomplete` as a dependency on your Ionic app:
 ```javascript
 angular.module('myApp', [
   'ionic',
-  'ion-google-place'
+  'ion-autocomplete'
 ]);
 ```
+#Usage
 
-That's pretty much it. Now you can use the directive like so:
-`<ion-google-place placeholder="Enter an address, Apt# and ZIP" ng-model="location" />`
+To use the `ion-autocomplete` directive you need to add the following snippet:
+`<ion-autocomplete ng-model="model" placeholder="Enter the query to search for ..." />`
 
+## Acknowledgements
+
+When I first searched for an Ionic autocomplete component I just found the project of Danny. So please have a look at
+his [ion-google-place](https://github.com/israelidanny/ion-google-place) project as this project here is a fork of it.
+At this point I want to thank him for his nice work.
+
+## License
+
+This Ionic autocomplete directive is available under the MIT license.
+
+(c) Danny Povolotski
+(c) Modifications by Guy Brand

@@ -1,4 +1,4 @@
-.ion-google-place-container{
+.ion-autocomplete-container {
     position: fixed;
     top: 0;
     right: 0;
@@ -8,8 +8,7 @@
     display: none;
 }
 
-
-input.ion-google-place[readonly]{
+input.ion-autocomplete[readonly] {
     background-color: transparent;
     cursor: text;
 }
