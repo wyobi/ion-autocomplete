@@ -8,8 +8,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             replace: true,
             scope: {
                 itemsMethod: '&',
-                itemValue: '@',
-                itemViewValue: '@'
+                itemValueKey: '@',
+                itemViewValueKey: '@'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -34,9 +34,9 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 scope.searchQuery = '';
 
                 // returns the value of an item
-                scope.getItemValue = function (item, itemValue) {
+                scope.getItemValue = function (item, key) {
                     if (angular.isObject(item)) {
-                        return item[itemValue];
+                        return item[key];
                     } else {
                         return item;
                     }
@@ -57,7 +57,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<ion-content class="has-header has-header">',
                     '<ion-list>',
                     '<ion-item ng-repeat="item in items" type="item-text-wrap" ng-click="selectItem(item)">',
-                    '{{getItemValue(item, itemViewValue)}}',
+                    '{{getItemValue(item, itemViewValueKey)}}',
                     '</ion-item>',
                     '</ion-list>',
                     '</ion-content>',
@@ -129,17 +129,17 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // render the view value of the model
                 ngModel.$render = function () {
-                    element.val(scope.getItemValue(ngModel.$viewValue, scope.itemViewValue))
+                    element.val(scope.getItemValue(ngModel.$viewValue, scope.itemViewValueKey))
                 };
 
                 // set the view value of the model
                 ngModel.$formatters.unshift(function (modelValue) {
-                    return scope.getItemValue(modelValue, scope.itemViewValue);
+                    return scope.getItemValue(modelValue, scope.itemViewValueKey);
                 });
 
                 // set the model value of the model
                 ngModel.$parsers.unshift(function (viewValue) {
-                    return scope.getItemValue(viewValue, scope.itemValue)
+                    return scope.getItemValue(viewValue, scope.itemValueKey)
                 });
 
             }

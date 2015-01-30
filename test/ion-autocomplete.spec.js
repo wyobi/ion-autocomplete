@@ -20,7 +20,7 @@ describe('ion-autocomplete', function () {
     });
 
     it('must not initialize anything if the ng-model is not set', function () {
-        compileElement('<ion-autocomplete></ion-autocomplete>');
+        compileElement('<ion-autocomplete />');
 
         // expect that no element is added to the body
         expect(getSearchContainerElement().length).toBe(0);
@@ -29,7 +29,7 @@ describe('ion-autocomplete', function () {
     });
 
     it('must have the default values set', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
 
         // expect the default values of the input field
         expect(element[0].type).toBe('text');
@@ -52,7 +52,7 @@ describe('ion-autocomplete', function () {
 
     it('must set the placeholder on the input field and on the search input field', function () {
         var placeholderValue = "placeholder value";
-        var element = compileElement('<ion-autocomplete ng-model="model" placeholder="' + placeholderValue + '"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model" placeholder="' + placeholderValue + '"/>');
 
         expect(element[0].placeholder).toBe(placeholderValue);
         expect(getSearchInputElement()[0].placeholder).toBe(placeholderValue);
@@ -60,13 +60,13 @@ describe('ion-autocomplete', function () {
 
     it('must set the cancel label on the button', function () {
         var cancelLabelValue = "Cancel Button";
-        compileElement('<ion-autocomplete ng-model="model" cancel-label="' + cancelLabelValue + '"></ion-autocomplete>');
+        compileElement('<ion-autocomplete ng-model="model" cancel-label="' + cancelLabelValue + '"/>');
 
         expect(getCancelButtonElement()[0].innerText).toBe(cancelLabelValue);
     });
 
     it('must get the proper item value', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
 
         var itemValue = element.isolateScope().getItemValue("no-object");
         expect(itemValue).toBe("no-object");
@@ -77,7 +77,7 @@ describe('ion-autocomplete', function () {
 
     it('must not call the items method if the passed query is undefined', function () {
         scope.itemsMethod = jasmine.createSpy("itemsMethod");
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().$digest();
 
@@ -87,7 +87,7 @@ describe('ion-autocomplete', function () {
 
     it('must not call the items method if the passed query is empty', function () {
         scope.itemsMethod = jasmine.createSpy("itemsMethod");
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "";
         element.isolateScope().$digest();
@@ -104,7 +104,7 @@ describe('ion-autocomplete', function () {
             return [query, 'item2'];
         };
         spyOn(scope, 'itemsMethod').andCallThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"></ion-autocomplete>');
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
