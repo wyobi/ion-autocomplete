@@ -115,6 +115,22 @@ describe('ion-autocomplete', function () {
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
     });
 
+    it('must show the items method if the passed query is valid', function () {
+        scope.itemsMethod = function(query) {
+            return [query, 'item2'];
+        };
+        spyOn(scope, 'itemsMethod').andCallThrough();
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+
+        element.isolateScope().searchQuery = "asd";
+        element.isolateScope().$digest();
+
+        expect(scope.itemsMethod.callCount).toBe(1);
+        expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
+        expect(element.isolateScope().items.length).toBe(2);
+        expect(element.isolateScope().items).toEqual(['asd', 'item2']);
+    });
+
     /**
      * Compiles the given element and executes a digest cycle on the scope.
      *

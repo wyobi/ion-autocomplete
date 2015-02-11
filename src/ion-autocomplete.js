@@ -35,11 +35,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // returns the value of an item
                 scope.getItemValue = function (item, key) {
+                    var itemValue;
                     if (angular.isObject(item)) {
-                        return item[key];
+                        itemValue = item[key];
                     } else {
-                        return item;
+                        itemValue = item;
                     }
+                    return itemValue;
                 };
 
                 // the search container template
@@ -50,7 +52,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<i class="icon ion-ios7-search placeholder-icon"></i>',
                     '<input type="search" class="ion-autocomplete-search" ng-model="searchQuery" placeholder="' + placeholder + '"/>',
                     '</label>',
-                    '<button class="button button-clear">',
+                    '<button class="ion-autocomplete-cancel button button-clear">',
                     cancelLabel,
                     '</button>',
                     '</div>',
@@ -72,10 +74,14 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 }).then(function (compiledTemplate) {
 
                     // get the compiled search field
-                    var searchInputElement = angular.element(compiledTemplate.element.find('input.ion-autocomplete-search'));
+                    var searchInputElement = angular.element(compiledTemplate.element.find('input'));
 
                     // function which selects the item, hides the search container and the ionic backdrop
                     compiledTemplate.scope.selectItem = function (item) {
+
+                        // clear the items and the search query
+                        compiledTemplate.scope.items = [];
+                        compiledTemplate.scope.searchQuery = '';
 
                         // set the view value and render it
                         ngModel.$setViewValue(item);
@@ -88,9 +94,15 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // watcher on the search field model to update the list according to the input
                     compiledTemplate.scope.$watch('searchQuery', function (query) {
+
+                        // if the search query is empty, clear the items
+                        if(query == '') {
+                            compiledTemplate.scope.items = [];
+                        }
+
                         if (query && angular.isFunction(compiledTemplate.scope.itemsMethod)) {
 
-                            // call the passed in items method to get the items accoridng to the query
+                            // call the passed in items method to get the items according to the query
                             compiledTemplate.scope.items = compiledTemplate.scope.itemsMethod({query: query});
                         }
                     });
@@ -120,7 +132,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // cancel handler for the cancel button which clears the search input field model and hides the
                     // search container and the ionic backdrop
                     compiledTemplate.element.find('button').bind('click', function (event) {
-                        scope.searchQuery = '';
+                        compiledTemplate.scope.searchQuery = '';
                         $ionicBackdrop.release();
                         compiledTemplate.element.css('display', 'none');
                     });
@@ -129,17 +141,20 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // render the view value of the model
                 ngModel.$render = function () {
-                    element.val(scope.getItemValue(ngModel.$viewValue, scope.itemViewValueKey))
+                    var elementValue = scope.getItemValue(ngModel.$viewValue, scope.itemViewValueKey);
+                    element.val(elementValue)
                 };
 
                 // set the view value of the model
                 ngModel.$formatters.unshift(function (modelValue) {
-                    return scope.getItemValue(modelValue, scope.itemViewValueKey);
+                    var viewValue = scope.getItemValue(modelValue, scope.itemViewValueKey);
+                    return viewValue;
                 });
 
                 // set the model value of the model
                 ngModel.$parsers.unshift(function (viewValue) {
-                    return scope.getItemValue(viewValue, scope.itemValueKey)
+                    var itemValue = scope.getItemValue(viewValue, scope.itemValueKey);
+                    return itemValue
                 });
 
             }

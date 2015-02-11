@@ -29,7 +29,7 @@ angular.module('myApp', [
 
 To use the `ion-autocomplete` directive you need to add the following snippet to your template:
 ```html
-<ion-autocomplete ng-model="model" />`
+<ion-autocomplete ng-model="model" />
 ```
 
 Check out the next chapter on how to configure the directive.
@@ -121,11 +121,9 @@ You are also able to set the cancel button label (defaults to `Cancel`)if you ad
 <ion-autocomplete ng-model="model" cancel-label="Go back" />`
 ```
 
-
-###
 ## Acknowledgements
 
-When I first searched for an Ionic autocomplete component I just found the project of Danny. So please have a look at
+When I first searched for an Ionic autocomplete component I just found the project from Danny. So please have a look at
 his [ion-google-place](https://github.com/israelidanny/ion-google-place) project as this project here is a fork of it.
 At this point I want to thank him for his nice work.
 
@@ -134,4 +132,5 @@ At this point I want to thank him for his nice work.
 This Ionic autocomplete directive is available under the MIT license.
 
 (c) Danny Povolotski
+
 (c) Modifications by Guy Brand

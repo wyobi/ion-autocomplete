@@ -67,6 +67,21 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
+        'http-server': {
+            dev: {
+                runInBackground: true
+            }
+        },
+        protractor: {
+            options: {
+                configFile: "protractor-conf.js"
+            },
+            run: {
+                options: {
+                    keepAlive: true
+                }
+            }
+        },
         coveralls: {
             options: {
                 src: 'coverage-results/lcov.info',
@@ -78,8 +93,8 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build', ['bower-install-simple:dev', 'karma:continuous', 'concat', 'uglify', 'cssmin']);
-    grunt.registerTask('test', ['karma:continuous']);
+    grunt.registerTask('build', ['bower-install-simple:dev', 'karma:continuous', 'http-server:dev', 'protractor:run', 'concat', 'uglify', 'cssmin']);
+    grunt.registerTask('test', ['karma:continuous', 'http-server:dev', 'protractor:run']);
     grunt.registerTask('default', ['build']);
 
 };
