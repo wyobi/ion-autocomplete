@@ -6,7 +6,6 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - npm install -g grunt-cli
 install: npm install
-before_script: grunt build
 env:
   global:
     - secure: P11PFMRl2C6GGp22pSsSntUjXYN4blW0Q4hXGKWirVoxoie0f+2b0zy0f3rb9z/nmtOHKTwxfJgmarFV5UAV2BgvyNN97TGHc8BufCcBhLZyZL+KNNHatxDnAuFXn1Xrofl/sFUygySN6KgUcEbhpP+wUn5QO5EAzIW/embbUQY=
