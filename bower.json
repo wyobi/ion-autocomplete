@@ -13,7 +13,9 @@
     "src",
     "test",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "demo.gif",
+    "protractor-conf.js"
   ],
   "keywords": [
     "AngularJS",
