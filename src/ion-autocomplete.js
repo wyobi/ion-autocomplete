@@ -36,7 +36,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // returns the value of an item
                 scope.getItemValue = function (item, key) {
                     var itemValue;
-                    if (angular.isObject(item)) {
+                    if (key && angular.isObject(item)) {
                         itemValue = item[key];
                     } else {
                         itemValue = item;
@@ -147,14 +147,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // set the view value of the model
                 ngModel.$formatters.unshift(function (modelValue) {
-                    var viewValue = scope.getItemValue(modelValue, scope.itemViewValueKey);
-                    return viewValue;
+                    return scope.getItemValue(modelValue, scope.itemViewValueKey);
                 });
 
                 // set the model value of the model
                 ngModel.$parsers.unshift(function (viewValue) {
-                    var itemValue = scope.getItemValue(viewValue, scope.itemValueKey);
-                    return itemValue
+                    return scope.getItemValue(viewValue, scope.itemValueKey)
                 });
 
             }

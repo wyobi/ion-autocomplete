@@ -73,6 +73,9 @@ describe('ion-autocomplete', function () {
 
         itemValue = element.isolateScope().getItemValue({ key: "value"}, "key");
         expect(itemValue).toBe("value");
+
+        itemValue = element.isolateScope().getItemValue({ key: "value"});
+        expect(itemValue).toEqual({ key: "value"});
     });
 
     it('must not call the items method if the passed query is undefined', function () {
