@@ -2,16 +2,17 @@
 
 describe('ion-autocomplete', function () {
 
-    var scope, document, compile;
+    var scope, document, compile, q;
 
     // load the directive's module
     beforeEach(module('ionic'));
     beforeEach(module('ion-autocomplete'));
 
-    beforeEach(inject(function ($rootScope, $document, $compile) {
+    beforeEach(inject(function ($rootScope, $document, $compile, $q) {
         scope = $rootScope.$new();
         document = $document;
         compile = $compile;
+        q = $q;
     }));
 
     afterEach(function () {
@@ -94,9 +95,6 @@ describe('ion-autocomplete', function () {
 
         element.isolateScope().searchQuery = "";
         element.isolateScope().$digest();
-        //element.isolateScope().$digest();
-        //scope.$digest();
-        //expect(getSearchInputElement()[0].innerText).toBe("asd");
 
         expect(scope.itemsMethod.callCount).toBe(0);
         expect(element.isolateScope().items.length).toBe(0);
@@ -118,9 +116,11 @@ describe('ion-autocomplete', function () {
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
     });
 
-    it('must show the items method if the passed query is valid', function () {
+    it('must call the items method promise if the passed query is valid', function () {
+        var deferred = q.defer();
+
         scope.itemsMethod = function(query) {
-            return [query, 'item2'];
+            return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').andCallThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
@@ -130,8 +130,41 @@ describe('ion-autocomplete', function () {
 
         expect(scope.itemsMethod.callCount).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
+        expect(element.isolateScope().items.length).toBe(0);
+
+        // resolve the promise
+        deferred.resolve(['asd', 'item2']);
+        element.isolateScope().$digest();
+
         expect(element.isolateScope().items.length).toBe(2);
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
+    });
+
+    it('must forward the items method promise error', function () {
+        var deferred = q.defer();
+        var errorFunction = jasmine.createSpy("errorFunction");
+
+        // set the error function
+        deferred.promise.then(function(){}, errorFunction);
+
+        scope.itemsMethod = function(query) {
+            return deferred.promise;
+        };
+        spyOn(scope, 'itemsMethod').andCallThrough();
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+
+        element.isolateScope().searchQuery = "asd";
+        element.isolateScope().$digest();
+
+        expect(scope.itemsMethod.callCount).toBe(1);
+        expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
+        expect(element.isolateScope().items.length).toBe(0);
+
+        // resolve the promise
+        deferred.reject('error');
+        element.isolateScope().$digest();
+
+        expect(errorFunction.callCount).toBe(1);
     });
 
     /**

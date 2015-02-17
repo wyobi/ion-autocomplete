@@ -19,36 +19,39 @@
                     $scope.model = "";
 
                     $scope.getTestItems = function (query) {
-                        return [
-                            {id: "1", name: query + "1", view: "view: " + query + "1"},
-                            {id: "2", name: query + "2", view: "view: " + query + "2"},
-                            {id: "3", name: query + "3", view: "view: " + query + "3"}];
+                        return {
+                            items: [
+                                {id: "1", name: query + "1", view: "view: " + query + "1"},
+                                {id: "2", name: query + "2", view: "view: " + query + "2"},
+                                {id: "3", name: query + "3", view: "view: " + query + "3"}]
+                        };
                     }
                 });
     </script>
 </head>
 
 <body ng-controller="IonAutocompleteController">
-    <ion-view title="ion-autocomplete sample">
-        <ion-content>
-            <form>
+<ion-view title="ion-autocomplete sample">
+    <ion-content>
+        <form>
 
-                <label class="item item-input">
-                    <span class="input-label">Autocomplete</span>
-                    <ion-autocomplete ng-model="model"
-                                      item-value-key="name"
-                                      item-view-value-key="view"
-                                      items-method="getTestItems(query)"
-                                      placeholder="Enter test query ..."/>
-                </label>
+            <label class="item item-input">
+                <span class="input-label">Autocomplete</span>
+                <ion-autocomplete ng-model="model"
+                                  item-value-key="name"
+                                  item-view-value-key="view"
+                                  items-method="getTestItems(query)"
+                                  items-method-value-key="items"
+                                  placeholder="Enter test query ..."/>
+            </label>
 
-                <label class="item item-input">
-                    <span class="input-label">Autocomplete model value</span>
-                    <input type="text" class="ion-autocomplete-test-model" ng-model="model" autocomplete="off">
-                </label>
+            <label class="item item-input">
+                <span class="input-label">Autocomplete model value</span>
+                <input type="text" class="ion-autocomplete-test-model" ng-model="model" autocomplete="off">
+            </label>
 
-            </form>
-        </ion-content>
-    </ion-view>
+        </form>
+    </ion-content>
+</ion-view>
 </body>
 </html>

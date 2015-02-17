@@ -3,13 +3,29 @@ ion-autocomplete
 [![Build Status](https://travis-ci.org/guylabs/ion-autocomplete.svg?branch=master)](https://travis-ci.org/guylabs/ion-autocomplete)
 [![Coverage Status](https://img.shields.io/coveralls/guylabs/ion-autocomplete.svg)](https://coveralls.io/r/guylabs/ion-autocomplete)
 
-Configurable Ionic directive for an autocomplete dropdown.
+> Configurable Ionic directive for an autocomplete dropdown.
+
+#Table of contents
+
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Configurable options](#configurable-options)
+        - [The `items-method`](#the-items-method)
+        - [The `items-method-value-key`](#the-items-method-value-key)
+        - [The `item-value-key`](#the-item-value-key)
+        - [The `item-view-value-key`](#the-item-view-value-key)
+        - [Placeholder](#placeholder)
+        - [Cancel button label](#cancel-button-label)
+- [Release notes](#release-notes)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+
+# Demo
 
 ![Animated demo](https://github.com/guylabs/ion-autocomplete/raw/master/demo.gif)
 
-This is a simple directive for an autocomplete overlay location field built for Ionic Framework.
-
-#Installation
+# Installation
 
 1. Use bower to install the new module:
 ```bash
@@ -27,7 +43,8 @@ angular.module('myApp', [
   'ion-autocomplete'
 ]);
 ```
-#Usage
+
+# Usage
 
 To use the `ion-autocomplete` directive you need to add the following snippet to your template:
 ```html
@@ -38,7 +55,7 @@ Check out the next chapter on how to configure the directive.
 
 ## Configurable options
 
-### The items method
+### The `items-method`
 
 You are able to pass in a callback method which gets called when the user changes the value of the search input field. This is
 normally a call to the back end which retrieves the items for the specified query. Here is a small sample which will
@@ -56,7 +73,33 @@ And set the items method on the directive:
 <ion-autocomplete ng-model="model" items-method="callbackMethod(query)" />
 ```
 
+You are also able to return a promise from this callback method. For example:
+```javascript
+$scope.callbackMethod = function (query) {
+    return $http.get(endpoint);
+}
+```
+
 Note that the parameter for the `callbackMethod needs to be named `query`. Otherwise the callback will not get called properly.
+
+### The `items-method-value-key`
+
+You are able to set the `items-method-value-key` which maps to a value of the returned data of the `items-method`. If for
+example your callback method returns the following object:
+```json
+{
+    "items" : [ {
+        "name" : "item1"
+    },{
+        "name" : "item2"
+    },
+        ...
+    ]
+}
+```
+Then when you do not specify the `items-method-value-key` there will be no list displayed when you search for items in
+the search input field. You need to set the `items-method-value-key` to `items` such that the items are shown. If you right
+away return an array of items then you do not need to set the `items-method-value-key`.
 
 ### The `item-value-key`
 
@@ -123,13 +166,17 @@ You are also able to set the cancel button label (defaults to `Cancel`)if you ad
 <ion-autocomplete ng-model="model" cancel-label="Go back" />`
 ```
 
-## Acknowledgements
+# Release notes
+
+Check them here: [Release notes](https://github.com/guylabs/ion-autocomplete/blob/master/RELEASENOTES.md)
+
+# Acknowledgements
 
 When I first searched for an Ionic autocomplete component I just found the project from Danny. So please have a look at
 his [ion-google-place](https://github.com/israelidanny/ion-google-place) project as this project here is a fork of it.
 At this point I want to thank him for his nice work.
 
-## License
+# License
 
 This Ionic autocomplete directive is available under the MIT license.
 
