@@ -3,8 +3,8 @@
 'use strict';
 
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q',
+    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q) {
         return {
             require: '?ngModel',
             restrict: 'E',
@@ -12,6 +12,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             replace: true,
             scope: {
                 itemsMethod: '&',
+                itemsMethodValueKey: '@',
                 itemValueKey: '@',
                 itemViewValueKey: '@'
             },
@@ -40,7 +41,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // returns the value of an item
                 scope.getItemValue = function (item, key) {
                     var itemValue;
-                    if (angular.isObject(item)) {
+                    if (key && angular.isObject(item)) {
                         itemValue = item[key];
                     } else {
                         itemValue = item;
@@ -106,8 +107,17 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                         if (query && angular.isFunction(compiledTemplate.scope.itemsMethod)) {
 
-                            // call the passed in items method to get the items according to the query
-                            compiledTemplate.scope.items = compiledTemplate.scope.itemsMethod({query: query});
+                            // convert the given function to a $q promise to support promises too
+                            var promise = $q.when(compiledTemplate.scope.itemsMethod({query: query}));
+
+                            promise.then(function (promiseData) {
+                                // set the items which are returned by the items method
+                                compiledTemplate.scope.items = compiledTemplate.scope.getItemValue(promiseData,
+                                    compiledTemplate.scope.itemsMethodValueKey);
+                            }, function (error) {
+                                // reject the error because we do not handle the error here
+                                return $q.reject(error);
+                            });
                         }
                     });
 
@@ -151,14 +161,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // set the view value of the model
                 ngModel.$formatters.unshift(function (modelValue) {
-                    var viewValue = scope.getItemValue(modelValue, scope.itemViewValueKey);
-                    return viewValue;
+                    return scope.getItemValue(modelValue, scope.itemViewValueKey);
                 });
 
                 // set the model value of the model
                 ngModel.$parsers.unshift(function (viewValue) {
-                    var itemValue = scope.getItemValue(viewValue, scope.itemValueKey);
-                    return itemValue
+                    return scope.getItemValue(viewValue, scope.itemValueKey)
                 });
 
             }

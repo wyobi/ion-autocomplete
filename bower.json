@@ -1,6 +1,6 @@
 {
   "name": "ion-autocomplete",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A configurable Ionic directive for an autocomplete dropdown",
   "main": "./dist/ion-autocomplete.js",
   "license": "MIT",
