@@ -20,7 +20,7 @@ module.exports = function (config) {
 
         // test results reporter to use
         // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
 
         // web server port
         port: 9876,
@@ -57,6 +57,15 @@ module.exports = function (config) {
                 base: 'Chrome',
                 flags: ['--no-sandbox']
             }
+        },
+
+        // Test coverage configuration
+        preprocessors: {
+            'src/*.js': ['coverage']
+        },
+        coverageReporter: {
+            type: 'lcov',
+            dir: 'build/coverage/'
         }
     });
 

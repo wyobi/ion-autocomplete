@@ -13,3 +13,4 @@ env:
 addons:
   sauce_connect: true
   hosts: ion-autocomplete
+after_script: cat ./build/coverage/**/lcov.info | ./node_modules/coveralls/bin/coveralls.js
