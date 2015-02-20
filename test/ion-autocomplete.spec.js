@@ -42,7 +42,7 @@ describe('ion-autocomplete', function () {
         var searchInputElement = getSearchInputElement();
         expect(searchInputElement[0].type).toBe('search');
         expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
-        expect(searchInputElement[0].placeholder).toBe('');
+        expect(searchInputElement[0].placeholder).toBe('Click to enter a value...');
 
         // expect the default values of the cancel button
         var cancelButtonElement = getCancelButtonElement();
