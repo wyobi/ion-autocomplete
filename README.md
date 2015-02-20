@@ -17,6 +17,7 @@ ion-autocomplete
         - [The `item-view-value-key`](#the-item-view-value-key)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
+    - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -131,7 +132,7 @@ no `item-value-key` is passed into the directive, the whole item object will be 
 You are able to set the `item-view-value-key` which maps to a value of the returned object from the `items-method`. The
 value is then showed in both input fields. Here an example:
 
-The items method returns the following object:
+The `items-method` returns the following object:
 ```javascript
 [
     {
@@ -164,6 +165,32 @@ attribute to the directive:
 You are also able to set the cancel button label (defaults to `Cancel`)if you add the `cancel-label` attribute to the directive:
 ```html
 <ion-autocomplete ng-model="model" cancel-label="Go back" />`
+```
+
+## Using expressions in value keys
+
+All value keys are parsed with the Angular `$parse` service such that you are able to use expressions like in the following
+example:
+
+```javascript
+[
+    {
+        "id": "1",
+        "name": "Item 1",
+        "child": {
+            "name": "Child Item 1",
+        }
+        ...
+    }
+    ...
+]
+```
+
+This would be the JSON model returned by the `items-method` and in the next snippet we define that we want to show the
+name attribute of the child object:
+
+```html
+<ion-autocomplete ng-model="model" item-view-value-key="child.name" />
 ```
 
 # Release notes

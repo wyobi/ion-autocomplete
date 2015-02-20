@@ -1,5 +1,15 @@
 # Release notes of ion-autocomplete
 
+## Version 0.1.2
+
+* Tag: [0.1.2](https://github.com/guylabs/ion-autocomplete/tree/v0.1.2)
+* Release: [ion-autocomplete-0.1.2.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.1.2.zip)
+
+### Changes
+
+* Fixed issue that the model was not shown if it was already populated
+* Add ability to use expressions in the value keys
+
 ## Version 0.1.1
 
 * Tag: [0.1.1](https://github.com/guylabs/ion-autocomplete/tree/v0.1.1)
