@@ -1,6 +1,6 @@
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse',
+    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse) {
         return {
             require: '?ngModel',
             restrict: 'E',
@@ -38,7 +38,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 scope.getItemValue = function (item, key) {
                     var itemValue;
                     if (key && angular.isObject(item)) {
-                        itemValue = item[key];
+                        itemValue = $parse(key)(item);
                     } else {
                         itemValue = item;
                     }

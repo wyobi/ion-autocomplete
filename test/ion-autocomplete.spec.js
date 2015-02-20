@@ -79,6 +79,13 @@ describe('ion-autocomplete', function () {
         expect(itemValue).toEqual({ key: "value"});
     });
 
+    it('must get the proper item value with expressions', function () {
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        var itemValue = element.isolateScope().getItemValue({ key: {value : "value1" }}, "key.value");
+        expect(itemValue).toBe("value1");
+    });
+
     it('must not call the items method if the passed query is undefined', function () {
         scope.itemsMethod = jasmine.createSpy("itemsMethod");
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
