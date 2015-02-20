@@ -51,6 +51,29 @@ describe('ion-autocomplete', function () {
         expect(cancelButtonElement[0].innerText).toBe('Cancel');
     });
 
+    it('must show no value in the input field if the model is not defined', function () {
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        // expect the value of the input field to be empty
+        expect(element[0].value).toBe('');
+    });
+
+    it('must show the value in the input field if the model is already defined', function () {
+        scope.model = "123";
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        // expect the value of the input field to be already set
+        expect(element[0].value).toBe('123');
+    });
+
+    it('must show the itemViewValueKey of the value in the input field if the model is already defined', function () {
+        scope.model = {key: {value: "value1"}};
+        var element = compileElement('<ion-autocomplete ng-model="model" item-view-value-key="key.value" />');
+
+        // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
+        expect(element[0].value).toBe('value1');
+    });
+
     it('must set the placeholder on the input field and on the search input field', function () {
         var placeholderValue = "placeholder value";
         var element = compileElement('<ion-autocomplete ng-model="model" placeholder="' + placeholderValue + '"/>');
@@ -172,6 +195,42 @@ describe('ion-autocomplete', function () {
         element.isolateScope().$digest();
 
         expect(errorFunction.callCount).toBe(1);
+    });
+
+    it('must show the search container when the input field is clicked', function () {
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        // expect that the search container has no display css attribute set
+        expect(getSearchContainerElement().css('display')).toBe('');
+
+        // click on the element
+        element.triggerHandler('click');
+        element.isolateScope().$digest();
+
+        // expect that the search container has block set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('block');
+    });
+
+    it('must hide the search container when the cancel field is clicked', function () {
+        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        // expect that the search container has no display css attribute set
+        expect(getSearchContainerElement().css('display')).toBe('');
+
+        // click on the element
+        element.triggerHandler('click');
+        element.isolateScope().$digest();
+
+        // expect that the search container has block set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('block');
+
+        // click on the cancel button
+        var cancelButtonElement = getCancelButtonElement();
+        cancelButtonElement.triggerHandler('click');
+        element.isolateScope().$digest();
+
+        // expect that the search container has block set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('none');
     });
 
     /**
