@@ -3,8 +3,8 @@
 'use strict';
 
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse',
+    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse) {
         return {
             require: '?ngModel',
             restrict: 'E',
@@ -42,7 +42,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 scope.getItemValue = function (item, key) {
                     var itemValue;
                     if (key && angular.isObject(item)) {
-                        itemValue = item[key];
+                        itemValue = $parse(key)(item);
                     } else {
                         itemValue = item;
                     }
@@ -160,12 +160,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 };
 
                 // set the view value of the model
-                ngModel.$formatters.unshift(function (modelValue) {
+                ngModel.$formatters.push(function (modelValue) {
                     return scope.getItemValue(modelValue, scope.itemViewValueKey);
                 });
 
                 // set the model value of the model
-                ngModel.$parsers.unshift(function (viewValue) {
+                ngModel.$parsers.push(function (viewValue) {
                     return scope.getItemValue(viewValue, scope.itemValueKey)
                 });
 
