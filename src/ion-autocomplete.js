@@ -48,7 +48,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // the search container template
                 var searchContainerTemplate = [
-                    '<div class="ion-autocomplete-container">',
+                    '<div class="ion-autocomplete-container modal">',
                     '<div class="bar bar-header item-input-inset">',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-ios7-search placeholder-icon"></i>',
