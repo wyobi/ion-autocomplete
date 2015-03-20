@@ -11,6 +11,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             template: '<input type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off">',
             replace: true,
             scope: {
+                ngModel: '=?',
                 itemsMethod: '&',
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
@@ -22,7 +23,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 if (!ngModel) return;
 
                 // set placeholder on element
-                var placeholder = '';
+                var placeholder = 'Click to enter a value...';
                 if (attrs.placeholder) {
                     placeholder = attrs.placeholder;
                     element.attr('placeholder', attrs.placeholder);
@@ -51,7 +52,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // the search container template
                 var searchContainerTemplate = [
-                    '<div class="ion-autocomplete-container">',
+                    '<div class="ion-autocomplete-container modal">',
                     '<div class="bar bar-header item-input-inset">',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-ios7-search placeholder-icon"></i>',

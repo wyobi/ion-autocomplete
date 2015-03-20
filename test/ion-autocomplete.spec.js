@@ -115,7 +115,7 @@ describe('ion-autocomplete', function () {
 
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.callCount).toBe(0);
+        expect(scope.itemsMethod.calls.count()).toBe(0);
         expect(element.isolateScope().items.length).toBe(0);
     });
 
@@ -126,7 +126,7 @@ describe('ion-autocomplete', function () {
         element.isolateScope().searchQuery = "";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.callCount).toBe(0);
+        expect(scope.itemsMethod.calls.count()).toBe(0);
         expect(element.isolateScope().items.length).toBe(0);
     });
 
@@ -134,13 +134,13 @@ describe('ion-autocomplete', function () {
         scope.itemsMethod = function(query) {
             return [query, 'item2'];
         };
-        spyOn(scope, 'itemsMethod').andCallThrough();
+        spyOn(scope, 'itemsMethod').and.callThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.callCount).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(2);
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
@@ -152,13 +152,13 @@ describe('ion-autocomplete', function () {
         scope.itemsMethod = function(query) {
             return deferred.promise;
         };
-        spyOn(scope, 'itemsMethod').andCallThrough();
+        spyOn(scope, 'itemsMethod').and.callThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.callCount).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(0);
 
@@ -180,13 +180,13 @@ describe('ion-autocomplete', function () {
         scope.itemsMethod = function(query) {
             return deferred.promise;
         };
-        spyOn(scope, 'itemsMethod').andCallThrough();
+        spyOn(scope, 'itemsMethod').and.callThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.callCount).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(0);
 
@@ -194,7 +194,7 @@ describe('ion-autocomplete', function () {
         deferred.reject('error');
         element.isolateScope().$digest();
 
-        expect(errorFunction.callCount).toBe(1);
+        expect(errorFunction.calls.count()).toBe(1);
     });
 
     it('must show the search container when the input field is clicked', function () {
