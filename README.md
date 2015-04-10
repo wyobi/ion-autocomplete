@@ -15,8 +15,11 @@ ion-autocomplete
         - [The `items-method-value-key`](#the-items-method-value-key)
         - [The `item-value-key`](#the-item-value-key)
         - [The `item-view-value-key`](#the-item-view-value-key)
+        - [The `multiple-select`](#the-multiple-select)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
+        - [Select items label](#select-items-label)
+        - [Selected items label](#selected-items-label)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -30,7 +33,7 @@ ion-autocomplete
 
 1. Use bower to install the new module:
 ```bash
-bower install ion-autocomplete
+bower install ion-autocomplete --save
 ```
 2. Import the `ion-autocomplete` javascript and css file into your HTML file:
 ```html
@@ -47,9 +50,14 @@ angular.module('myApp', [
 
 # Usage
 
-To use the `ion-autocomplete` directive you need to add the following snippet to your template:
+To use the `ion-autocomplete` directive in single select mode you need to add the following snippet to your template:
 ```html
 <ion-autocomplete ng-model="model" />
+```
+
+If you want to use it in multiple select mode you need to add the following snippet to your template: 
+```html
+<ion-autocomplete ng-model="model" multiple-select="true" />
 ```
 
 Check out the next chapter on how to configure the directive.
@@ -152,6 +160,16 @@ And now you set the following `item-view-value-key`:
 Now when the user selects the `Item 1` from the list, then the value of the objects `name` is showed in both input fields. If
 no `item-view-value-key` is passed into the directive, the whole item object will be showed in both input fields.
 
+### The `multiple-select`
+
+You are able to set the `multiple-select` to `true` to enable the multiple select feature. Here an example:
+```html
+<ion-autocomplete ng-model="model" multiple-select="true" />
+```
+
+Then the user is able to select multiple items out of the returned items and also delete them again. The given `ng-model` is an 
+array if multiple items are selected.
+
 ### Placeholder
 
 You are also able to set the placeholder on the input field and on the search input field if you add the `placeholder`
@@ -162,9 +180,23 @@ attribute to the directive:
 
 ### Cancel button label
 
-You are also able to set the cancel button label (defaults to `Cancel`)if you add the `cancel-label` attribute to the directive:
+You are also able to set the cancel button label (defaults to `Cancel`) if you add the `cancel-label` attribute to the directive:
 ```html
 <ion-autocomplete ng-model="model" cancel-label="Go back" />`
+```
+
+### Select items label
+
+You are also able to set the select items label (defaults to `Select an item...`) if you add the `select-items-label` attribute to the directive:
+```html
+<ion-autocomplete ng-model="model" select-items-label="Select your items..." />`
+```
+
+### Selected items label
+
+You are also able to set the selected items label (defaults to `Selected items:`) if you add the `selected-items-label` attribute to the directive:
+```html
+<ion-autocomplete ng-model="model" selected-items-label="Selected:" />`
 ```
 
 ## Using expressions in value keys

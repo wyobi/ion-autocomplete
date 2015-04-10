@@ -1,21 +1,23 @@
 'use strict';
 
-describe('ion-autocomplete', function () {
+describe('ion-autocomplete single select', function () {
+
+    var htmlFileName = 'ion-autocomplete.single-select.e2e.html';
 
     it('must not show the search input field by default', function () {
-        browser.get('');
+        browser.get(htmlFileName);
         expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();
     });
 
     it('must show the search input field if the input field is clicked', function () {
-        browser.get('');
+        browser.get(htmlFileName);
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
         });
     });
 
     it('must hide the search input field if the cancel button is pressed', function () {
-        browser.get('');
+        browser.get(htmlFileName);
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
@@ -28,7 +30,7 @@ describe('ion-autocomplete', function () {
     });
 
     it('must show the list of found items if something is entered in the search', function () {
-        browser.get('');
+        browser.get(htmlFileName);
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
@@ -45,7 +47,7 @@ describe('ion-autocomplete', function () {
     });
 
     it('must hide the search input field if a item in the list is clicked', function () {
-        browser.get('');
+        browser.get(htmlFileName);
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();

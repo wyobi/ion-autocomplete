@@ -1,6 +1,6 @@
 exports.config = {
-    baseUrl: 'http://' + (process.env.TRAVIS ? 'ion-autocomplete' : 'localhost') + ':8282/test/e2e/ion-autocomplete.e2e.html',
-    specs: ['test/e2e/ion-autocomplete.e2e.spec.js'],
+    baseUrl: 'http://' + (process.env.TRAVIS ? 'ion-autocomplete' : 'localhost') + ':8282/test/e2e/',
+    specs: ['test/e2e/ion-autocomplete.single-select.e2e.spec.js', 'test/e2e/ion-autocomplete.multiple-select.e2e.spec.js'],
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     multiCapabilities: [

@@ -1,5 +1,15 @@
 # Release notes of ion-autocomplete
 
+## Version 0.2.0
+
+* Tag: [0.2.0](https://github.com/guylabs/ion-autocomplete/tree/v0.2.0)
+* Release: [ion-autocomplete-0.2.0.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.2.0.zip)
+
+### Changes
+
+* Add the ability to select multiple items
+* Add ability to pass in a callback function when an item is clicked
+
 ## Version 0.1.2
 
 * Tag: [0.1.2](https://github.com/guylabs/ion-autocomplete/tree/v0.1.2)

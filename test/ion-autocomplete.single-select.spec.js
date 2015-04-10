@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ion-autocomplete', function () {
+describe('ion-autocomplete single select', function () {
 
     var scope, document, compile, q;
 
@@ -18,6 +18,7 @@ describe('ion-autocomplete', function () {
     afterEach(function () {
         // remove the autocomplete container from the dom after each test to have an empty body on each test start
         getSearchContainerElement().remove();
+        angular.element(document[0].querySelector('div.backdrop')).remove();
     });
 
     it('must not initialize anything if the ng-model is not set', function () {
@@ -95,17 +96,17 @@ describe('ion-autocomplete', function () {
         var itemValue = element.isolateScope().getItemValue("no-object");
         expect(itemValue).toBe("no-object");
 
-        itemValue = element.isolateScope().getItemValue({ key: "value"}, "key");
+        itemValue = element.isolateScope().getItemValue({key: "value"}, "key");
         expect(itemValue).toBe("value");
 
-        itemValue = element.isolateScope().getItemValue({ key: "value"});
-        expect(itemValue).toEqual({ key: "value"});
+        itemValue = element.isolateScope().getItemValue({key: "value"});
+        expect(itemValue).toEqual({key: "value"});
     });
 
     it('must get the proper item value with expressions', function () {
         var element = compileElement('<ion-autocomplete ng-model="model"/>');
 
-        var itemValue = element.isolateScope().getItemValue({ key: {value : "value1" }}, "key.value");
+        var itemValue = element.isolateScope().getItemValue({key: {value: "value1"}}, "key.value");
         expect(itemValue).toBe("value1");
     });
 
@@ -131,7 +132,7 @@ describe('ion-autocomplete', function () {
     });
 
     it('must call the items method if the passed query is valid', function () {
-        scope.itemsMethod = function(query) {
+        scope.itemsMethod = function (query) {
             return [query, 'item2'];
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
@@ -149,7 +150,7 @@ describe('ion-autocomplete', function () {
     it('must call the items method promise if the passed query is valid', function () {
         var deferred = q.defer();
 
-        scope.itemsMethod = function(query) {
+        scope.itemsMethod = function (query) {
             return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
@@ -175,9 +176,10 @@ describe('ion-autocomplete', function () {
         var errorFunction = jasmine.createSpy("errorFunction");
 
         // set the error function
-        deferred.promise.then(function(){}, errorFunction);
+        deferred.promise.then(function () {
+        }, errorFunction);
 
-        scope.itemsMethod = function(query) {
+        scope.itemsMethod = function (query) {
             return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').and.callThrough();

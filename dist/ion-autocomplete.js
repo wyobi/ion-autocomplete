@@ -11,11 +11,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             template: '<input type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off">',
             replace: true,
             scope: {
-                ngModel: '=?',
                 itemsMethod: '&',
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
-                itemViewValueKey: '@'
+                itemViewValueKey: '@',
+                multipleSelect: '@'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -30,24 +30,48 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 }
 
                 // set cancel button label
-                var cancelLabel = 'Cancel';
+                var cancelLabel = scope.multipleSelect === "true" ? 'Done' : 'Cancel';
                 if (attrs.cancelLabel) {
                     cancelLabel = attrs.cancelLabel;
                 }
 
-                // the items of the list
+                // set select an item label
+                var selectItemsLabel = 'Select an item...';
+                if (attrs.selectItemsLabel) {
+                    selectItemsLabel = attrs.selectItemsLabel;
+                }
+
+                // set selected label
+                var selectedItemsLabel = 'Selected items:';
+                if (attrs.selectedItemsLabel) {
+                    selectedItemsLabel = attrs.selectedItemsLabel;
+                }
+
+                // the items and the query for the list
                 scope.items = [];
+                scope.selectedItems = [];
                 scope.searchQuery = '';
 
                 // returns the value of an item
                 scope.getItemValue = function (item, key) {
-                    var itemValue;
-                    if (key && angular.isObject(item)) {
-                        itemValue = $parse(key)(item);
+
+                    // if it's an array, go through all items and add the values to a new array and return it
+                    if (angular.isArray(item)) {
+                        var items = [];
+                        angular.forEach(item, function (itemValue) {
+                            if (key && angular.isObject(item)) {
+                                items.push($parse(key)(itemValue));
+                            } else {
+                                items.push(itemValue);
+                            }
+                        });
+                        return items;
                     } else {
-                        itemValue = item;
+                        if (key && angular.isObject(item)) {
+                            return $parse(key)(item);
+                        }
                     }
-                    return itemValue;
+                    return item;
                 };
 
                 // the search container template
@@ -64,6 +88,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '</div>',
                     '<ion-content class="has-header has-header">',
                     '<ion-list>',
+                    '<ion-item class="item-divider" ng-show="selectedItems.length > 0">' + selectedItemsLabel + '</ion-item>',
+                    '<ion-item ng-repeat="selectedItem in selectedItems" type="item-text-wrap" class="item-icon-left item-icon-right">',
+                    '<i class="icon ion-checkmark"></i>',
+                    '{{getItemValue(selectedItem, itemViewValueKey)}}',
+                    '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="removeItem($index)"></i>',
+                    '</ion-item>',
+                    '<ion-item class="item-divider" ng-show="items.length > 0">' + selectItemsLabel + '</ion-item>',
                     '<ion-item ng-repeat="item in items" type="item-text-wrap" ng-click="selectItem(item)">',
                     '{{getItemValue(item, itemViewValueKey)}}',
                     '</ion-item>',
@@ -82,27 +113,53 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // get the compiled search field
                     var searchInputElement = angular.element(compiledTemplate.element.find('input'));
 
-                    // function which selects the item, hides the search container and the ionic backdrop
+                    // function which selects the item, hides the search container and the ionic backdrop if it is not a multiple select autocomplete
                     compiledTemplate.scope.selectItem = function (item) {
 
                         // clear the items and the search query
                         compiledTemplate.scope.items = [];
                         compiledTemplate.scope.searchQuery = '';
 
-                        // set the view value and render it
-                        ngModel.$setViewValue(item);
-                        ngModel.$render();
+                        // if multiple select is on store the selected items
+                        if (compiledTemplate.scope.multipleSelect === "true") {
 
-                        // hide the container and the ionic backdrop
-                        compiledTemplate.element.css('display', 'none');
-                        $ionicBackdrop.release();
+                            if (!isKeyValueInObjectArray(compiledTemplate.scope.selectedItems,
+                                    compiledTemplate.scope.itemValueKey, scope.getItemValue(item, scope.itemValueKey))) {
+                                // create a new array to update the model. See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
+                                compiledTemplate.scope.selectedItems = compiledTemplate.scope.selectedItems.concat([item]);
+                            }
+
+                            // set the view value and render it
+                            ngModel.$setViewValue(compiledTemplate.scope.selectedItems);
+                            ngModel.$render();
+                        } else {
+                            // set the view value and render it
+                            ngModel.$setViewValue(item);
+                            ngModel.$render();
+
+                            // hide the container and the ionic backdrop
+                            compiledTemplate.element.css('display', 'none');
+                            $ionicBackdrop.release();
+                        }
+                    };
+
+                    // function which removes the item from the selected items.
+                    compiledTemplate.scope.removeItem = function (index) {
+                        // remove the item from the selected items and create a copy of the array to update the model.
+                        // See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
+                        compiledTemplate.scope.selectedItems.splice(index, 1);
+                        compiledTemplate.scope.selectedItems = compiledTemplate.scope.selectedItems.slice();
+
+                        // set the view value and render it
+                        ngModel.$setViewValue(compiledTemplate.scope.selectedItems);
+                        ngModel.$render();
                     };
 
                     // watcher on the search field model to update the list according to the input
                     compiledTemplate.scope.$watch('searchQuery', function (query) {
 
                         // if the search query is empty, clear the items
-                        if(query == '') {
+                        if (query == '') {
                             compiledTemplate.scope.items = [];
                         }
 
@@ -140,6 +197,15 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }, 0);
                     };
 
+                    var isKeyValueInObjectArray = function (objectArray, key, value) {
+                        for (var i = 0; i < objectArray.length; i++) {
+                            if (scope.getItemValue(objectArray[i], key) === value) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    };
+
                     // bind the onClick handler to the click and touchend events
                     element.bind('click', onClick);
                     element.bind('touchend', onClick);
@@ -156,8 +222,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // render the view value of the model
                 ngModel.$render = function () {
-                    var elementValue = scope.getItemValue(ngModel.$viewValue, scope.itemViewValueKey);
-                    element.val(elementValue)
+                    element.val(scope.getItemValue(ngModel.$viewValue, scope.itemViewValueKey));
                 };
 
                 // set the view value of the model
@@ -167,7 +232,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // set the model value of the model
                 ngModel.$parsers.push(function (viewValue) {
-                    return scope.getItemValue(viewValue, scope.itemValueKey)
+                    return scope.getItemValue(viewValue, scope.itemValueKey);
                 });
 
             }

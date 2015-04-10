@@ -12,7 +12,8 @@ module.exports = function (config) {
             'bower_components/ionic/js/ionic.bundle.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'src/ion-autocomplete.js',
-            'test/ion-autocomplete.spec.js'
+            'test/ion-autocomplete.single-select.spec.js',
+            'test/ion-autocomplete.multiple-select.spec.js'
         ],
 
         // list of files to exclude
