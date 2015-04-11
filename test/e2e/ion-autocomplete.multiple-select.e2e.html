@@ -17,6 +17,7 @@
                 .controller('IonAutocompleteController', function ($scope) {
 
                     $scope.model = "";
+                    $scope.callbackValueModel = "";
 
                     $scope.getTestItems = function (query) {
                         return {
@@ -25,6 +26,10 @@
                                 {id: "2", name: query + "2", view: "view: " + query + "2"},
                                 {id: "3", name: query + "3", view: "view: " + query + "3"}]
                         };
+                    };
+
+                    $scope.itemsClicked = function (callback) {
+                        $scope.callbackValueModel = callback;
                     }
                 });
     </script>
@@ -43,12 +48,19 @@
                                   items-method="getTestItems(query)"
                                   items-method-value-key="items"
                                   multiple-select="true"
-                                  placeholder="Enter test query ..."/>
+                                  placeholder="Enter test query ..."
+                                  items-clicked-method="itemsClicked(callback)"/>
             </label>
 
             <label class="item item-input">
                 <span class="input-label">Multiple select autocomplete model value</span>
                 <input type="text" class="ion-autocomplete-test-model" ng-model="model" autocomplete="off">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Multiple select autocomplete clicked item callback model value</span>
+                <input type="text" class="ion-autocomplete-callback-model" ng-model="callbackValueModel"
+                       autocomplete="off">
             </label>
 
         </form>

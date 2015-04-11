@@ -16,6 +16,7 @@ ion-autocomplete
         - [The `item-value-key`](#the-item-value-key)
         - [The `item-view-value-key`](#the-item-view-value-key)
         - [The `multiple-select`](#the-multiple-select)
+        - [The `items-clicked-method`](#the-items-clicked-method)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
         - [Select items label](#select-items-label)
@@ -169,6 +170,29 @@ You are able to set the `multiple-select` to `true` to enable the multiple selec
 
 Then the user is able to select multiple items out of the returned items and also delete them again. The given `ng-model` is an 
 array if multiple items are selected.
+
+### The `items-clicked-method`
+
+You are able to pass a function to the `items-clicked-method` property to be notified when an item is clicked. The name of the 
+parameter of the function must be `callback`. Here is an example:
+
+Define the callback in your scope:
+```javascript
+$scope.callbackMethod = function (callback) {
+    // print out the selected item
+    console.log(callback.item); 
+    
+    // print out the selected items if the multiple select flag is set to true and multiple elements are selected
+    console.log(callback.selectedItems); 
+}
+```
+
+And pass in the callback method in the directive:
+```html
+<ion-autocomplete ng-model="model" items-clicked-method="callbackMethod(callback)" />
+```
+
+Then you get a callback object with the clicked/selected item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
 
 ### Placeholder
 

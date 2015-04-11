@@ -140,4 +140,46 @@ describe('ion-autocomplete multiple select', function () {
         });
     });
 
+    it('must call the items clicked method if an item is clicked', function () {
+        browser.get(htmlFileName);
+
+        expect($('input.ion-autocomplete-callback-model').evaluate('callbackValueModel')).toEqual('');
+
+        element(by.css('input.ion-autocomplete')).click().then(function () {
+            expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
+
+            element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+
+            var itemList = element.all(by.repeater('item in items'));
+            expect(itemList.count()).toEqual(3);
+            itemList.get(0).click().then(function () {
+                expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
+                expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
+                expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+
+                // select second item
+                element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+                var itemList = element.all(by.repeater('item in items'));
+                itemList.get(1).click().then(function () {
+                    var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
+                    expect(selectedItemList.count()).toEqual(2);
+                    expect(selectedItemList.get(0).getText()).toEqual('view: test1');
+                    expect(selectedItemList.get(1).getText()).toEqual('view: test2');
+                    expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
+
+                    // expect the callback value
+                    element(by.css('input.ion-autocomplete-callback-model')).evaluate('callbackValueModel').then(function (callbackModelValue) {
+                        expect(callbackModelValue.item.name).toEqual('test2');
+                        expect(callbackModelValue.selectedItems.length).toEqual(2);
+                        expect(callbackModelValue.selectedItems[0].name).toEqual('test1');
+                        expect(callbackModelValue.selectedItems[1].name).toEqual('test2');
+                    });
+
+                });
+
+            })
+
+        });
+    });
+
 });

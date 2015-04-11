@@ -11,7 +11,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
                 itemViewValueKey: '@',
-                multipleSelect: '@'
+                multipleSelect: '@',
+                itemsClickedMethod: '&'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -136,6 +137,16 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             // hide the container and the ionic backdrop
                             compiledTemplate.element.css('display', 'none');
                             $ionicBackdrop.release();
+                        }
+
+                        // call items clicked callback
+                        if (angular.isFunction(compiledTemplate.scope.itemsClickedMethod)) {
+                            compiledTemplate.scope.itemsClickedMethod({
+                                callback: {
+                                    item: item,
+                                    selectedItems: compiledTemplate.scope.selectedItems.slice()
+                                }
+                            });
                         }
                     };
 

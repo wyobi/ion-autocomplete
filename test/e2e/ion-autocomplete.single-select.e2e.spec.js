@@ -65,4 +65,31 @@ describe('ion-autocomplete single select', function () {
         });
     });
 
+    it('must call the items clicked method if an item is clicked', function () {
+        browser.get(htmlFileName);
+
+        expect($('input.ion-autocomplete-callback-model').evaluate('callbackValueModel')).toEqual('');
+
+        element(by.css('input.ion-autocomplete')).click().then(function () {
+            expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
+
+            element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+
+            var itemList = element.all(by.repeater('item in items'));
+            expect(itemList.count()).toEqual(3);
+            itemList.get(0).click().then(function () {
+                expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();
+                expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
+                expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+
+                // expect the callback value
+                element(by.css('input.ion-autocomplete-callback-model')).evaluate('callbackValueModel').then(function (callbackModelValue) {
+                    expect(callbackModelValue.item.name).toEqual('test1');
+                    expect(callbackModelValue.selectedItems.length).toEqual(0);
+                });
+            })
+
+        });
+    });
+
 });
