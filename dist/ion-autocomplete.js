@@ -15,7 +15,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
                 itemViewValueKey: '@',
-                multipleSelect: '@'
+                multipleSelect: '@',
+                itemsClickedMethod: '&'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -95,7 +96,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="removeItem($index)"></i>',
                     '</ion-item>',
                     '<ion-item class="item-divider" ng-show="items.length > 0">' + selectItemsLabel + '</ion-item>',
-                    '<ion-item ng-repeat="item in items" type="item-text-wrap" ng-click="selectItem(item)">',
+                    '<ion-item collection-repeat="item in items" item-height="55" item-width="100%" type="item-text-wrap" ng-click="selectItem(item)">',
                     '{{getItemValue(item, itemViewValueKey)}}',
                     '</ion-item>',
                     '</ion-list>',
@@ -140,6 +141,16 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             // hide the container and the ionic backdrop
                             compiledTemplate.element.css('display', 'none');
                             $ionicBackdrop.release();
+                        }
+
+                        // call items clicked callback
+                        if (angular.isFunction(compiledTemplate.scope.itemsClickedMethod)) {
+                            compiledTemplate.scope.itemsClickedMethod({
+                                callback: {
+                                    item: item,
+                                    selectedItems: compiledTemplate.scope.selectedItems.slice()
+                                }
+                            });
                         }
                     };
 
