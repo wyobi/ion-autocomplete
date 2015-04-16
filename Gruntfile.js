@@ -70,14 +70,16 @@ module.exports = function (grunt) {
         'http-server': {
             dev: {
                 runInBackground: true
+            },
+            debug: {
+                runInBackground: false
             }
         },
         protractor: {
             options: {
                 configFile: "protractor-conf.js"
             },
-            run: {
-            }
+            run: {}
         },
         coveralls: {
             options: {
