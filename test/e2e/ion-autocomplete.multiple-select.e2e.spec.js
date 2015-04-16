@@ -25,8 +25,8 @@ describe('ion-autocomplete multiple select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.repeater('item in items'));
-            expect(itemList.count()).toEqual(3);
+            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            expectCollectionRepeatCount(itemList, 3);
             expect(itemList.get(0).getText()).toEqual('view: test1');
             expect(itemList.get(1).getText()).toEqual('view: test2');
             expect(itemList.get(2).getText()).toEqual('view: test3');
@@ -42,8 +42,8 @@ describe('ion-autocomplete multiple select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.repeater('item in items'));
-            expect(itemList.count()).toEqual(3);
+            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
                 expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
@@ -65,21 +65,24 @@ describe('ion-autocomplete multiple select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.repeater('item in items'));
-            expect(itemList.count()).toEqual(3);
+            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
                 expect(selectedItemList.count()).toEqual(1);
                 expect(selectedItemList.get(0).getText()).toEqual('view: test1');
                 expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
 
-                element(by.css('input.ion-autocomplete-search')).sendKeys("test");
-                var itemList = element.all(by.repeater('item in items'));
-                itemList.get(0).click().then(function () {
-                    var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
-                    expect(selectedItemList.count()).toEqual(1);
-                    expect(selectedItemList.get(0).getText()).toEqual('view: test1');
-                    expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+                element(by.css('input.ion-autocomplete-search')).sendKeys("test").then(function () {
+                    var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+
+                    // get the fourth element as this one is the one that is shown in the collection repeat
+                    itemList.get(3).click().then(function () {
+                        var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
+                        expect(selectedItemList.count()).toEqual(1);
+                        expect(selectedItemList.get(0).getText()).toEqual('view: test1');
+                        expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+                    });
                 });
             })
 
@@ -95,8 +98,8 @@ describe('ion-autocomplete multiple select', function () {
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
             // select first item
-            var itemList = element.all(by.repeater('item in items'));
-            expect(itemList.count()).toEqual(3);
+            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
                 expect(selectedItemList.count()).toEqual(1);
@@ -105,8 +108,10 @@ describe('ion-autocomplete multiple select', function () {
 
                 // select second item
                 element(by.css('input.ion-autocomplete-search')).sendKeys("test");
-                var itemList = element.all(by.repeater('item in items'));
-                itemList.get(1).click().then(function () {
+                var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+
+                // get the fifth element as this one is the one that is shown in the collection repeat
+                itemList.get(4).click().then(function () {
                     var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
                     expect(selectedItemList.count()).toEqual(2);
                     expect(selectedItemList.get(0).getText()).toEqual('view: test1');
@@ -115,8 +120,10 @@ describe('ion-autocomplete multiple select', function () {
 
                     // select third item
                     element(by.css('input.ion-autocomplete-search')).sendKeys("test");
-                    var itemList = element.all(by.repeater('item in items'));
-                    itemList.get(2).click().then(function () {
+                    var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+
+                    // get the eighth element as this one is the one that is shown in the collection repeat
+                    itemList.get(8).click().then(function () {
                         var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
                         expect(selectedItemList.count()).toEqual(3);
                         expect(selectedItemList.get(0).getText()).toEqual('view: test1');
@@ -150,8 +157,8 @@ describe('ion-autocomplete multiple select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.repeater('item in items'));
-            expect(itemList.count()).toEqual(3);
+            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
                 expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
@@ -159,8 +166,10 @@ describe('ion-autocomplete multiple select', function () {
 
                 // select second item
                 element(by.css('input.ion-autocomplete-search')).sendKeys("test");
-                var itemList = element.all(by.repeater('item in items'));
-                itemList.get(1).click().then(function () {
+                var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+
+                // get the fifth element as this one is the one that is shown in the collection repeat
+                itemList.get(4).click().then(function () {
                     var selectedItemList = element.all(by.repeater('selectedItem in selectedItems'));
                     expect(selectedItemList.count()).toEqual(2);
                     expect(selectedItemList.get(0).getText()).toEqual('view: test1');
@@ -181,5 +190,12 @@ describe('ion-autocomplete multiple select', function () {
 
         });
     });
+
+    function expectCollectionRepeatCount(items, count) {
+        for (var i = 0; i < count; i++) {
+            expect(items.get(i).getText().isDisplayed()).toBeTruthy();
+        }
+        expect(items.get(count).getText().isDisplayed()).toBeFalsy();
+    }
 
 });
