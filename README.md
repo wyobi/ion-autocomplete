@@ -21,6 +21,7 @@ ion-autocomplete
         - [Cancel button label](#cancel-button-label)
         - [Select items label](#select-items-label)
         - [Selected items label](#selected-items-label)
+        - [Template url](#template-url)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
