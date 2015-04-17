@@ -2,23 +2,26 @@
 
 describe('ion-autocomplete single select', function () {
 
-    var scope, document, compile, q;
+    var templateUrl = 'test/templates/test-template.html';
+
+    var scope, document, compile, q, templateCache;
 
     // load the directive's module
-    beforeEach(module('ionic'));
-    beforeEach(module('ion-autocomplete'));
+    beforeEach(module('ionic', 'ion-autocomplete', templateUrl));
 
-    beforeEach(inject(function ($rootScope, $document, $compile, $q) {
+    beforeEach(inject(function ($rootScope, $document, $compile, $q, $templateCache) {
         scope = $rootScope.$new();
         document = $document;
         compile = $compile;
         q = $q;
+        templateCache = $templateCache;
     }));
 
     afterEach(function () {
         // remove the autocomplete container from the dom after each test to have an empty body on each test start
         getSearchContainerElement().remove();
         angular.element(document[0].querySelector('div.backdrop')).remove();
+        angular.element(document[0].querySelector('div.test-template-div')).remove();
     });
 
     it('must not initialize anything if the ng-model is not set', function () {
@@ -233,6 +236,22 @@ describe('ion-autocomplete single select', function () {
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('none');
+    });
+
+    it('must be able to set a templateUrl', function () {
+        var template = templateCache.get(templateUrl);
+        templateCache.put(templateUrl, template);
+
+        var placeholder = "placeholder text"
+        var element = compileElement('<ion-autocomplete ng-model="model" template-url="' + templateUrl + '" placeholder="' + placeholder + '"/>');
+
+        // click on the element
+        element.triggerHandler('click');
+        element.isolateScope().$digest();
+
+        // check that the new test template is shown
+        expect(angular.element(document[0].querySelector('div#test-template-div')).css('display')).toBe('block');
+        expect(angular.element(document[0].querySelector('div#test-template-div'))[0].innerText).toBe(placeholder);
     });
 
     /**

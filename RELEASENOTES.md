@@ -9,6 +9,8 @@
 
 * Add the ability to select multiple items
 * Add ability to pass in a callback function when an item is clicked
+* Use `collection-repeat` instead of `ng-repeat` to improve the performance
+* Add the ability to use an own external template
 
 ## Version 0.1.2
 

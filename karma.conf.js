@@ -13,7 +13,8 @@ module.exports = function (config) {
             'bower_components/angular-mocks/angular-mocks.js',
             'src/ion-autocomplete.js',
             'test/ion-autocomplete.single-select.spec.js',
-            'test/ion-autocomplete.multiple-select.spec.js'
+            'test/ion-autocomplete.multiple-select.spec.js',
+            'test/templates/*.html'
         ],
 
         // list of files to exclude
@@ -60,9 +61,10 @@ module.exports = function (config) {
             }
         },
 
-        // Test coverage configuration
+        // Test coverage configuration and template generation
         preprocessors: {
-            'src/*.js': ['coverage']
+            'src/*.js': ['coverage'],
+            'test/templates/*.html': 'ng-html2js'
         },
         coverageReporter: {
             type: 'lcov',

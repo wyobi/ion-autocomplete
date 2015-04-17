@@ -7,6 +7,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             template: '<input type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off">',
             replace: true,
             scope: {
+                placeholder: '@',
+                cancelLabel: '@',
+                selectItemsLabel: '@',
+                selectedItemsLabel: '@',
+                templateUrl: '@',
                 itemsMethod: '&',
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
@@ -19,32 +24,14 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // do nothing if the model is not set
                 if (!ngModel) return;
 
-                // set placeholder on element
-                var placeholder = 'Click to enter a value...';
-                if (attrs.placeholder) {
-                    placeholder = attrs.placeholder;
-                    element.attr('placeholder', attrs.placeholder);
-                }
+                // set the default values of the passed in attributes
+                scope.placeholder = !scope.placeholder ? 'Click to enter a value...' : scope.placeholder;
+                scope.cancelLabel = !scope.cancelLabel ? scope.multipleSelect === "true" ? 'Done' : 'Cancel' : scope.cancelLabel;
+                scope.selectItemsLabel = !scope.selectItemsLabel ? 'Select an item...' : scope.selectItemsLabel;
+                scope.selectedItemsLabel = !scope.selectedItemsLabel ? 'Selected items:' : scope.selectedItemsLabel;
+                scope.templateUrl = !scope.templateUrl ? '' : scope.templateUrl;
 
-                // set cancel button label
-                var cancelLabel = scope.multipleSelect === "true" ? 'Done' : 'Cancel';
-                if (attrs.cancelLabel) {
-                    cancelLabel = attrs.cancelLabel;
-                }
-
-                // set select an item label
-                var selectItemsLabel = 'Select an item...';
-                if (attrs.selectItemsLabel) {
-                    selectItemsLabel = attrs.selectItemsLabel;
-                }
-
-                // set selected label
-                var selectedItemsLabel = 'Selected items:';
-                if (attrs.selectedItemsLabel) {
-                    selectedItemsLabel = attrs.selectedItemsLabel;
-                }
-
-                // the items and the query for the list
+                // the items, selected items and the query for the list
                 scope.items = [];
                 scope.selectedItems = [];
                 scope.searchQuery = '';
@@ -77,21 +64,19 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<div class="bar bar-header item-input-inset">',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-ios7-search placeholder-icon"></i>',
-                    '<input type="search" class="ion-autocomplete-search" ng-model="searchQuery" placeholder="' + placeholder + '"/>',
+                    '<input type="search" class="ion-autocomplete-search" ng-model="searchQuery" placeholder="{{placeholder}}"/>',
                     '</label>',
-                    '<button class="ion-autocomplete-cancel button button-clear">',
-                    cancelLabel,
-                    '</button>',
+                    '<button class="ion-autocomplete-cancel button button-clear">{{cancelLabel}}</button>',
                     '</div>',
                     '<ion-content class="has-header has-header">',
                     '<ion-list>',
-                    '<ion-item class="item-divider" ng-show="selectedItems.length > 0">' + selectedItemsLabel + '</ion-item>',
+                    '<ion-item class="item-divider" ng-show="selectedItems.length > 0">{{selectedItemsLabel}}</ion-item>',
                     '<ion-item ng-repeat="selectedItem in selectedItems" type="item-text-wrap" class="item-icon-left item-icon-right">',
                     '<i class="icon ion-checkmark"></i>',
                     '{{getItemValue(selectedItem, itemViewValueKey)}}',
                     '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="removeItem($index)"></i>',
                     '</ion-item>',
-                    '<ion-item class="item-divider" ng-show="items.length > 0">' + selectItemsLabel + '</ion-item>',
+                    '<ion-item class="item-divider" ng-show="items.length > 0">{{selectItemsLabel}}</ion-item>',
                     '<ion-item collection-repeat="item in items" item-height="55" item-width="100%" type="item-text-wrap" ng-click="selectItem(item)">',
                     '{{getItemValue(item, itemViewValueKey)}}',
                     '</ion-item>',
@@ -102,6 +87,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // compile the popup template
                 $ionicTemplateLoader.compile({
+                    templateUrl: scope.templateUrl,
                     template: searchContainerTemplate,
                     scope: scope,
                     appendTo: $document[0].body
@@ -198,10 +184,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         compiledTemplate.element.css('display', 'block');
 
                         // focus on the search input field
-                        searchInputElement[0].focus();
-                        setTimeout(function () {
+                        if (searchInputElement.length > 0) {
                             searchInputElement[0].focus();
-                        }, 0);
+                            setTimeout(function () {
+                                searchInputElement[0].focus();
+                            }, 0);
+                        }
                     };
 
                     var isKeyValueInObjectArray = function (objectArray, key, value) {
