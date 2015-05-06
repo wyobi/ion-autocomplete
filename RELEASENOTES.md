@@ -1,5 +1,15 @@
 # Release notes of ion-autocomplete
 
+## Version 0.2.1
+
+* Tag: [0.2.1](https://github.com/guylabs/ion-autocomplete/tree/v0.2.1)
+* Release: [ion-autocomplete-0.2.1.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.2.1.zip)
+
+### Changes
+
+* Fixed issue [#5](https://github.com/guylabs/ion-autocomplete/issues/5).
+* Fixed issue [#6](https://github.com/guylabs/ion-autocomplete/issues/6).
+
 ## Version 0.2.0
 
 * Tag: [0.2.0](https://github.com/guylabs/ion-autocomplete/tree/v0.2.0)
