@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         concat: {
             js: {
                 options: {
-                    banner: "(function() {\n\n'use strict';\n\n",
+                    banner: "/*\n * <%= pkg.name %> <%= pkg.version %>\n * Copyright <%= grunt.template.today('yyyy') %> Danny Povolotski \n * Copyright modifications <%= grunt.template.today('yyyy') %> Guy Brand \n * https://github.com/guylabs/ion-autocomplete\n */\n(function() {\n\n'use strict';\n\n",
                     footer: '\n})();',
                     separator: '\n',
                     process: true
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                banner: "/*!\n * <%= pkg.name %> <%= pkg.version %>\n * Copyright <%= grunt.template.today('yyyy') %> Danny Povolotski \n * Copyright modifications <%= grunt.template.today('yyyy') %> Guy Brand \n * https://github.com/guylabs/ion-autocomplete\n */\n"
+                banner: "/*\n * <%= pkg.name %> <%= pkg.version %>\n * Copyright <%= grunt.template.today('yyyy') %> Danny Povolotski \n * Copyright modifications <%= grunt.template.today('yyyy') %> Guy Brand \n * https://github.com/guylabs/ion-autocomplete\n */\n"
             },
             dist: {
                 files: {
