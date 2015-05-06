@@ -24,7 +24,7 @@ describe('ion-autocomplete single select', function () {
         angular.element(document[0].querySelector('div.test-template-div')).remove();
     });
 
-    it('must not initialize anything if the ng-model is not set', function () {
+    it('must not initialize anything if the ng-model is not set on element directive', function () {
         compileElement('<ion-autocomplete />');
 
         // expect that no element is added to the body
@@ -33,8 +33,39 @@ describe('ion-autocomplete single select', function () {
         expect(getCancelButtonElement().length).toBe(0);
     });
 
-    it('must have the default values set', function () {
+    it('must not initialize anything if the ng-model is not set on attribute directive', function () {
+        compileElement('<input ion-autocomplete type="text" class="ion-autocomplete" />');
+
+        // expect that no element is added to the body
+        expect(getSearchContainerElement().length).toBe(0);
+        expect(getSearchInputElement().length).toBe(0);
+        expect(getCancelButtonElement().length).toBe(0);
+    });
+
+    it('must have the default values set on element directive', function () {
         var element = compileElement('<ion-autocomplete ng-model="model"/>');
+
+        // expect the default values of the input field
+        expect(element[0].type).toBe('text');
+        expect(element[0].readOnly).toBe(true);
+        expect(element.hasClass('ion-autocomplete')).toBe(true);
+        expect(element[0].placeholder).toBe('');
+
+        // expect the default values of the search input field
+        var searchInputElement = getSearchInputElement();
+        expect(searchInputElement[0].type).toBe('search');
+        expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
+        expect(searchInputElement[0].placeholder).toBe('Click to enter a value...');
+
+        // expect the default values of the cancel button
+        var cancelButtonElement = getCancelButtonElement();
+        expect(cancelButtonElement.hasClass('button')).toBe(true);
+        expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
+        expect(cancelButtonElement[0].innerText).toBe('Cancel');
+    });
+
+    it('must have the default values set on attribute directive', function () {
+        var element = compileElement('<input ion-autocomplete ng-model="model" type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />');
 
         // expect the default values of the input field
         expect(element[0].type).toBe('text');

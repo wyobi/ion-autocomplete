@@ -3,9 +3,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
     function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse) {
         return {
             require: '?ngModel',
-            restrict: 'E',
-            template: '<input type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off">',
-            replace: true,
+            restrict: 'A',
             scope: {
                 placeholder: '@',
                 cancelLabel: '@',
@@ -233,4 +231,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
             }
         };
     }
-]);
+]).directive('ionAutocomplete', function() {
+    return {
+        require: '?ngModel',
+        restrict: 'E',
+        template: '<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />',
+        replace: true
+    }
+});

@@ -54,12 +54,20 @@ angular.module('myApp', [
 
 To use the `ion-autocomplete` directive in single select mode you need to add the following snippet to your template:
 ```html
+// usage with the element restriction
 <ion-autocomplete ng-model="model" />
+
+//usage with the attribute restriction
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />
 ```
 
 If you want to use it in multiple select mode you need to add the following snippet to your template: 
 ```html
+// usage with the element restriction
 <ion-autocomplete ng-model="model" multiple-select="true" />
+
+//usage with the attribute restriction
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" multiple-select="true" />
 ```
 
 Check out the next chapter on how to configure the directive.
