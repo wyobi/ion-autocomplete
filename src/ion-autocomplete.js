@@ -184,7 +184,31 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     };
 
                     // click handler on the input field which
+                    var scrolling = {
+                        moved: false,
+                        startX: 0,
+                        startY: 0
+                    };
+                    var onTouchStart = function(e) {
+                        scrolling.moved = false;
+                        scrolling.startX = e.touches[0].clientX;
+                        scrolling.startY = e.touches[0].clientY;
+                    };
+
+                    var onTouchMove = function(e) {
+                        // If finger moves more than 10px flag to cancel
+                        if (Math.abs(e.touches[0].clientX - scrolling.startX) > 10 ||
+                            Math.abs(e.touches[0].clientY - scrolling.startY) > 10) {
+                            scrolling.moved = true;
+                        }
+                    };
+
                     var onClick = function (event) {
+                        // Only open the dialog if was not touched at the beginning of
+                        // a legitimate scroll event
+                        if (scrolling.moved) {
+                            return;
+                        }
 
                         // prevent the default event and the propagation
                         event.preventDefault();
@@ -212,8 +236,10 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     };
 
                     // bind the onClick handler to the click and touchend events
-                    element.bind('click', onClick);
+                    element.bind('touchstart', onTouchStart);
+                    element.bind('touchmove', onTouchMove);
                     element.bind('touchend', onClick);
+                    element.bind('click', onClick);
 
                     // cancel handler for the cancel button which clears the search input field model and hides the
                     // search container and the ionic backdrop
