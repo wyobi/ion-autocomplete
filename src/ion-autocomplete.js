@@ -1,6 +1,6 @@
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse', '$ionicPlatform',
+    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse, $ionicPlatform) {
         return {
             require: '?ngModel',
             restrict: 'A',
@@ -119,8 +119,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             ngModel.$render();
 
                             // hide the container and the ionic backdrop
-                            compiledTemplate.element.css('display', 'none');
-                            $ionicBackdrop.release();
+                            hideSearchContainer();
                         }
 
                         // call items clicked callback
@@ -170,6 +169,20 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }
                     });
 
+                    var displaySearchContainer = function() {
+                        $ionicBackdrop.retain();
+                        compiledTemplate.element.css('display', 'block');
+                        scope.$deregisterBackButton = $ionicPlatform.registerBackButtonAction(function(){
+                            hideSearchContainer();
+                        }, 300);
+                    };
+
+                    var hideSearchContainer = function() {
+                        compiledTemplate.element.css('display', 'none');
+                        $ionicBackdrop.release();
+                        scope.$deregisterBackButton && scope.$deregisterBackButton();
+                    };
+
                     // click handler on the input field which
                     var onClick = function (event) {
 
@@ -178,8 +191,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         event.stopPropagation();
 
                         // show the ionic backdrop and the search container
-                        $ionicBackdrop.retain();
-                        compiledTemplate.element.css('display', 'block');
+                        displaySearchContainer();
 
                         // focus on the search input field
                         if (searchInputElement.length > 0) {
@@ -207,8 +219,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // search container and the ionic backdrop
                     compiledTemplate.element.find('button').bind('click', function (event) {
                         compiledTemplate.scope.searchQuery = '';
-                        $ionicBackdrop.release();
-                        compiledTemplate.element.css('display', 'none');
+                        hideSearchContainer();
                     });
 
                 });
