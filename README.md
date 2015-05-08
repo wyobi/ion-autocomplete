@@ -9,8 +9,8 @@ ion-autocomplete
 
 - [Demo](#demo)
 - [Introduction](#introduction)
-- [Installation](#installation)
 - [Features](#features)
+- [Installation](#installation)
 - [Usage](#usage)
     - [Configurable options](#configurable-options)
         - [The `items-method`](#the-items-method)
