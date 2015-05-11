@@ -9,8 +9,8 @@
 'use strict';
 
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse', '$ionicPlatform',
+    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse, $ionicPlatform) {
         return {
             require: '?ngModel',
             restrict: 'A',
@@ -129,8 +129,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             ngModel.$render();
 
                             // hide the container and the ionic backdrop
-                            compiledTemplate.element.css('display', 'none');
-                            $ionicBackdrop.release();
+                            hideSearchContainer();
                         }
 
                         // call items clicked callback
@@ -180,16 +179,55 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }
                     });
 
-                    // click handler on the input field which
+                    var displaySearchContainer = function() {
+                        $ionicBackdrop.retain();
+                        compiledTemplate.element.css('display', 'block');
+                        scope.$deregisterBackButton = $ionicPlatform.registerBackButtonAction(function(){
+                            hideSearchContainer();
+                        }, 300);
+                    };
+
+                    var hideSearchContainer = function() {
+                        compiledTemplate.element.css('display', 'none');
+                        $ionicBackdrop.release();
+                        scope.$deregisterBackButton && scope.$deregisterBackButton();
+                    };
+
+                    // object to store if the user moved the finger to prevent opening the modal
+                    var scrolling = {
+                        moved: false,
+                        startX: 0,
+                        startY: 0
+                    };
+
+                    // store the start coordinates of the touch start event
+                    var onTouchStart = function(e) {
+                        scrolling.moved = false;
+                        scrolling.startX = e.touches[0].clientX;
+                        scrolling.startY = e.touches[0].clientY;
+                    };
+
+                    // check if the finger moves more than 10px and set the moved flag to true
+                    var onTouchMove = function(e) {
+                        if (Math.abs(e.touches[0].clientX - scrolling.startX) > 10 ||
+                            Math.abs(e.touches[0].clientY - scrolling.startY) > 10) {
+                            scrolling.moved = true;
+                        }
+                    };
+
+                    // click handler on the input field to show the search container
                     var onClick = function (event) {
+                        // only open the dialog if was not touched at the beginning of a legitimate scroll event
+                        if (scrolling.moved) {
+                            return;
+                        }
 
                         // prevent the default event and the propagation
                         event.preventDefault();
                         event.stopPropagation();
 
                         // show the ionic backdrop and the search container
-                        $ionicBackdrop.retain();
-                        compiledTemplate.element.css('display', 'block');
+                        displaySearchContainer();
 
                         // focus on the search input field
                         if (searchInputElement.length > 0) {
@@ -209,16 +247,17 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         return false;
                     };
 
-                    // bind the onClick handler to the click and touchend events
-                    element.bind('click', onClick);
+                    // bind the handlers to the click and touch events of the input field
+                    element.bind('touchstart', onTouchStart);
+                    element.bind('touchmove', onTouchMove);
                     element.bind('touchend', onClick);
+                    element.bind('click', onClick);
 
                     // cancel handler for the cancel button which clears the search input field model and hides the
                     // search container and the ionic backdrop
                     compiledTemplate.element.find('button').bind('click', function (event) {
                         compiledTemplate.scope.searchQuery = '';
-                        $ionicBackdrop.release();
-                        compiledTemplate.element.css('display', 'none');
+                        hideSearchContainer();
                     });
 
                 });
@@ -249,4 +288,5 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
         replace: true
     }
 });
+
 })();
