@@ -79,6 +79,10 @@ describe('ion-autocomplete single select', function () {
         expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
         expect(searchInputElement[0].placeholder).toBe('Click to enter a value...');
 
+        // expect the placeholder icon element to no be platform dependent
+        var placeholderIcon = getPlaceholderIconElement();
+        expect(placeholderIcon.hasClass('ion-search')).toBe(true);
+
         // expect the default values of the cancel button
         var cancelButtonElement = getCancelButtonElement();
         expect(cancelButtonElement.hasClass('button')).toBe(true);
@@ -303,6 +307,14 @@ describe('ion-autocomplete single select', function () {
      */
     function getSearchContainerElement() {
         return angular.element(document[0].querySelector('div.ion-autocomplete-container'))
+    }
+
+    /**
+     * Gets the angular element for the autocomplete placer holder icon
+     * @returns {*} the search placeholder icon element
+     */
+    function getPlaceholderIconElement() {
+        return angular.element(document[0].querySelector('i.placeholder-icon'))
     }
 
     /**
