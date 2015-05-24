@@ -11,6 +11,7 @@ ion-autocomplete
 - [Introduction](#introduction)
 - [Features](#features)
 - [Installation](#installation)
+- [Ionic compatibility](#ionic-compatibility)
 - [Usage](#usage)
     - [Configurable options](#configurable-options)
         - [The `items-method`](#the-items-method)
@@ -65,6 +66,16 @@ angular.module('myApp', [
   'ion-autocomplete'
 ]);
 ```
+
+# Ionic compatibility
+
+The ion-autocomplete component is running with the following Ionic versions:
+
+ion-autocomplete version | Ionic version
+------------------------ | -------------
+0.0.2 - 0.1.2 | 1.0.0-beta.14
+0.2.0 - 0.2.1 | 1.0.0-rc.3
+0.2.2 - latest | 1.0.0
 
 # Usage
 
