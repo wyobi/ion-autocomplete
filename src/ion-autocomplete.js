@@ -259,7 +259,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // set the view value of the model
                 ngModel.$formatters.push(function (modelValue) {
-                    return scope.getItemValue(modelValue, scope.itemViewValueKey);
+                    var viewValue = scope.getItemValue(modelValue, scope.itemViewValueKey);
+                    return viewValue == undefined ? "" : viewValue;
                 });
 
                 // set the model value of the model

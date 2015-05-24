@@ -113,6 +113,21 @@ describe('ion-autocomplete single select', function () {
         expect(element[0].value).toBe('value1');
     });
 
+    it('must not show any value if the model is cleared', function () {
+        scope.model = {key: {value: "value1"}};
+        var element = compileElement('<ion-autocomplete ng-model="model" item-view-value-key="key.value" />');
+
+        // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
+        expect(element[0].value).toBe('value1');
+
+        // clear the model
+        scope.model = undefined;
+        scope.$digest();
+
+        // expect the value of the input field to be cleared
+        expect(element[0].value).toBe('');
+    });
+
     it('must set the placeholder on the input field and on the search input field', function () {
         var placeholderValue = "placeholder value";
         var element = compileElement('<ion-autocomplete ng-model="model" placeholder="' + placeholderValue + '"/>');
