@@ -20,6 +20,7 @@ ion-autocomplete
         - [The `item-view-value-key`](#the-item-view-value-key)
         - [The `multiple-select`](#the-multiple-select)
         - [The `items-clicked-method`](#the-items-clicked-method)
+        - [ComponentId](#component-id)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
         - [Select items label](#select-items-label)
@@ -126,7 +127,16 @@ $scope.callbackMethod = function (query) {
 }
 ```
 
-Note that the parameter for the `callbackMethod needs to be named `query`. Otherwise the callback will not get called properly.
+Note that the parameter for the `callbackMethod` needs to be named `query`. Otherwise the callback will not get called properly.
+If you want to also retrieve the [ComponentId](#component-id) then you need to add a second parameter called `componentId`:
+```javascript
+$scope.callbackMethod = function (query, componentId) {
+    if(componentId == "component1") {
+        return $http.get(endpoint1);
+    }
+    return [query];
+}
+```
 
 ### The `items-method-value-key`
 
@@ -218,6 +228,9 @@ $scope.callbackMethod = function (callback) {
     // print out the selected item
     console.log(callback.item); 
     
+    // print out the component id
+    console.log(callback.componentId);
+    
     // print out the selected items if the multiple select flag is set to true and multiple elements are selected
     console.log(callback.selectedItems); 
 }
@@ -229,6 +242,19 @@ And pass in the callback method in the directive:
 ```
 
 Then you get a callback object with the clicked/selected item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
+
+### Component Id
+
+The component id is an attribute on the `ion-autocomplete` component which sets a given id to the component. This id is then returned in 
+the callback object of the [`items-clicked-method`](#the-items-clicked-method) and as a second parameter of the [`items-method`](#the-items-method).
+Here an example:
+```html
+<ion-autocomplete ng-model="model" component-id="component1" />`
+```
+
+You are able to set this is on each component if you have multiple components built up in a ng-repeat where you do not want to have multiple `items-method` 
+for each component because you want to display other items in each component. You will also get it in the `items-clicked-method` callback object such that you just 
+need to define one callback method and you can distinguish the calls with the `componentId` attribute right inside the method.
 
 ### Placeholder
 

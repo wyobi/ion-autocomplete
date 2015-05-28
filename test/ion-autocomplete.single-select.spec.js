@@ -200,6 +200,22 @@ describe('ion-autocomplete single select', function () {
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
     });
 
+    it('must call the items method if the passed query is valid and the componentId is set', function () {
+        scope.itemsMethod = function (query, componentId) {
+            return [query, componentId, 'item2'];
+        };
+        spyOn(scope, 'itemsMethod').and.callThrough();
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query, componentId)" component-id="compId"/>');
+
+        element.isolateScope().searchQuery = "asd";
+        element.isolateScope().$digest();
+
+        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod).toHaveBeenCalledWith("asd", "compId");
+        expect(element.isolateScope().items.length).toBe(3);
+        expect(element.isolateScope().items).toEqual(['asd', 'compId', 'item2']);
+    });
+
     it('must call the items method promise if the passed query is valid', function () {
         var deferred = q.defer();
 

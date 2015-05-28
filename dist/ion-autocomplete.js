@@ -25,7 +25,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemValueKey: '@',
                 itemViewValueKey: '@',
                 multipleSelect: '@',
-                itemsClickedMethod: '&'
+                itemsClickedMethod: '&',
+                componentId: '@'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -137,7 +138,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             compiledTemplate.scope.itemsClickedMethod({
                                 callback: {
                                     item: item,
-                                    selectedItems: compiledTemplate.scope.selectedItems.slice()
+                                    selectedItems: compiledTemplate.scope.selectedItems.slice(),
+                                    componentId: compiledTemplate.scope.componentId
                                 }
                             });
                         }
@@ -165,8 +167,15 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                         if (query && angular.isFunction(compiledTemplate.scope.itemsMethod)) {
 
+                            var queryObject = {query: query};
+
+                            // if the component id is set, then add it to the query object
+                            if(compiledTemplate.scope.componentId) {
+                                queryObject = {query: query, componentId: compiledTemplate.scope.componentId}
+                            }
+
                             // convert the given function to a $q promise to support promises too
-                            var promise = $q.when(compiledTemplate.scope.itemsMethod({query: query}));
+                            var promise = $q.when(compiledTemplate.scope.itemsMethod(queryObject));
 
                             promise.then(function (promiseData) {
                                 // set the items which are returned by the items method
