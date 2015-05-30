@@ -3,6 +3,7 @@ ion-autocomplete
 [![Build Status](https://travis-ci.org/guylabs/ion-autocomplete.svg?branch=master)](https://travis-ci.org/guylabs/ion-autocomplete)
 [![Coverage Status](https://img.shields.io/coveralls/guylabs/ion-autocomplete.svg)](https://coveralls.io/r/guylabs/ion-autocomplete)
 [![Bower version](https://badge.fury.io/bo/ion-autocomplete.svg)](http://badge.fury.io/bo/ion-autocomplete)
+[![npm version](https://badge.fury.io/js/ion-autocomplete.svg)](http://badge.fury.io/js/ion-autocomplete)
 
 > Configurable Ionic directive for an autocomplete dropdown.
 
