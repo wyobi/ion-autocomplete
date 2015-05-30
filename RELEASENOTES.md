@@ -1,5 +1,20 @@
 # Release notes of ion-autocomplete
 
+## Version 0.2.2
+
+* Tag: [0.2.2](https://github.com/guylabs/ion-autocomplete/tree/v0.2.2)
+* Release: [ion-autocomplete-0.2.2.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.2.2.zip)
+
+### Changes
+
+* Fixed issue 'Model binding issue' - [#14](https://github.com/guylabs/ion-autocomplete/issues/14).
+* Fixed issue 'Upgrade to Ionic 1.0.0' - [#15](https://github.com/guylabs/ion-autocomplete/issues/15).
+* Fixed issue 'Cant display list in from query' - [#16](https://github.com/guylabs/ion-autocomplete/issues/16).
+* Fixed issue 'How can I call the auto complete form in the ng-click' - [#18](https://github.com/guylabs/ion-autocomplete/issues/18).
+* Fixed issue 'I cant get autocomplete to work in my project' - [#21](https://github.com/guylabs/ion-autocomplete/issues/21).
+* Fixed issue 'Add version table to documentation' - [#22](https://github.com/guylabs/ion-autocomplete/issues/22).
+* Fixed issue 'Ability to pass sort of id to the item-method' - [#23](https://github.com/guylabs/ion-autocomplete/issues/23).
+
 ## Version 0.2.1
 
 * Tag: [0.2.1](https://github.com/guylabs/ion-autocomplete/tree/v0.2.1)

@@ -1,5 +1,5 @@
 /*
- * ion-autocomplete 0.2.1
+ * ion-autocomplete 0.2.2
  * Copyright 2015 Danny Povolotski 
  * Copyright modifications 2015 Guy Brand 
  * https://github.com/guylabs/ion-autocomplete
