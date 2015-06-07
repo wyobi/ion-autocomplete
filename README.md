@@ -22,6 +22,7 @@ ion-autocomplete
         - [The `item-view-value-key`](#the-item-view-value-key)
         - [The `multiple-select`](#the-multiple-select)
         - [The `items-clicked-method`](#the-items-clicked-method)
+        - [The `model-to-item-method`](#the-model-to-item-method)
         - [ComponentId](#component-id)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
@@ -244,6 +245,38 @@ And pass in the callback method in the directive:
 ```
 
 Then you get a callback object with the clicked/selected item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
+
+### The `model-to-item-method`
+
+This method is used if you want to prepopulate the model of the `ion-autocomplete` component. The prepopulated model needs 
+to be have the same data as it would be saved when you select the items by hand. The component then takes the model values 
+and calls the specified `model-to-item-method` to resolve the item from the back end and select it such that it is preselected.
+
+Here a small example:
+
+Define the `model-to-item-method` in your scope:
+```javascript
+$scope.modelToItemMethod = function (modelValue) {
+
+    // get the full model item from the model value and return it
+    var modelItem = getModelItem(modelValue);
+    return modelItem;
+}
+```
+
+And set the `model-to-item-method` on the directive:
+```html
+<ion-autocomplete ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />
+```
+
+You are also able to return a promise from this callback method. For example:
+```javascript
+$scope.modelToItemMethod = function (modelValue) {
+    return $http.get(endpoint + '?q=' + modelValue);
+}
+```
+
+Note that the parameter for the `model-to-item-method` needs to be named `modelValue`. Otherwise the callback will not get called properly.
 
 ### Component Id
 
