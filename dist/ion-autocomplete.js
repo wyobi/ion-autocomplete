@@ -180,6 +180,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             var promise = $q.when(compiledTemplate.scope.itemsMethod(queryObject));
 
                             promise.then(function (promiseData) {
+
+                                // if the given promise data object has a data property use this for the further processing as the
+                                // standard httpPromises from the $http functions store the response data in a data property
+                                if (promiseData && promiseData.data) {
+                                    promiseData = promiseData.data;
+                                }
+
                                 // set the items which are returned by the items method
                                 compiledTemplate.scope.items = compiledTemplate.scope.getItemValue(promiseData,
                                     compiledTemplate.scope.itemsMethodValueKey);

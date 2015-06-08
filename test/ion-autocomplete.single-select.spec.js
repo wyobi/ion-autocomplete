@@ -268,6 +268,30 @@ describe('ion-autocomplete single select', function () {
         expect(errorFunction.calls.count()).toBe(1);
     });
 
+    it('must allow standard $http promises', function () {
+        var deferred = q.defer();
+
+        scope.itemsMethod = function (query) {
+            return deferred.promise;
+        };
+        spyOn(scope, 'itemsMethod').and.callThrough();
+        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)" item-value-key="name" item-view-value-key="view" />');
+
+        // add a text to the search query and execute a digest call
+        element.isolateScope().searchQuery = "asd";
+        element.isolateScope().$digest();
+
+        // assert that the items method is called once and that the list is still empty as the promise is not resolved yet
+        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
+        expect(element.isolateScope().items.length).toBe(0);
+
+        // resolve the promise and expect that the list has two items
+        deferred.resolve({data: [{name: "name", view: "view"}, {name: "name1", view: "view1"}]});
+        element.isolateScope().$digest();
+        expect(element.isolateScope().items.length).toBe(2);
+    });
+
     it('must show the search container when the input field is clicked', function () {
         var element = compileElement('<ion-autocomplete ng-model="model"/>');
 
