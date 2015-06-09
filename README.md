@@ -36,6 +36,8 @@ ion-autocomplete
 
 # Demo
 
+You can find a live demo on [Codepen](http://codepen.io/guylabs/pen/GJmwMw) or see it in action in the following image:
+
 ![Animated demo](https://github.com/guylabs/ion-autocomplete/raw/master/demo.gif)
 
 # Introduction
