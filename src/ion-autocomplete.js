@@ -1,6 +1,6 @@
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicTemplateLoader', '$ionicBackdrop', '$rootScope', '$document', '$q', '$parse', '$ionicPlatform',
-    function ($ionicTemplateLoader, $ionicBackdrop, $rootScope, $document, $q, $parse, $ionicPlatform) {
+    '$ionicTemplateLoader', '$ionicBackdrop', '$ionicScrollDelegate', '$rootScope', '$document', '$q', '$parse', '$ionicPlatform',
+    function ($ionicTemplateLoader, $ionicBackdrop, $ionicScrollDelegate, $rootScope, $document, $q, $parse, $ionicPlatform) {
         return {
             require: '?ngModel',
             restrict: 'A',
@@ -180,6 +180,9 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                                 // set the items which are returned by the items method
                                 compiledTemplate.scope.items = compiledTemplate.scope.getItemValue(promiseData,
                                     compiledTemplate.scope.itemsMethodValueKey);
+
+                                // force the collection repeat to redraw itself as there were issues when the first items were added
+                                $ionicScrollDelegate.resize();
                             }, function (error) {
                                 // reject the error because we do not handle the error here
                                 return $q.reject(error);
