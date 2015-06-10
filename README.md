@@ -229,7 +229,7 @@ parameter of the function must be `callback`. Here is an example:
 
 Define the callback in your scope:
 ```javascript
-$scope.callbackMethod = function (callback) {
+$scope.clickedMethod = function (callback) {
     // print out the selected item
     console.log(callback.item); 
     
@@ -243,10 +243,38 @@ $scope.callbackMethod = function (callback) {
 
 And pass in the callback method in the directive:
 ```html
-<ion-autocomplete ng-model="model" items-clicked-method="callbackMethod(callback)" />
+<ion-autocomplete ng-model="model" items-clicked-method="clickedMethod(callback)" />
 ```
 
 Then you get a callback object with the clicked/selected item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
+
+### The `items-removed-method`
+
+You are able to pass a function to the `items-removed-method` attribute to be notified when an item is removed from a multi-select list. The name of the 
+parameter of the function must be `callback`. It is similar to items-clicked-method.  This attribute has no defined behaviour for a single select list.
+
+Here is an example:
+
+Define the callback in your scope:
+```javascript
+$scope.removedMethod = function (callback) {
+    // print out the removed item
+    console.log(callback.item); 
+
+    // print out the component id
+    console.log(callback.componentId);
+    
+    // print out the selected items if the multiple select flag is set to true and multiple elements are selected
+    console.log(callback.selectedItems); 
+}
+```
+
+And pass in the callback method in the directive:
+```html
+<ion-autocomplete ng-model="model" items-removed-method="removedMethod(callback)" />
+```
+
+Then you get a callback object with the removed item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
 
 ### The `model-to-item-method`
 

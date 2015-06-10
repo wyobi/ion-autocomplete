@@ -89,8 +89,11 @@ describe('ion-autocomplete multiple select', function () {
         });
     });
 
-    it('must be able to delete an item if the delete button is clicked', function () {
+    it('must be able to delete an item if the delete button is clicked along with callbacks in both directions', function () {
         browser.get(htmlFileName);
+
+        expect($('input.ion-autocomplete-clicked-model').evaluate('clickedValueModel')).toEqual('');
+        expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
@@ -105,6 +108,12 @@ describe('ion-autocomplete multiple select', function () {
                 expect(selectedItemList.count()).toEqual(1);
                 expect(selectedItemList.get(0).getText()).toEqual('view: test1');
                 expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+                expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
+                element(by.css('input.ion-autocomplete-clicked-model')).evaluate('clickedValueModel').then(function (clickedModelValue) {
+                    expect(clickedModelValue.item.name).toEqual('test1');
+                    expect(clickedModelValue.selectedItems.length).toEqual(1);
+                    expect(clickedModelValue.selectedItems[0].name).toEqual('test1');
+                });
 
                 // select second item
                 element(by.css('input.ion-autocomplete-search')).sendKeys("test");
@@ -117,6 +126,13 @@ describe('ion-autocomplete multiple select', function () {
                     expect(selectedItemList.get(0).getText()).toEqual('view: test1');
                     expect(selectedItemList.get(1).getText()).toEqual('view: test2');
                     expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
+                    expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
+                    element(by.css('input.ion-autocomplete-clicked-model')).evaluate('clickedValueModel').then(function (clickedModelValue) {
+                        expect(clickedModelValue.item.name).toEqual('test2');
+                        expect(clickedModelValue.selectedItems.length).toEqual(2);
+                        expect(clickedModelValue.selectedItems[0].name).toEqual('test1');
+                        expect(clickedModelValue.selectedItems[1].name).toEqual('test2');
+                    });
 
                     // select third item
                     element(by.css('input.ion-autocomplete-search')).sendKeys("test");
@@ -130,6 +146,14 @@ describe('ion-autocomplete multiple select', function () {
                         expect(selectedItemList.get(1).getText()).toEqual('view: test2');
                         expect(selectedItemList.get(2).getText()).toEqual('view: test3');
                         expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2,test3');
+                        expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
+                        element(by.css('input.ion-autocomplete-clicked-model')).evaluate('clickedValueModel').then(function (clickedModelValue) {
+                            expect(clickedModelValue.item.name).toEqual('test3');
+                            expect(clickedModelValue.selectedItems.length).toEqual(3);
+                            expect(clickedModelValue.selectedItems[0].name).toEqual('test1');
+                            expect(clickedModelValue.selectedItems[1].name).toEqual('test2');
+                            expect(clickedModelValue.selectedItems[2].name).toEqual('test3');
+                        });
 
                         // delete the item from the selected items
                         selectedItemList.get(1).element(by.css('[ng-click="removeItem($index)"]')).click().then(function () {
@@ -138,7 +162,23 @@ describe('ion-autocomplete multiple select', function () {
                             expect(selectedItemList.get(0).getText()).toEqual('view: test1');
                             expect(selectedItemList.get(1).getText()).toEqual('view: test3');
                             expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test3');
-                        })
+                        });
+
+                        element(by.css('input.ion-autocomplete-clicked-model')).evaluate('clickedValueModel').then(function (clickedModelValue) {
+                            //  Showing result of final clicked callback
+                            expect(clickedModelValue.item.name).toEqual('test3');
+                            expect(clickedModelValue.selectedItems.length).toEqual(3);
+                            expect(clickedModelValue.selectedItems[0].name).toEqual('test1');
+                            expect(clickedModelValue.selectedItems[1].name).toEqual('test2');
+                            expect(clickedModelValue.selectedItems[2].name).toEqual('test3');
+                        });
+                        element(by.css('input.ion-autocomplete-removed-model')).evaluate('removedValueModel').then(function (removedValueModel) {
+                            //  Showing result of final removed callback
+                            expect(removedValueModel.item.name).toEqual('test2');
+                            expect(removedValueModel.selectedItems.length).toEqual(2);
+                            expect(removedValueModel.selectedItems[0].name).toEqual('test1');
+                            expect(removedValueModel.selectedItems[1].name).toEqual('test3');
+                        });
                     });
 
                 });
@@ -150,7 +190,8 @@ describe('ion-autocomplete multiple select', function () {
     it('must call the items clicked method if an item is clicked', function () {
         browser.get(htmlFileName);
 
-        expect($('input.ion-autocomplete-callback-model').evaluate('callbackValueModel')).toEqual('');
+        expect($('input.ion-autocomplete-clicked-model').evaluate('clickedValueModel')).toEqual('');
+        expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
@@ -177,12 +218,13 @@ describe('ion-autocomplete multiple select', function () {
                     expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
 
                     // expect the callback value
-                    element(by.css('input.ion-autocomplete-callback-model')).evaluate('callbackValueModel').then(function (callbackModelValue) {
-                        expect(callbackModelValue.item.name).toEqual('test2');
-                        expect(callbackModelValue.selectedItems.length).toEqual(2);
-                        expect(callbackModelValue.selectedItems[0].name).toEqual('test1');
-                        expect(callbackModelValue.selectedItems[1].name).toEqual('test2');
+                    element(by.css('input.ion-autocomplete-clicked-model')).evaluate('clickedValueModel').then(function (clickedModelValue) {
+                        expect(clickedModelValue.item.name).toEqual('test2');
+                        expect(clickedModelValue.selectedItems.length).toEqual(2);
+                        expect(clickedModelValue.selectedItems[0].name).toEqual('test1');
+                        expect(clickedModelValue.selectedItems[1].name).toEqual('test2');
                     });
+                    expect($('input.ion-autocomplete-removed-model').evaluate('removedValueModel')).toEqual('');
 
                 });
 
