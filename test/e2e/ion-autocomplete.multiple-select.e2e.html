@@ -17,7 +17,8 @@
                 .controller('IonAutocompleteController', function ($scope) {
 
                     $scope.model = "";
-                    $scope.callbackValueModel = "";
+                    $scope.clickedValueModel = "";
+                    $scope.removedValueModel = "";
 
                     $scope.getTestItems = function (query) {
                         return {
@@ -29,8 +30,11 @@
                     };
 
                     $scope.itemsClicked = function (callback) {
-                        $scope.callbackValueModel = callback;
-                    }
+                        $scope.clickedValueModel = callback;
+                    };
+                    $scope.itemsRemoved = function (callback) {
+                        $scope.removedValueModel = callback;
+                    };
                 });
     </script>
 </head>
@@ -49,7 +53,8 @@
                                   items-method-value-key="items"
                                   multiple-select="true"
                                   placeholder="Enter test query ..."
-                                  items-clicked-method="itemsClicked(callback)"/>
+                                  items-clicked-method="itemsClicked(callback)"
+                                  items-removed-method="itemsRemoved(callback)"/>
             </label>
 
             <label class="item item-input">
@@ -59,7 +64,13 @@
 
             <label class="item item-input">
                 <span class="input-label">Multiple select autocomplete clicked item callback model value</span>
-                <input type="text" class="ion-autocomplete-callback-model" ng-model="callbackValueModel"
+                <input type="text" class="ion-autocomplete-clicked-model" ng-model="clickedValueModel"
+                       autocomplete="off">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Multiple select autocomplete removed item callback model value</span>
+                <input type="text" class="ion-autocomplete-removed-model" ng-model="removedValueModel"
                        autocomplete="off">
             </label>
 

@@ -17,6 +17,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemViewValueKey: '@',
                 multipleSelect: '@',
                 itemsClickedMethod: '&',
+                itemsRemovedMethod: '&',
                 componentId: '@',
                 modelToItemMethod: '&'
             },
@@ -141,12 +142,23 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     compiledTemplate.scope.removeItem = function (index) {
                         // remove the item from the selected items and create a copy of the array to update the model.
                         // See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
-                        compiledTemplate.scope.selectedItems.splice(index, 1);
+                        var removed = compiledTemplate.scope.selectedItems.splice(index, 1)[0];
                         compiledTemplate.scope.selectedItems = compiledTemplate.scope.selectedItems.slice();
 
                         // set the view value and render it
                         ngModel.$setViewValue(compiledTemplate.scope.selectedItems);
                         ngModel.$render();
+
+                        // call items clicked callback
+                        if (angular.isFunction(compiledTemplate.scope.itemsRemovedMethod)) {
+                            compiledTemplate.scope.itemsRemovedMethod({
+                                callback: {
+                                    item: removed,
+                                    selectedItems: compiledTemplate.scope.selectedItems.slice(),
+                                    componentId: compiledTemplate.scope.componentId
+                                }
+                            });
+                        }
                     };
 
                     // watcher on the search field model to update the list according to the input
