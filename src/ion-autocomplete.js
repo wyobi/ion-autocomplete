@@ -142,10 +142,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     compiledTemplate.scope.removeItem = function (index) {
                         // remove the item from the selected items and create a copy of the array to update the model.
                         // See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
-                        var removed = compiledTemplate.scope.selectedItems.splice(index, 1);
-                        if(removed) {
-                            removed = removed[0];
-                        }
+                        var removed = compiledTemplate.scope.selectedItems.splice(index, 1)[0];
                         compiledTemplate.scope.selectedItems = compiledTemplate.scope.selectedItems.slice();
 
                         // set the view value and render it
