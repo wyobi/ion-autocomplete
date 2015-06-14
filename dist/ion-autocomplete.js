@@ -236,6 +236,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // store the start coordinates of the touch start event
                     var onTouchStart = function (e) {
                         scrolling.moved = false;
+                        // Use originalEvent when available, fix compatibility with jQuery
                         if (typeof(e.originalEvent) !== 'undefined') {
                             e = e.originalEvent;
                         }
@@ -245,6 +246,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // check if the finger moves more than 10px and set the moved flag to true
                     var onTouchMove = function (e) {
+                        // Use originalEvent when available, fix compatibility with jQuery
                         if (typeof(e.originalEvent) !== 'undefined') {
                             e = e.originalEvent;
                         }
