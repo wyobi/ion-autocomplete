@@ -9,6 +9,10 @@
 
 * Add new `model-to-item-method` to be able to prepopulate the model. (See issue [#25](https://github.com/guylabs/ion-autocomplete/issues/25))
 
+### Migration notes
+
+* The query can now also be empty in the `items-method` and this could change the logic in your `items-method`. Please check [#38](https://github.com/guylabs/ion-autocomplete/issues/38) for more information.
+
 ## Version 0.2.2
 
 * Tag: [0.2.2](https://github.com/guylabs/ion-autocomplete/tree/v0.2.2)

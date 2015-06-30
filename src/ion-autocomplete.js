@@ -169,7 +169,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             compiledTemplate.scope.items = [];
                         }
 
-                        if (query && angular.isFunction(compiledTemplate.scope.itemsMethod)) {
+                        if (angular.isFunction(compiledTemplate.scope.itemsMethod)) {
 
                             var queryObject = {query: query};
 

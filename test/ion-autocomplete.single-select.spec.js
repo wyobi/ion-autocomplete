@@ -163,25 +163,31 @@ describe('ion-autocomplete single select', function () {
         expect(itemValue).toBe("value1");
     });
 
-    it('must not call the items method if the passed query is undefined', function () {
-        scope.itemsMethod = jasmine.createSpy("itemsMethod");
+    it('must call the items method if the passed query is undefined', function () {
+        scope.itemsMethod = function (query) {
+            return ['item'];
+        };
+        spyOn(scope, 'itemsMethod').and.callThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(0);
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(element.isolateScope().items.length).toBe(1);
     });
 
-    it('must not call the items method if the passed query is empty', function () {
-        scope.itemsMethod = jasmine.createSpy("itemsMethod");
+    it('must call the items method if the passed query is empty', function () {
+        scope.itemsMethod = function (query) {
+            return ['item'];
+        };
+        spyOn(scope, 'itemsMethod').and.callThrough();
         var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
 
         element.isolateScope().searchQuery = "";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(0);
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(element.isolateScope().items.length).toBe(1);
     });
 
     it('must call the items method if the passed query is valid', function () {
@@ -194,7 +200,7 @@ describe('ion-autocomplete single select', function () {
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(2);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(2);
         expect(element.isolateScope().items).toEqual(['asd', 'item2']);
@@ -210,7 +216,7 @@ describe('ion-autocomplete single select', function () {
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(2);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd", "compId");
         expect(element.isolateScope().items.length).toBe(3);
         expect(element.isolateScope().items).toEqual(['asd', 'compId', 'item2']);
@@ -228,7 +234,7 @@ describe('ion-autocomplete single select', function () {
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(2);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(0);
 
@@ -257,7 +263,7 @@ describe('ion-autocomplete single select', function () {
         element.isolateScope().searchQuery = "asd";
         element.isolateScope().$digest();
 
-        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(2);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(0);
 
@@ -282,7 +288,7 @@ describe('ion-autocomplete single select', function () {
         element.isolateScope().$digest();
 
         // assert that the items method is called once and that the list is still empty as the promise is not resolved yet
-        expect(scope.itemsMethod.calls.count()).toBe(1);
+        expect(scope.itemsMethod.calls.count()).toBe(2);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
         expect(element.isolateScope().items.length).toBe(0);
 
