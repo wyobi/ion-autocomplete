@@ -162,7 +162,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }
                     };
 
-                    var onSearchQuery = function (query) {
+                    // watcher on the search field model to update the list according to the input
+                    compiledTemplate.scope.$watch('searchQuery', function (query) {
 
                         // if the search query is empty, clear the items
                         if (query == '') {
@@ -200,10 +201,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                                 return $q.reject(error);
                             });
                         }
-                    };
-
-                    // watcher on the search field model to update the list according to the input
-                    compiledTemplate.scope.$watch('searchQuery', onSearchQuery);
+                    });
 
                     var displaySearchContainer = function () {
                         $ionicBackdrop.retain();
@@ -271,8 +269,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             }, 0);
                         }
 
-                        // call the onSearchQuery function to fix a layout issue when the dialog is opened. See #38.
-                        onSearchQuery();
+                        // force the collection repeat to redraw itself as there were issues when the first items were added
+                        $ionicScrollDelegate.resize();
                     };
 
                     var isKeyValueInObjectArray = function (objectArray, key, value) {
