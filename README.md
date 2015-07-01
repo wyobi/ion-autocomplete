@@ -29,6 +29,7 @@ ion-autocomplete
         - [Select items label](#select-items-label)
         - [Selected items label](#selected-items-label)
         - [Template url](#template-url)
+        - [Template data](#template-data)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -367,6 +368,29 @@ and then add your custom additions to it.
 > because changing this could make the component unusable.
 
 The template itself will be loaded with the `$ionicTemplateLoader` and this will also use the Angular `$templateCache`.
+
+### Template data
+
+If you change the template with the `template-url` and want to pass in additional data then you are able to set 
+the `template-data` attribute on the directive. If you for example have a `templateData.testData` expression in your own 
+template like this:
+```html
+...
+<div>{{templateData.testData}}</div>
+...
+```
+Then you need to set the proper object on your Angular scope the following way:
+```javascript
+$scope.templateData = {
+    testData: "test-data"
+};
+```
+And now you just need to add the `templateData` attribute on the directive:
+```html
+<ion-autocomplete ng-model="model" template-data="templateData" />`
+```
+
+Then the expression in your template gets resolved properly.
 
 ## Using expressions in value keys
 

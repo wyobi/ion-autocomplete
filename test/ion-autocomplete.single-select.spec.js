@@ -3,11 +3,12 @@
 describe('ion-autocomplete single select', function () {
 
     var templateUrl = 'test/templates/test-template.html';
+    var templateDataUrl = 'test/templates/test-template-data.html';
 
     var scope, document, compile, q, templateCache;
 
     // load the directive's module
-    beforeEach(module('ionic', 'ion-autocomplete', templateUrl));
+    beforeEach(module('ionic', 'ion-autocomplete', templateUrl, templateDataUrl));
 
     beforeEach(inject(function ($rootScope, $document, $compile, $q, $templateCache) {
         scope = $rootScope.$new();
@@ -338,7 +339,7 @@ describe('ion-autocomplete single select', function () {
         var template = templateCache.get(templateUrl);
         templateCache.put(templateUrl, template);
 
-        var placeholder = "placeholder text"
+        var placeholder = "placeholder text";
         var element = compileElement('<ion-autocomplete ng-model="model" template-url="' + templateUrl + '" placeholder="' + placeholder + '"/>');
 
         // click on the element
@@ -349,6 +350,26 @@ describe('ion-autocomplete single select', function () {
         expect(angular.element(document[0].querySelector('div#test-template-div')).css('display')).toBe('block');
         expect(angular.element(document[0].querySelector('div#test-template-div'))[0].innerText).toBe(placeholder);
     });
+
+    it('must be able to set a templateData', function () {
+        var template = templateCache.get(templateDataUrl);
+        templateCache.removeAll();
+        templateCache.put(templateDataUrl, template);
+
+        scope.templateData = {
+            testData: "test-data"
+        };
+        var element = compileElement('<ion-autocomplete ng-model="model" template-url="' + templateDataUrl + '" template-data="templateData"/>');
+
+        // click on the element
+        element.triggerHandler('click');
+        element.isolateScope().$digest();
+
+        // check that the new test template is shown
+        expect(angular.element(document[0].querySelector('div#test-template-data')).css('display')).toBe('block');
+        expect(angular.element(document[0].querySelector('div#test-template-data'))[0].innerText).toBe(scope.templateData.testData);
+    });
+
 
     /**
      * Compiles the given element and executes a digest cycle on the scope.

@@ -11,6 +11,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 selectItemsLabel: '@',
                 selectedItemsLabel: '@',
                 templateUrl: '@',
+                templateData: '=',
                 itemsMethod: '&',
                 itemsMethodValueKey: '@',
                 itemValueKey: '@',
