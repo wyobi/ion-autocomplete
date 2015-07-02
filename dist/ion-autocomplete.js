@@ -30,7 +30,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsClickedMethod: '&',
                 itemsRemovedMethod: '&',
                 componentId: '@',
-                modelToItemMethod: '&'
+                modelToItemMethod: '&',
+                loadingIcon: '@'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -43,6 +44,10 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 scope.selectItemsLabel = !scope.selectItemsLabel ? 'Select an item...' : scope.selectItemsLabel;
                 scope.selectedItemsLabel = !scope.selectedItemsLabel ? 'Selected items:' : scope.selectedItemsLabel;
                 scope.templateUrl = !scope.templateUrl ? '' : scope.templateUrl;
+                scope.loadingIcon = !scope.loadingIcon ? '' : scope.loadingIcon;
+
+                // loading flag if the items-method is a function
+                scope.showLoadingIcon = false;
 
                 // the items, selected items and the query for the list
                 scope.items = [];
@@ -79,6 +84,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<i class="icon ion-search placeholder-icon"></i>',
                     '<input type="search" class="ion-autocomplete-search" ng-model="searchQuery" placeholder="{{placeholder}}"/>',
                     '</label>',
+                    '<div class="ion-autocomplete-loading-icon" ng-if="showLoadingIcon && loadingIcon"><ion-spinner icon="{{loadingIcon}}"></ion-spinner></div>',
                     '<button class="ion-autocomplete-cancel button button-clear">{{cancelLabel}}</button>',
                     '</div>',
                     '<ion-content class="has-header has-header">',
@@ -187,6 +193,9 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                         if (angular.isFunction(compiledTemplate.scope.itemsMethod)) {
 
+                            // show the loading icon
+                            compiledTemplate.scope.showLoadingIcon = true;
+
                             var queryObject = {query: query};
 
                             // if the component id is set, then add it to the query object
@@ -211,6 +220,9 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                                 // force the collection repeat to redraw itself as there were issues when the first items were added
                                 $ionicScrollDelegate.resize();
+
+                                // hide the loading icon
+                                compiledTemplate.scope.showLoadingIcon = false;
                             }, function (error) {
                                 // reject the error because we do not handle the error here
                                 return $q.reject(error);

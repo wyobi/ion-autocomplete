@@ -30,6 +30,7 @@ ion-autocomplete
         - [Selected items label](#selected-items-label)
         - [Template url](#template-url)
         - [Template data](#template-data)
+        - [Loading icon](#loading-icon)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -391,6 +392,12 @@ And now you just need to add the `templateData` attribute on the directive:
 ```
 
 Then the expression in your template gets resolved properly.
+
+### Loading icon
+
+If you want to display a loading icon when the `items-method` promise gets resolved then you need to set the `loading-icon` 
+attribute to a value given by the Ionic spinner: http://ionicframework.com/docs/api/directive/ionSpinner. Then the spinner should 
+be shown at the right side of the search input field. 
 
 ## Using expressions in value keys
 
