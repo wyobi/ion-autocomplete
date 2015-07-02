@@ -37,7 +37,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // the items, selected items and the query for the list
                 scope.items = [];
                 scope.selectedItems = [];
-                scope.searchQuery = '';
+                scope.searchQuery = undefined;
 
                 // returns the value of an item
                 scope.getItemValue = function (item, key) {
@@ -104,7 +104,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                         // clear the items and the search query
                         compiledTemplate.scope.items = [];
-                        compiledTemplate.scope.searchQuery = '';
+                        compiledTemplate.scope.searchQuery = undefined;
 
                         // if multiple select is on store the selected items
                         if (compiledTemplate.scope.multipleSelect === "true") {
@@ -164,6 +164,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // watcher on the search field model to update the list according to the input
                     compiledTemplate.scope.$watch('searchQuery', function (query) {
+
+                        // right away return if the query is undefined to not call the items method for nothing
+                        if(query === undefined) {
+                            return;
+                        }
 
                         // if the search query is empty, clear the items
                         if (query == '') {
@@ -305,7 +310,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // cancel handler for the cancel button which clears the search input field model and hides the
                     // search container and the ionic backdrop
                     compiledTemplate.element.find('button').bind('click', function (event) {
-                        compiledTemplate.scope.searchQuery = '';
+                        compiledTemplate.scope.searchQuery = undefined;
                         hideSearchContainer();
                     });
 
