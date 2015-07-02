@@ -326,8 +326,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // bind the handlers to the click and touch events of the input field
                     element.bind('touchstart', onTouchStart);
                     element.bind('touchmove', onTouchMove);
-                    element.bind('touchend', onClick);
-                    element.bind('click', onClick);
+                    element.bind('touchend click focus', onClick);
 
                     // cancel handler for the cancel button which clears the search input field model and hides the
                     // search container and the ionic backdrop
