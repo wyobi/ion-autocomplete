@@ -8,6 +8,15 @@
 ### Changes
 
 * Add new `model-to-item-method` to be able to prepopulate the model. (See issue [#25](https://github.com/guylabs/ion-autocomplete/issues/25))
+* Fixed issue 'Feature: Loading icon' - [#12](https://github.com/guylabs/ion-autocomplete/issues/12).
+* Fixed issue 'Bug: Cannot pass in pre-populated model' - [#25](https://github.com/guylabs/ion-autocomplete/issues/25).
+* Fixed issue 'Bug: $http promise not working' - [#27](https://github.com/guylabs/ion-autocomplete/issues/27).
+* Fixed issue 'Bug: Item list from variable won't show first time you start typing' - [#30](https://github.com/guylabs/ion-autocomplete/issues/30).
+* Fixed issue 'Feature: No callback when items removed' - [#32](https://github.com/guylabs/ion-autocomplete/issues/32).
+* Fixed issue 'Bug: JS error when using with jQuery' - [#34](https://github.com/guylabs/ion-autocomplete/issues/34).
+* Fixed issue 'Feature: Display all items if query is empty' - [#38](https://github.com/guylabs/ion-autocomplete/issues/38).
+* Fixed issue 'Feature: Ability to pass in arbitrary data to pass to the template' - [#39](https://github.com/guylabs/ion-autocomplete/issues/39).
+* Fixed issue 'Feature: Autocomplete box should open on <tab> as well as click' - [#43](https://github.com/guylabs/ion-autocomplete/issues/43).
 
 ### Migration notes
 
