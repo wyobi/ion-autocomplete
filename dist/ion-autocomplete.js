@@ -230,18 +230,25 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }
                     });
 
+                    var searchContainerDisplayed = false;
+
                     var displaySearchContainer = function () {
+                        if (searchContainerDisplayed) {
+                          return;
+                        }
                         $ionicBackdrop.retain();
                         compiledTemplate.element.css('display', 'block');
                         scope.$deregisterBackButton = $ionicPlatform.registerBackButtonAction(function () {
                             hideSearchContainer();
                         }, 300);
+                        searchContainerDisplayed = true;
                     };
 
                     var hideSearchContainer = function () {
                         compiledTemplate.element.css('display', 'none');
                         $ionicBackdrop.release();
                         scope.$deregisterBackButton && scope.$deregisterBackButton();
+                        searchContainerDisplayed = false;
                     };
 
                     // object to store if the user moved the finger to prevent opening the modal
