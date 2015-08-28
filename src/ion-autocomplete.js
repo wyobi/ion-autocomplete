@@ -290,7 +290,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             searchInputElement[0].focus();
                             setTimeout(function () {
                                 searchInputElement[0].focus();
-                            }, 0);
+                            }, 100);
                         }
 
                         // force the collection repeat to redraw itself as there were issues when the first items were added
