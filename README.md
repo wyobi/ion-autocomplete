@@ -22,6 +22,7 @@ ion-autocomplete
         - [The `item-view-value-key`](#the-item-view-value-key)
         - [The `multiple-select`](#the-multiple-select)
         - [The `items-clicked-method`](#the-items-clicked-method)
+        - [The `items-removed-method'](#the-items-removed-method)
         - [The `model-to-item-method`](#the-model-to-item-method)
         - [ComponentId](#component-id)
         - [Placeholder](#placeholder)
