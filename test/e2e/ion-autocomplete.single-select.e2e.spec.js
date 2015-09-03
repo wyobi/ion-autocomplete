@@ -37,7 +37,7 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
             expectCollectionRepeatCount(itemList, 3);
             expect(itemList.get(0).getText()).toEqual('view: test1');
             expect(itemList.get(1).getText()).toEqual('view: test2');
@@ -54,7 +54,7 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
             expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();
@@ -75,7 +75,7 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
             expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();

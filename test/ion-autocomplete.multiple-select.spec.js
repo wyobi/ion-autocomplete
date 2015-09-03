@@ -23,34 +23,34 @@ describe('ion-autocomplete multiple select', function () {
 
     it('must set the cancel label on the button', function () {
         var cancelLabelValue = "Done";
-        compileElement('<ion-autocomplete ng-model="model" multiple-select="true"/>');
+        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true"/>');
 
         expect(getCancelButtonElement()[0].innerText).toBe(cancelLabelValue);
     });
 
     it('must set the selectItems label', function () {
         var selectItemLabelValue = "select-item";
-        compileElement('<ion-autocomplete ng-model="model" select-items-label="' + selectItemLabelValue + '"/>');
+        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" select-items-label="' + selectItemLabelValue + '"/>');
 
         expect(getItemDividerElement(1)[0].innerText).toBe(selectItemLabelValue);
     });
 
     it('must set the selectedItemsLabel label', function () {
         var selectedItemLabelValue = "selected-items";
-        compileElement('<ion-autocomplete ng-model="model" selected-items-label="' + selectedItemLabelValue + '"/>');
+        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" selected-items-label="' + selectedItemLabelValue + '"/>');
 
         expect(getItemDividerElement(0)[0].innerText).toBe(selectedItemLabelValue);
     });
 
     it('must hide/show the selectItems label if the items size changes', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model" multiple-select="true"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true"/>');
 
         // expect that the search container has no display css attribute set
-        expect(getSearchContainerElement().css('display')).toBe('');
+        expect(getSearchContainerElement().css('display')).toBe('none');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('block');
@@ -59,22 +59,22 @@ describe('ion-autocomplete multiple select', function () {
         expect(getItemDividerElement(1).hasClass('ng-hide')).toBeTruthy();
 
         // add some items
-        element.isolateScope().items = ["value1", "value2"];
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').items = ["value1", "value2"];
+        scope.$digest();
 
         // expect that the selectItems divider is shown
         expect(getItemDividerElement(1).hasClass('ng-hide')).toBeFalsy();
     });
 
     it('must hide/show the selectedItems label if the items size changes', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model" multiple-select="true"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true"/>');
 
         // expect that the search container has no display css attribute set
-        expect(getSearchContainerElement().css('display')).toBe('');
+        expect(getSearchContainerElement().css('display')).toBe('none');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('block');
@@ -83,22 +83,22 @@ describe('ion-autocomplete multiple select', function () {
         expect(getItemDividerElement(0).hasClass('ng-hide')).toBeTruthy();
 
         // add some selectedItems
-        element.isolateScope().selectedItems = ["value3", "value4"];
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').selectedItems = ["value3", "value4"];
+        scope.$digest();
 
         // expect that the selectedItems divider is shown
         expect(getItemDividerElement(0).hasClass('ng-hide')).toBeFalsy();
     });
 
     it('must hide the search container when the cancel field is clicked', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model" multiple-select="true"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true"/>');
 
         // expect that the search container has no display css attribute set
-        expect(getSearchContainerElement().css('display')).toBe('');
+        expect(getSearchContainerElement().css('display')).toBe('none');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('block');
@@ -106,7 +106,7 @@ describe('ion-autocomplete multiple select', function () {
         // click on the cancel button
         var cancelButtonElement = getCancelButtonElement();
         cancelButtonElement.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('none');

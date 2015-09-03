@@ -25,26 +25,8 @@ describe('ion-autocomplete single select', function () {
         angular.element(document[0].querySelector('div.test-template-div')).remove();
     });
 
-    it('must not initialize anything if the ng-model is not set on element directive', function () {
-        compileElement('<ion-autocomplete />');
-
-        // expect that no element is added to the body
-        expect(getSearchContainerElement().length).toBe(0);
-        expect(getSearchInputElement().length).toBe(0);
-        expect(getCancelButtonElement().length).toBe(0);
-    });
-
-    it('must not initialize anything if the ng-model is not set on attribute directive', function () {
-        compileElement('<input ion-autocomplete type="text" class="ion-autocomplete" />');
-
-        // expect that no element is added to the body
-        expect(getSearchContainerElement().length).toBe(0);
-        expect(getSearchInputElement().length).toBe(0);
-        expect(getCancelButtonElement().length).toBe(0);
-    });
-
     it('must have the default values set on element directive', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
         // expect the default values of the input field
         expect(element[0].type).toBe('text');
@@ -52,7 +34,7 @@ describe('ion-autocomplete single select', function () {
         expect(element.hasClass('ion-autocomplete')).toBe(true);
         expect(element[0].placeholder).toBe('');
 
-        // expect the default values of the search input field
+        // expect the default values of the search input fields
         var searchInputElement = getSearchInputElement();
         expect(searchInputElement[0].type).toBe('search');
         expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
@@ -78,7 +60,7 @@ describe('ion-autocomplete single select', function () {
         var searchInputElement = getSearchInputElement();
         expect(searchInputElement[0].type).toBe('search');
         expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
-        expect(searchInputElement[0].placeholder).toBe('Click to enter a value...');
+        expect(searchInputElement.attr('placeholder')).toBe('Click to enter a value...');
 
         // expect the placeholder icon element to no be platform dependent
         var placeholderIcon = getPlaceholderIconElement();
@@ -88,11 +70,11 @@ describe('ion-autocomplete single select', function () {
         var cancelButtonElement = getCancelButtonElement();
         expect(cancelButtonElement.hasClass('button')).toBe(true);
         expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
-        expect(cancelButtonElement[0].innerText).toBe('Cancel');
+        expect(cancelButtonElement.text()).toBe('Cancel');
     });
 
     it('must show no value in the input field if the model is not defined', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
         // expect the value of the input field to be empty
         expect(element[0].value).toBe('');
@@ -100,7 +82,7 @@ describe('ion-autocomplete single select', function () {
 
     it('must show the value in the input field if the model is already defined', function () {
         scope.model = "123";
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
         // expect the value of the input field to be already set
         expect(element[0].value).toBe('123');
@@ -108,7 +90,7 @@ describe('ion-autocomplete single select', function () {
 
     it('must show the itemViewValueKey of the value in the input field if the model is already defined', function () {
         scope.model = {key: {value: "value1"}};
-        var element = compileElement('<ion-autocomplete ng-model="model" item-view-value-key="key.value" />');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" />');
 
         // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
         expect(element[0].value).toBe('value1');
@@ -116,7 +98,7 @@ describe('ion-autocomplete single select', function () {
 
     it('must not show any value if the model is cleared', function () {
         scope.model = {key: {value: "value1"}};
-        var element = compileElement('<ion-autocomplete ng-model="model" item-view-value-key="key.value" />');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" />');
 
         // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
         expect(element[0].value).toBe('value1');
@@ -131,7 +113,7 @@ describe('ion-autocomplete single select', function () {
 
     it('must set the placeholder on the input field and on the search input field', function () {
         var placeholderValue = "placeholder value";
-        var element = compileElement('<ion-autocomplete ng-model="model" placeholder="' + placeholderValue + '"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" placeholder="' + placeholderValue + '"/>');
 
         expect(element[0].placeholder).toBe(placeholderValue);
         expect(getSearchInputElement()[0].placeholder).toBe(placeholderValue);
@@ -139,28 +121,28 @@ describe('ion-autocomplete single select', function () {
 
     it('must set the cancel label on the button', function () {
         var cancelLabelValue = "Cancel Button";
-        compileElement('<ion-autocomplete ng-model="model" cancel-label="' + cancelLabelValue + '"/>');
+        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" cancel-label="' + cancelLabelValue + '"/>');
 
         expect(getCancelButtonElement()[0].innerText).toBe(cancelLabelValue);
     });
 
     it('must get the proper item value', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
-        var itemValue = element.isolateScope().getItemValue("no-object");
+        var itemValue = element.controller('ionAutocomplete').getItemValue("no-object");
         expect(itemValue).toBe("no-object");
 
-        itemValue = element.isolateScope().getItemValue({key: "value"}, "key");
+        itemValue = element.controller('ionAutocomplete').getItemValue({key: "value"}, "key");
         expect(itemValue).toBe("value");
 
-        itemValue = element.isolateScope().getItemValue({key: "value"});
+        itemValue = element.controller('ionAutocomplete').getItemValue({key: "value"});
         expect(itemValue).toEqual({key: "value"});
     });
 
     it('must get the proper item value with expressions', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
-        var itemValue = element.isolateScope().getItemValue({key: {value: "value1"}}, "key.value");
+        var itemValue = element.controller('ionAutocomplete').getItemValue({key: {value: "value1"}}, "key.value");
         expect(itemValue).toBe("value1");
     });
 
@@ -169,12 +151,12 @@ describe('ion-autocomplete single select', function () {
             return ['item'];
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)"/>');
 
-        element.isolateScope().$digest();
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(0);
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').items.length).toBe(0);
     });
 
     it('must call the items method if the passed query is empty', function () {
@@ -182,13 +164,13 @@ describe('ion-autocomplete single select', function () {
             return ['item'];
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)"/>');
 
-        element.isolateScope().searchQuery = "";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "";
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
-        expect(element.isolateScope().items.length).toBe(1);
+        expect(element.controller('ionAutocomplete').items.length).toBe(1);
     });
 
     it('must call the items method if the passed query is valid', function () {
@@ -196,15 +178,15 @@ describe('ion-autocomplete single select', function () {
             return [query, 'item2'];
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)"/>');
 
-        element.isolateScope().searchQuery = "asd";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "asd";
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.isolateScope().items.length).toBe(2);
-        expect(element.isolateScope().items).toEqual(['asd', 'item2']);
+        expect(element.controller('ionAutocomplete').items.length).toBe(2);
+        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'item2']);
     });
 
     it('must call the items method if the passed query is valid and the componentId is set', function () {
@@ -212,15 +194,15 @@ describe('ion-autocomplete single select', function () {
             return [query, componentId, 'item2'];
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query, componentId)" component-id="compId"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query, componentId)" component-id="compId"/>');
 
-        element.isolateScope().searchQuery = "asd";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "asd";
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd", "compId");
-        expect(element.isolateScope().items.length).toBe(3);
-        expect(element.isolateScope().items).toEqual(['asd', 'compId', 'item2']);
+        expect(element.controller('ionAutocomplete').items.length).toBe(3);
+        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'compId', 'item2']);
     });
 
     it('must call the items method promise if the passed query is valid', function () {
@@ -230,21 +212,21 @@ describe('ion-autocomplete single select', function () {
             return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)"/>');
 
-        element.isolateScope().searchQuery = "asd";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "asd";
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').items.length).toBe(0);
 
         // resolve the promise
         deferred.resolve(['asd', 'item2']);
-        element.isolateScope().$digest();
+        scope.$digest();
 
-        expect(element.isolateScope().items.length).toBe(2);
-        expect(element.isolateScope().items).toEqual(['asd', 'item2']);
+        expect(element.controller('ionAutocomplete').items.length).toBe(2);
+        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'item2']);
     });
 
     it('must forward the items method promise error', function () {
@@ -259,18 +241,18 @@ describe('ion-autocomplete single select', function () {
             return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)"/>');
 
-        element.isolateScope().searchQuery = "asd";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "asd";
+        scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').items.length).toBe(0);
 
         // resolve the promise
         deferred.reject('error');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         expect(errorFunction.calls.count()).toBe(1);
     });
@@ -282,46 +264,46 @@ describe('ion-autocomplete single select', function () {
             return deferred.promise;
         };
         spyOn(scope, 'itemsMethod').and.callThrough();
-        var element = compileElement('<ion-autocomplete ng-model="model" items-method="itemsMethod(query)" item-value-key="name" item-view-value-key="view" />');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="itemsMethod(query)" item-value-key="name" item-view-value-key="view" />');
 
         // add a text to the search query and execute a digest call
-        element.isolateScope().searchQuery = "asd";
-        element.isolateScope().$digest();
+        element.controller('ionAutocomplete').searchQuery = "asd";
+        scope.$digest();
 
         // assert that the items method is called once and that the list is still empty as the promise is not resolved yet
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.isolateScope().items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').items.length).toBe(0);
 
         // resolve the promise and expect that the list has two items
         deferred.resolve({data: [{name: "name", view: "view"}, {name: "name1", view: "view1"}]});
-        element.isolateScope().$digest();
-        expect(element.isolateScope().items.length).toBe(2);
+        scope.$digest();
+        expect(element.controller('ionAutocomplete').items.length).toBe(2);
     });
 
     it('must show the search container when the input field is clicked', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
         // expect that the search container has no display css attribute set
-        expect(getSearchContainerElement().css('display')).toBe('');
+        expect(getSearchContainerElement().css('display')).toBe('none');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('block');
     });
 
     it('must hide the search container when the cancel field is clicked', function () {
-        var element = compileElement('<ion-autocomplete ng-model="model"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
 
         // expect that the search container has no display css attribute set
-        expect(getSearchContainerElement().css('display')).toBe('');
+        expect(getSearchContainerElement().css('display')).toBe('none');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('block');
@@ -329,7 +311,7 @@ describe('ion-autocomplete single select', function () {
         // click on the cancel button
         var cancelButtonElement = getCancelButtonElement();
         cancelButtonElement.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // expect that the search container has block set as display css attribute
         expect(getSearchContainerElement().css('display')).toBe('none');
@@ -340,11 +322,11 @@ describe('ion-autocomplete single select', function () {
         templateCache.put(templateUrl, template);
 
         var placeholder = "placeholder text";
-        var element = compileElement('<ion-autocomplete ng-model="model" template-url="' + templateUrl + '" placeholder="' + placeholder + '"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-url="' + templateUrl + '" placeholder="' + placeholder + '"/>');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // check that the new test template is shown
         expect(angular.element(document[0].querySelector('div#test-template-div')).css('display')).toBe('block');
@@ -359,17 +341,16 @@ describe('ion-autocomplete single select', function () {
         scope.templateData = {
             testData: "test-data"
         };
-        var element = compileElement('<ion-autocomplete ng-model="model" template-url="' + templateDataUrl + '" template-data="templateData"/>');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-url="' + templateDataUrl + '" template-data="templateData"/>');
 
         // click on the element
         element.triggerHandler('click');
-        element.isolateScope().$digest();
+        scope.$digest();
 
         // check that the new test template is shown
         expect(angular.element(document[0].querySelector('div#test-template-data')).css('display')).toBe('block');
         expect(angular.element(document[0].querySelector('div#test-template-data'))[0].innerText).toBe(scope.templateData.testData);
     });
-
 
     /**
      * Compiles the given element and executes a digest cycle on the scope.

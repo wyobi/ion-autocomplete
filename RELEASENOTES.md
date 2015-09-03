@@ -1,5 +1,23 @@
 # Release notes of ion-autocomplete
 
+## Version 0.3.0
+
+* Tag: [0.3.0](https://github.com/guylabs/ion-autocomplete/tree/v0.3.0)
+* Release: [ion-autocomplete-0.3.0.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.3.0.zip)
+
+### Changes
+
+* Upgraded to Ionic 1.1.0 and Angular 1.4.3.
+* Fixed an issue with multiple `ion-autocomplete` directives on one page.
+* Prepared for Angular 2.0.
+* Upgraded project to use newest libraries.
+
+### Migration notes
+
+* As of version 0.3.0 the component does not support the element restriction anymore, such that you are just able to 
+use the attribute restriction on all your elements. This means that you need to convert all `<ion-autocomplete ... />` 
+ tags to the following tag: `<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ... />`
+
 ## Version 0.2.3
 
 * Tag: [0.2.3](https://github.com/guylabs/ion-autocomplete/tree/v0.2.3)

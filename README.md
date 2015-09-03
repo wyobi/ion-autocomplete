@@ -84,24 +84,19 @@ ion-autocomplete version | Ionic version
 ------------------------ | -------------
 0.0.2 - 0.1.2 | 1.0.0-beta.14
 0.2.0 - 0.2.1 | 1.0.0-rc.3
-0.2.2 - latest | 1.0.0
+0.2.2 - 0.2.3 | 1.0.0
+0.3.0 - latest | 1.1.0
 
 # Usage
 
 To use the `ion-autocomplete` directive in single select mode you need to add the following snippet to your template:
 ```html
-// usage with the element restriction
-<ion-autocomplete ng-model="model" />
-
 //usage with the attribute restriction
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />
 ```
 
 If you want to use it in multiple select mode you need to add the following snippet to your template: 
 ```html
-// usage with the element restriction
-<ion-autocomplete ng-model="model" multiple-select="true" />
-
 //usage with the attribute restriction
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" multiple-select="true" />
 ```
@@ -125,7 +120,7 @@ $scope.callbackMethod = function (query) {
 
 And set the items method on the directive:
 ```html
-<ion-autocomplete ng-model="model" items-method="callbackMethod(query)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="callbackMethod(query)" />
 ```
 
 You are also able to return a promise from this callback method. For example:
@@ -184,7 +179,7 @@ The items method returns the following object:
 
 And now you set the following `item-value-key`:
 ```html
-<ion-autocomplete ng-model="model" item-value-key="id" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-value-key="id" />
 ```
 
 Now when the user selects the `Item 1` from the list, then the value of the objects `id` is stored in the `ng-model`. If
@@ -209,7 +204,7 @@ The `items-method` returns the following object:
 
 And now you set the following `item-view-value-key`:
 ```html
-<ion-autocomplete ng-model="model" item-view-value-key="name" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="name" />
 ```
 
 Now when the user selects the `Item 1` from the list, then the value of the objects `name` is showed in both input fields. If
@@ -219,7 +214,7 @@ no `item-view-value-key` is passed into the directive, the whole item object wil
 
 You are able to set the `multiple-select` attribute to `true` to enable the multiple select feature. Here an example:
 ```html
-<ion-autocomplete ng-model="model" multiple-select="true" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true" />
 ```
 
 Then the user is able to select multiple items out of the returned items and also delete them again. The given `ng-model` is an 
@@ -246,7 +241,7 @@ $scope.clickedMethod = function (callback) {
 
 And pass in the callback method in the directive:
 ```html
-<ion-autocomplete ng-model="model" items-clicked-method="clickedMethod(callback)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-clicked-method="clickedMethod(callback)" />
 ```
 
 Then you get a callback object with the clicked/selected item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
@@ -274,7 +269,7 @@ $scope.removedMethod = function (callback) {
 
 And pass in the callback method in the directive:
 ```html
-<ion-autocomplete ng-model="model" items-removed-method="removedMethod(callback)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-removed-method="removedMethod(callback)" />
 ```
 
 Then you get a callback object with the removed item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
@@ -299,7 +294,7 @@ $scope.modelToItemMethod = function (modelValue) {
 
 And set the `model-to-item-method` on the directive:
 ```html
-<ion-autocomplete ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />
 ```
 
 You are also able to return a promise from this callback method. For example:
@@ -317,7 +312,7 @@ The component id is an attribute on the `ion-autocomplete` component which sets 
 the callback object of the [`items-clicked-method`](#the-items-clicked-method) and as a second parameter of the [`items-method`](#the-items-method).
 Here an example:
 ```html
-<ion-autocomplete ng-model="model" component-id="component1" />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" component-id="component1" />`
 ```
 
 You are able to set this is on each component if you have multiple components built up in a ng-repeat where you do not want to have multiple `items-method` 
@@ -329,35 +324,35 @@ need to define one callback method and you can distinguish the calls with the `c
 You are also able to set the placeholder on the input field and on the search input field if you add the `placeholder`
 attribute to the directive:
 ```html
-<ion-autocomplete ng-model="model" placeholder="Enter the query to search for ..." />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" placeholder="Enter the query to search for ..." />`
 ```
 
 ### Cancel button label
 
 You are also able to set the cancel button label (defaults to `Cancel`) if you add the `cancel-label` attribute to the directive:
 ```html
-<ion-autocomplete ng-model="model" cancel-label="Go back" />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" cancel-label="Go back" />`
 ```
 
 ### Select items label
 
 You are also able to set the select items label (defaults to `Select an item...`) if you add the `select-items-label` attribute to the directive:
 ```html
-<ion-autocomplete ng-model="model" select-items-label="Select your items..." />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" select-items-label="Select your items..." />`
 ```
 
 ### Selected items label
 
 You are also able to set the selected items label (defaults to `Selected items:`) if you add the `selected-items-label` attribute to the directive:
 ```html
-<ion-autocomplete ng-model="model" selected-items-label="Selected:" />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" selected-items-label="Selected:" />`
 ```
 
 ### Template url
 
 You are also able to set an own template for the autocomplete component (defaults to `''`) if you add the `template-url` attribute to the directive:
 ```html
-<ion-autocomplete ng-model="model" template-url="templates/template.html" />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-url="templates/template.html" />`
 ```
 
 This way you are able to override the default template (the `searchContainerTemplate` variable [here](https://github.com/guylabs/ion-autocomplete/blob/master/src/ion-autocomplete.js#L75)) 
@@ -389,7 +384,7 @@ $scope.templateData = {
 ```
 And now you just need to add the `templateData` attribute on the directive:
 ```html
-<ion-autocomplete ng-model="model" template-data="templateData" />`
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-data="templateData" />`
 ```
 
 Then the expression in your template gets resolved properly.
@@ -423,7 +418,7 @@ This would be the JSON model returned by the `items-method` and in the next snip
 name attribute of the child object:
 
 ```html
-<ion-autocomplete ng-model="model" item-view-value-key="child.name" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="child.name" />
 ```
 
 # Release notes
