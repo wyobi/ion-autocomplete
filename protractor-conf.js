@@ -9,6 +9,11 @@ exports.config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     multiCapabilities: [
         {
+            browserName: 'chrome',
+            'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER ? process.env.TRAVIS_JOB_NUMBER : null,
+            name: 'ion-autocomplete'
+        },
+        {
             browserName: 'firefox',
             'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER ? process.env.TRAVIS_JOB_NUMBER : null,
             name: 'ion-autocomplete'
