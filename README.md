@@ -403,7 +403,7 @@ you need to set the `externally-managed` attribute to `true` and then you can ca
 
 ```javascript
 // create the externally managed component and a button which has a click handler to a scope method
-<input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" externally-managed="true" />`
+<input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" externally-managed="true" />
 <button class="button" ng-click="clickButton()">Open modal</button>
 
 // inside your controller you can define the 'clickButton()' method the following way
