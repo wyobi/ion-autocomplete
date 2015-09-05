@@ -1,7 +1,7 @@
 /*
  * ion-autocomplete 0.3.0
- * Copyright 2015 Danny Povolotski
- * Copyright modifications 2015 Guy Brand
+ * Copyright 2015 Danny Povolotski 
+ * Copyright modifications 2015 Guy Brand 
  * https://github.com/guylabs/ion-autocomplete
  */
 (function() {
@@ -41,6 +41,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 this.multipleSelect = valueOrDefault($attrs.multipleSelect, undefined);
                 this.componentId = valueOrDefault($attrs.componentId, undefined);
                 this.loadingIcon = valueOrDefault($attrs.loadingIcon, undefined);
+                this.manageExternally = valueOrDefault($attrs.manageExternally, "false");
 
                 // loading flag if the items-method is a function
                 this.showLoadingIcon = false;
@@ -144,7 +145,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ngModelController.$render();
 
                         // hide the container and the ionic backdrop
-                        hideSearchContainer();
+                        ionAutocompleteController.hideModal();
                     }
 
                     // call items clicked callback
@@ -236,19 +237,35 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 var searchContainerDisplayed = false;
 
-                var displaySearchContainer = function () {
+                ionAutocompleteController.showModal = function () {
                     if (searchContainerDisplayed) {
                         return;
                     }
+
+                    // show the backdrop and the search container
                     $ionicBackdrop.retain();
                     angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass)).css('display', 'block');
+
+                    // hide the container if the back button is pressed
                     scope.$deregisterBackButton = $ionicPlatform.registerBackButtonAction(function () {
-                        hideSearchContainer();
+                        ionAutocompleteController.hideModal();
                     }, 300);
+
+                    // focus on the search input field
+                    if (searchInputElement.length > 0) {
+                        searchInputElement[0].focus();
+                        setTimeout(function () {
+                            searchInputElement[0].focus();
+                        }, 0);
+                    }
+
+                    // force the collection repeat to redraw itself as there were issues when the first items were added
+                    $ionicScrollDelegate.resize();
+
                     searchContainerDisplayed = true;
                 };
 
-                var hideSearchContainer = function () {
+                ionAutocompleteController.hideModal = function () {
                     angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass)).css('display', 'none');
                     $ionicBackdrop.release();
                     scope.$deregisterBackButton && scope.$deregisterBackButton();
@@ -297,18 +314,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     event.stopPropagation();
 
                     // show the ionic backdrop and the search container
-                    displaySearchContainer();
-
-                    // focus on the search input field
-                    if (searchInputElement.length > 0) {
-                        searchInputElement[0].focus();
-                        setTimeout(function () {
-                            searchInputElement[0].focus();
-                        }, 0);
-                    }
-
-                    // force the collection repeat to redraw itself as there were issues when the first items were added
-                    $ionicScrollDelegate.resize();
+                    ionAutocompleteController.showModal();
                 };
 
                 var isKeyValueInObjectArray = function (objectArray, key, value) {
@@ -334,16 +340,18 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     });
                 };
 
-                // bind the handlers to the click and touch events of the input field
-                element.bind('touchstart', onTouchStart);
-                element.bind('touchmove', onTouchMove);
-                element.bind('touchend click focus', onClick);
+                // if the click is not handled externally, bind the handlers to the click and touch events of the input field
+                if (ionAutocompleteController.manageExternally == "false") {
+                    element.bind('touchstart', onTouchStart);
+                    element.bind('touchmove', onTouchMove);
+                    element.bind('touchend click focus', onClick);
+                }
 
                 // cancel handler for the cancel button which clears the search input field model and hides the
                 // search container and the ionic backdrop
                 angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function (event) {
                     ionAutocompleteController.searchQuery = undefined;
-                    hideSearchContainer();
+                    ionAutocompleteController.hideModal();
                 });
 
                 // prepopulate view and selected items if model is already set

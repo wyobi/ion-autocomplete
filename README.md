@@ -32,6 +32,7 @@ ion-autocomplete
         - [Template url](#template-url)
         - [Template data](#template-data)
         - [Loading icon](#loading-icon)
+        - [Manage externally](#manage-externally)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -394,6 +395,26 @@ Then the expression in your template gets resolved properly.
 If you want to display a loading icon when the `items-method` promise gets resolved then you need to set the `loading-icon` 
 attribute to a value given by the Ionic spinner: http://ionicframework.com/docs/api/directive/ionSpinner. Then the spinner should 
 be shown at the right side of the search input field. 
+
+### Manage externally
+
+To manage the `ion-autocomplete` component externally means that you need to handle when the search modal is shown. To enable this functionality 
+you need to set the `externally-managed` attribute to `true` and then you can call the `showModal()` method on the controller. Here an example:
+
+```javascript
+// create the externally managed component and a button which has a click handler to a scope method
+<input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" externally-managed="true" />`
+<button class="button" ng-click="clickButton()">Open modal</button>
+
+// inside your controller you can define the 'clickButton()' method the following way
+this.clickButton = function () {
+    var ionAutocompleteElement = document.getElementsByClassName("ion-autocomplete");
+    angular.element(ionAutocompleteElement).controller('ionAutocomplete').showModal();
+}
+```
+
+Then you will need to click on the button to open the search modal. This functionality is useful if the user wants to edit the selected item inside the 
+input field after she/he selected the item/s.
 
 ## Using expressions in value keys
 

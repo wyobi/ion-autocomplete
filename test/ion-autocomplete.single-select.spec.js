@@ -352,6 +352,29 @@ describe('ion-autocomplete single select', function () {
         expect(angular.element(document[0].querySelector('div#test-template-data'))[0].innerText).toBe(scope.templateData.testData);
     });
 
+    it('must be able to open the search container externally', function () {
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" manage-externally="true"/>');
+
+        // click on the element
+        element.triggerHandler('click');
+        scope.$digest();
+
+        // expect that the search container has none set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('none');
+
+        // show the search container externally
+        element.controller('ionAutocomplete').showModal();
+
+        // expect that the search container has block set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('block');
+
+        // show the search container externally
+        element.controller('ionAutocomplete').hideModal();
+
+        // expect that the search container has none set as display css attribute
+        expect(getSearchContainerElement().css('display')).toBe('none');
+    });
+
     /**
      * Compiles the given element and executes a digest cycle on the scope.
      *
