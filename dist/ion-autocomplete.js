@@ -21,7 +21,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsMethod: '&',
                 itemsClickedMethod: '&',
                 itemsRemovedMethod: '&',
-                modelToItemMethod: '&'
+                modelToItemMethod: '&',
+                searchItems: '='
             },
             controllerAs: 'viewModel',
             controller: function ($attrs) {
@@ -47,7 +48,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 this.showLoadingIcon = false;
 
                 // the items, selected items and the query for the list
-                this.items = [];
+                this.searchItems = valueOrDefault(this.searchItems, []);
                 this.selectedItems = [];
                 this.searchQuery = undefined;
             },
@@ -77,13 +78,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '{{viewModel.getItemValue(selectedItem, viewModel.itemViewValueKey)}}',
                     '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="viewModel.removeItem($index)"></i>',
                     '</ion-item>',
-                    '<ion-item class="item-divider" ng-show="viewModel.items.length > 0">{{viewModel.selectItemsLabel}}</ion-item>',
-                    '<ion-item collection-repeat="item in viewModel.items" item-height="55px" item-width="100%" ng-click="viewModel.selectItem(item)">',
+                    '<ion-item class="item-divider" ng-show="viewModel.searchItems.length > 0">{{viewModel.selectItemsLabel}}</ion-item>',
+                    '<ion-item collection-repeat="item in viewModel.searchItems" item-height="55px" item-width="100%" ng-click="viewModel.selectItem(item)">',
                     '{{viewModel.getItemValue(item, viewModel.itemViewValueKey)}}',
                     '</ion-item>',
                     '</ion-content>',
                     '</div>'
-                ].join('')
+                ].join('');
 
                 // first check if a template url is set and use this as template
                 if (ionAutocompleteController.templateUrl) {
@@ -121,11 +122,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' input'));
 
                 // function which selects the item, hides the search container and the ionic backdrop if it is not a multiple select autocomplete
-                ionAutocompleteController.selectItem = function (item) {
+                ionAutocompleteController.selectItem = function (item, preserveSearchItems) {
 
-                    // clear the items and the search query
-                    ionAutocompleteController.items = [];
-                    ionAutocompleteController.searchQuery = undefined;
+                    // clear the items and the search query if the search items are not already populated
+                    if (!preserveSearchItems) {
+                        ionAutocompleteController.searchItems = [];
+                        ionAutocompleteController.searchQuery = undefined;
+                    }
 
                     // if multiple select is on store the selected items
                     if (ionAutocompleteController.multipleSelect === "true") {
@@ -193,7 +196,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // if the search query is empty, clear the items
                     if (query == '') {
-                        ionAutocompleteController.items = [];
+                        ionAutocompleteController.searchItems = [];
                     }
 
                     if (angular.isFunction(ionAutocompleteController.itemsMethod)) {
@@ -220,7 +223,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             }
 
                             // set the items which are returned by the items method
-                            ionAutocompleteController.items = ionAutocompleteController.getItemValue(promiseData,
+                            ionAutocompleteController.searchItems = ionAutocompleteController.getItemValue(promiseData,
                                 ionAutocompleteController.itemsMethodValueKey);
 
                             // force the collection repeat to redraw itself as there were issues when the first items were added
@@ -327,13 +330,13 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 };
 
                 // function to call the model to item method and select the item
-                var resolveAndSelectModelItem = function (modelValue) {
+                var resolveAndSelectModelItem = function (modelValue, preserveSearchItems) {
                     // convert the given function to a $q promise to support promises too
                     var promise = $q.when(ionAutocompleteController.modelToItemMethod({modelValue: modelValue}));
 
                     promise.then(function (promiseData) {
                         // select the item which are returned by the model to item method
-                        ionAutocompleteController.selectItem(promiseData);
+                        ionAutocompleteController.selectItem(promiseData, preserveSearchItems);
                     }, function (error) {
                         // reject the error because we do not handle the error here
                         return $q.reject(error);
@@ -358,7 +361,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 if (ionAutocompleteController.ngModel && angular.isFunction(ionAutocompleteController.modelToItemMethod)) {
                     if (ionAutocompleteController.multipleSelect === "true" && angular.isArray(ionAutocompleteController.ngModel)) {
                         angular.forEach(ionAutocompleteController.ngModel, function (modelValue) {
-                            resolveAndSelectModelItem(modelValue);
+                            resolveAndSelectModelItem(modelValue, true);
                         })
                     } else {
                         resolveAndSelectModelItem(ionAutocompleteController.ngModel);

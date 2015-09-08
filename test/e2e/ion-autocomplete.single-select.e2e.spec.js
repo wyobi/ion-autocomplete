@@ -37,7 +37,24 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
+            expectCollectionRepeatCount(itemList, 3);
+            expect(itemList.get(0).getText()).toEqual('view: test1');
+            expect(itemList.get(1).getText()).toEqual('view: test2');
+            expect(itemList.get(2).getText()).toEqual('view: test3');
+
+        });
+    });
+
+    it('must show the prepopulated list of search items if this is set externally', function () {
+        browser.get(htmlFileName);
+
+        element(by.css('input.ion-autocomplete')).click().then(function () {
+            expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
+
+            element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
             expectCollectionRepeatCount(itemList, 3);
             expect(itemList.get(0).getText()).toEqual('view: test1');
             expect(itemList.get(1).getText()).toEqual('view: test2');
@@ -54,7 +71,7 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
             expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();
@@ -75,7 +92,7 @@ describe('ion-autocomplete single select', function () {
 
             element(by.css('input.ion-autocomplete-search')).sendKeys("test");
 
-            var itemList = element.all(by.css('[collection-repeat="item in viewModel.items"]'));
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
             expectCollectionRepeatCount(itemList, 3);
             itemList.get(0).click().then(function () {
                 expect($('input.ion-autocomplete-search').isDisplayed()).toBeFalsy();

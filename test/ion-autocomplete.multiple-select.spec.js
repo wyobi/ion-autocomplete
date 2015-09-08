@@ -59,7 +59,7 @@ describe('ion-autocomplete multiple select', function () {
         expect(getItemDividerElement(1).hasClass('ng-hide')).toBeTruthy();
 
         // add some items
-        element.controller('ionAutocomplete').items = ["value1", "value2"];
+        element.controller('ionAutocomplete').searchItems = ["value1", "value2"];
         scope.$digest();
 
         // expect that the selectItems divider is shown

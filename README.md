@@ -33,6 +33,7 @@ ion-autocomplete
         - [Template data](#template-data)
         - [Loading icon](#loading-icon)
         - [Manage externally](#manage-externally)
+        - [Search items](#search-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -415,6 +416,26 @@ this.clickButton = function () {
 
 Then you will need to click on the button to open the search modal. This functionality is useful if the user wants to edit the selected item inside the 
 input field after she/he selected the item/s.
+
+### Search items
+
+If you want to pre populate the items which are shown when the user enters a query then you can set the `search-items` attribute to an array of 
+values that have the same structure like the value which is returned from the `items-method`.
+
+Here a small example:
+
+Define the pre populated items in your scope:
+```javascript
+$scope.prepopulatedItems = [ { "name" : "item1" },{ "name" : "item2" }, ... ];
+```
+
+And set the `search-items` on the directive:
+```html
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" search-items="prepopulatedItems" />
+```
+
+Then when the user opens the component, then he will right away see the already pre populated search items.
+
 
 ## Using expressions in value keys
 

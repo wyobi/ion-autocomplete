@@ -156,7 +156,7 @@ describe('ion-autocomplete single select', function () {
         scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(0);
-        expect(element.controller('ionAutocomplete').items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(0);
     });
 
     it('must call the items method if the passed query is empty', function () {
@@ -170,7 +170,7 @@ describe('ion-autocomplete single select', function () {
         scope.$digest();
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
-        expect(element.controller('ionAutocomplete').items.length).toBe(1);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(1);
     });
 
     it('must call the items method if the passed query is valid', function () {
@@ -185,8 +185,8 @@ describe('ion-autocomplete single select', function () {
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.controller('ionAutocomplete').items.length).toBe(2);
-        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'item2']);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(2);
+        expect(element.controller('ionAutocomplete').searchItems).toEqual(['asd', 'item2']);
     });
 
     it('must call the items method if the passed query is valid and the componentId is set', function () {
@@ -201,8 +201,8 @@ describe('ion-autocomplete single select', function () {
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd", "compId");
-        expect(element.controller('ionAutocomplete').items.length).toBe(3);
-        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'compId', 'item2']);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(3);
+        expect(element.controller('ionAutocomplete').searchItems).toEqual(['asd', 'compId', 'item2']);
     });
 
     it('must call the items method promise if the passed query is valid', function () {
@@ -219,14 +219,14 @@ describe('ion-autocomplete single select', function () {
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.controller('ionAutocomplete').items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(0);
 
         // resolve the promise
         deferred.resolve(['asd', 'item2']);
         scope.$digest();
 
-        expect(element.controller('ionAutocomplete').items.length).toBe(2);
-        expect(element.controller('ionAutocomplete').items).toEqual(['asd', 'item2']);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(2);
+        expect(element.controller('ionAutocomplete').searchItems).toEqual(['asd', 'item2']);
     });
 
     it('must forward the items method promise error', function () {
@@ -248,7 +248,7 @@ describe('ion-autocomplete single select', function () {
 
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.controller('ionAutocomplete').items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(0);
 
         // resolve the promise
         deferred.reject('error');
@@ -273,12 +273,12 @@ describe('ion-autocomplete single select', function () {
         // assert that the items method is called once and that the list is still empty as the promise is not resolved yet
         expect(scope.itemsMethod.calls.count()).toBe(1);
         expect(scope.itemsMethod).toHaveBeenCalledWith("asd");
-        expect(element.controller('ionAutocomplete').items.length).toBe(0);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(0);
 
         // resolve the promise and expect that the list has two items
         deferred.resolve({data: [{name: "name", view: "view"}, {name: "name1", view: "view1"}]});
         scope.$digest();
-        expect(element.controller('ionAutocomplete').items.length).toBe(2);
+        expect(element.controller('ionAutocomplete').searchItems.length).toBe(2);
     });
 
     it('must show the search container when the input field is clicked', function () {
