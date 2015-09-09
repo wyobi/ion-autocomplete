@@ -262,7 +262,7 @@ describe('ion-autocomplete multiple select', function () {
                         // try to select the fourth item
                         element(by.css('input.ion-autocomplete-search')).sendKeys("test");
                         var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
-                        itemList.get(8).click().then(function () {
+                        itemList.get(11).click().then(function () {
                             expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2,test3');
                         });
                     });
