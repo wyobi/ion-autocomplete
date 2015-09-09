@@ -24,6 +24,7 @@ ion-autocomplete
         - [The `items-clicked-method`](#the-items-clicked-method)
         - [The `items-removed-method`](#the-items-removed-method)
         - [The `model-to-item-method`](#the-model-to-item-method)
+        - [The `cancel-button-clicked-method`](#the-cancel-button-clicked-method)
         - [ComponentId](#component-id)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
@@ -53,11 +54,13 @@ For one of my private projects I needed an autocomplete component in Ionic. I se
 
 The ion-autocomplete component has the following features:
 - Multiple selection support
-- Configure a callback when an item is clicked
 - Configurable service which provides the items to list
+- Allow to define the maximum number of selected items
 - Configure what is stored in the model and what is seen in the list
-- Configure all labels used in the component
 - Configure the template used to show the autocomplete component
+- Configure a callback when an item is clicked/removed
+- Configure a callback when the done button is clicked
+- Configure all labels used in the component
 
 # Installation
 
@@ -264,7 +267,7 @@ $scope.removedMethod = function (callback) {
     // print out the component id
     console.log(callback.componentId);
     
-    // print out the selected items if the multiple select flag is set to true and multiple elements are selected
+    // print out the selected items
     console.log(callback.selectedItems); 
 }
 ```
@@ -274,7 +277,7 @@ And pass in the callback method in the directive:
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-removed-method="removedMethod(callback)" />
 ```
 
-Then you get a callback object with the removed item and the selected items if you have multiple selected items (see [The `multiple-select`](#the-multiple-select)).
+Then you get a callback object with the removed item and the selected items.
 
 ### The `model-to-item-method`
 
@@ -307,6 +310,29 @@ $scope.modelToItemMethod = function (modelValue) {
 ```
 
 Note that the parameter for the `model-to-item-method` needs to be named `modelValue`. Otherwise the callback will not get called properly.
+
+### The `cancel-button-clicked-method`
+
+You are able to pass a function to the `cancel-button-clicked-method` attribute to be notified when the cancel button is clicked to close the modal. The name of the 
+parameter of the function must be `callback`. Here is an example:
+
+Define the callback in your scope:
+```javascript
+$scope.cancelButtonClickedMethod = function (callback) {    
+    // print out the component id
+    console.log(callback.componentId);
+    
+    // print out the selected items
+    console.log(callback.selectedItems); 
+}
+```
+
+And pass in the callback method in the directive:
+```html
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" cancel-button-clicked-method="cancelButtonClickedMethod(callback)" />
+```
+
+Then you get a callback object with the selected items and the component id.
 
 ### Component Id
 

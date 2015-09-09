@@ -12,7 +12,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsClickedMethod: '&',
                 itemsRemovedMethod: '&',
                 modelToItemMethod: '&',
-                searchItems: '='
+                searchItems: '=',
+                cancelButtonClickedMethod: '&'
             },
             controllerAs: 'viewModel',
             controller: function ($attrs) {
@@ -342,10 +343,20 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 }
 
                 // cancel handler for the cancel button which clears the search input field model and hides the
-                // search container and the ionic backdrop
-                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function (event) {
+                // search container and the ionic backdrop and calls the cancel button clicked callback
+                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function () {
                     ionAutocompleteController.searchQuery = undefined;
                     ionAutocompleteController.hideModal();
+
+                    // call cancel button clicked callback
+                    if (angular.isFunction(ionAutocompleteController.cancelButtonClickedMethod)) {
+                        ionAutocompleteController.cancelButtonClickedMethod({
+                            callback: {
+                                selectedItems: ionAutocompleteController.selectedItems.slice(),
+                                componentId: ionAutocompleteController.componentId
+                            }
+                        });
+                    }
                 });
 
                 // prepopulate view and selected items if model is already set

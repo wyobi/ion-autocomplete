@@ -9,8 +9,8 @@
 'use strict';
 
 angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
-    '$ionicBackdrop', '$ionicScrollDelegate', '$document', '$q', '$parse', '$ionicPlatform', '$compile', '$templateRequest',
-    function ($ionicBackdrop, $ionicScrollDelegate, $document, $q, $parse, $ionicPlatform, $compile, $templateRequest) {
+    '$ionicBackdrop', '$ionicScrollDelegate', '$document', '$q', '$parse', '$interpolate', '$ionicPlatform', '$compile', '$templateRequest',
+    function ($ionicBackdrop, $ionicScrollDelegate, $document, $q, $parse, $interpolate, $ionicPlatform, $compile, $templateRequest) {
         return {
             require: ['ngModel', 'ionAutocomplete'],
             restrict: 'A',
@@ -22,7 +22,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsClickedMethod: '&',
                 itemsRemovedMethod: '&',
                 modelToItemMethod: '&',
-                searchItems: '='
+                searchItems: '=',
+                cancelButtonClickedMethod: '&'
             },
             controllerAs: 'viewModel',
             controller: function ($attrs) {
@@ -32,14 +33,15 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // set the default values of the passed in attributes
                 this.placeholder = valueOrDefault($attrs.placeholder, 'Click to enter a value...');
-                this.cancelLabel = valueOrDefault($attrs.cancelLabel, $attrs.multipleSelect === "true" ? 'Done' : 'Cancel');
+                this.cancelLabel = valueOrDefault($attrs.cancelLabel, 'Done');
                 this.selectItemsLabel = valueOrDefault($attrs.selectItemsLabel, 'Select an item...');
-                this.selectedItemsLabel = valueOrDefault($attrs.selectedItemsLabel, 'Selected items:');
+                this.maxSelectedItems = valueOrDefault($attrs.maxSelectedItems, undefined);
+                this.selectedItemsLabel = $interpolate(valueOrDefault($attrs.selectedItemsLabel,
+                    "Selected items{{maxSelectedItems ? ' (max. ' + maxSelectedItems + ')' : ''}}:"))(this);
                 this.templateUrl = valueOrDefault($attrs.templateUrl, undefined);
                 this.itemsMethodValueKey = valueOrDefault($attrs.itemsMethodValueKey, undefined);
                 this.itemValueKey = valueOrDefault($attrs.itemValueKey, undefined);
                 this.itemViewValueKey = valueOrDefault($attrs.itemViewValueKey, undefined);
-                this.multipleSelect = valueOrDefault($attrs.multipleSelect, undefined);
                 this.componentId = valueOrDefault($attrs.componentId, undefined);
                 this.loadingIcon = valueOrDefault($attrs.loadingIcon, undefined);
                 this.manageExternally = valueOrDefault($attrs.manageExternally, "false");
@@ -121,7 +123,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // get the compiled search field
                 var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' input'));
 
-                // function which selects the item, hides the search container and the ionic backdrop if it is not a multiple select autocomplete
+                // function which selects the item, hides the search container and the ionic backdrop if it has not maximum selected items attribute set
                 ionAutocompleteController.selectItem = function (item, preserveSearchItems) {
 
                     // clear the items and the search query if the search items are not already populated
@@ -130,24 +132,24 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ionAutocompleteController.searchQuery = undefined;
                     }
 
-                    // if multiple select is on store the selected items
-                    if (ionAutocompleteController.multipleSelect === "true") {
+                    // return if the maximum amount of selected items is reached
+                    if (ionAutocompleteController.maxSelectedItems == ionAutocompleteController.selectedItems.length) {
+                        return;
+                    }
 
-                        if (!isKeyValueInObjectArray(ionAutocompleteController.selectedItems,
-                                ionAutocompleteController.itemValueKey, ionAutocompleteController.getItemValue(item, ionAutocompleteController.itemValueKey))) {
-                            // create a new array to update the model. See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
-                            ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.concat([item]);
-                        }
+                    // store the selected items
+                    if (!isKeyValueInObjectArray(ionAutocompleteController.selectedItems,
+                            ionAutocompleteController.itemValueKey, ionAutocompleteController.getItemValue(item, ionAutocompleteController.itemValueKey))) {
+                        // create a new array to update the model. See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
+                        ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.concat([item]);
+                    }
 
-                        // set the view value and render it
-                        ngModelController.$setViewValue(ionAutocompleteController.selectedItems);
-                        ngModelController.$render();
-                    } else {
-                        // set the view value and render it
-                        ngModelController.$setViewValue(item);
-                        ngModelController.$render();
+                    // set the view value and render it
+                    ngModelController.$setViewValue(ionAutocompleteController.selectedItems);
+                    ngModelController.$render();
 
-                        // hide the container and the ionic backdrop
+                    // hide the container and the ionic backdrop if it is a single select to enhance usability
+                    if (ionAutocompleteController.maxSelectedItems == 1) {
                         ionAutocompleteController.hideModal();
                     }
 
@@ -351,15 +353,25 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 }
 
                 // cancel handler for the cancel button which clears the search input field model and hides the
-                // search container and the ionic backdrop
-                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function (event) {
+                // search container and the ionic backdrop and calls the cancel button clicked callback
+                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function () {
                     ionAutocompleteController.searchQuery = undefined;
                     ionAutocompleteController.hideModal();
+
+                    // call cancel button clicked callback
+                    if (angular.isFunction(ionAutocompleteController.cancelButtonClickedMethod)) {
+                        ionAutocompleteController.cancelButtonClickedMethod({
+                            callback: {
+                                selectedItems: ionAutocompleteController.selectedItems.slice(),
+                                componentId: ionAutocompleteController.componentId
+                            }
+                        });
+                    }
                 });
 
                 // prepopulate view and selected items if model is already set
                 if (ionAutocompleteController.ngModel && angular.isFunction(ionAutocompleteController.modelToItemMethod)) {
-                    if (ionAutocompleteController.multipleSelect === "true" && angular.isArray(ionAutocompleteController.ngModel)) {
+                    if (angular.isArray(ionAutocompleteController.ngModel)) {
                         angular.forEach(ionAutocompleteController.ngModel, function (modelValue) {
                             resolveAndSelectModelItem(modelValue, true);
                         })

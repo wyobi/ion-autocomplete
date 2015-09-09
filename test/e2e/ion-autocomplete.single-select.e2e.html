@@ -18,6 +18,7 @@
 
                     $scope.model = "";
                     $scope.callbackValueModel = "";
+                    $scope.doneButtonCallbackValueModel = "";
 
                     $scope.getTestItems = function (query) {
                         return {
@@ -30,7 +31,11 @@
 
                     $scope.itemsClicked = function (callback) {
                         $scope.callbackValueModel = callback;
-                    }
+                    };
+
+                    $scope.doneButtonClicked = function (callback) {
+                        $scope.doneButtonCallbackValueModel = callback;
+                    };
                 });
     </script>
 </head>
@@ -51,7 +56,8 @@
                        placeholder="Enter test query ..."
                        items-clicked-method="itemsClicked(callback)"
                        component-id="comp1"
-                       max-selected-items="1"/>
+                       max-selected-items="1"
+                       cancel-button-clicked-method="doneButtonClicked(callback)"/>
             </label>
 
             <label class="item item-input">
@@ -62,6 +68,12 @@
             <label class="item item-input">
                 <span class="input-label">Single select autocomplete clicked item callback model value</span>
                 <input type="text" class="ion-autocomplete-callback-model" ng-model="callbackValueModel"
+                       autocomplete="off">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Single select autocomplete clicked done button callback model value</span>
+                <input type="text" class="ion-autocomplete-done-callback-model" ng-model="doneButtonCallbackValueModel"
                        autocomplete="off">
             </label>
 
