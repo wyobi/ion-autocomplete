@@ -233,6 +233,44 @@ describe('ion-autocomplete multiple select', function () {
         });
     });
 
+    it('must not be able to select more items as the max selected items attribute allows', function () {
+        browser.get(htmlFileName);
+
+        element(by.css('input.ion-autocomplete')).click().then(function () {
+            expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
+
+            element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+
+            // select the first item
+            var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
+            expectCollectionRepeatCount(itemList, 3);
+            itemList.get(0).click().then(function () {
+                expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1');
+
+                // select the second item
+                element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+                var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
+                itemList.get(4).click().then(function () {
+                    expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
+
+                    // select the third item
+                    element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+                    var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
+                    itemList.get(8).click().then(function () {
+                        expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2,test3');
+
+                        // try to select the fourth item
+                        element(by.css('input.ion-autocomplete-search')).sendKeys("test");
+                        var itemList = element.all(by.css('[collection-repeat="item in viewModel.searchItems"]'));
+                        itemList.get(8).click().then(function () {
+                            expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2,test3');
+                        });
+                    });
+                });
+            });
+        });
+    });
+
     function expectCollectionRepeatCount(items, count) {
         for (var i = 0; i < count; i++) {
             expect(items.get(i).getText().isDisplayed()).toBeTruthy();

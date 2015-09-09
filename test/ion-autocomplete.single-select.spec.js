@@ -44,7 +44,7 @@ describe('ion-autocomplete single select', function () {
         var cancelButtonElement = getCancelButtonElement();
         expect(cancelButtonElement.hasClass('button')).toBe(true);
         expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
-        expect(cancelButtonElement[0].innerText).toBe('Cancel');
+        expect(cancelButtonElement[0].innerText).toBe('Done');
     });
 
     it('must have the default values set on attribute directive', function () {
@@ -70,7 +70,7 @@ describe('ion-autocomplete single select', function () {
         var cancelButtonElement = getCancelButtonElement();
         expect(cancelButtonElement.hasClass('button')).toBe(true);
         expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
-        expect(cancelButtonElement.text()).toBe('Cancel');
+        expect(cancelButtonElement.text()).toBe('Done');
     });
 
     it('must show no value in the input field if the model is not defined', function () {
@@ -82,15 +82,23 @@ describe('ion-autocomplete single select', function () {
 
     it('must show the value in the input field if the model is already defined', function () {
         scope.model = "123";
-        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
+        scope.modelToItemMethod = function (query) {
+            return 'Model ' + [query];
+        };
+        spyOn(scope, 'modelToItemMethod').and.callThrough();
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />');
 
         // expect the value of the input field to be already set
-        expect(element[0].value).toBe('123');
+        expect(element[0].value).toBe('Model 123');
     });
 
     it('must show the itemViewValueKey of the value in the input field if the model is already defined', function () {
         scope.model = {key: {value: "value1"}};
-        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" />');
+        scope.modelToItemMethod = function (query) {
+            return query;
+        };
+        spyOn(scope, 'modelToItemMethod').and.callThrough();
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" model-to-item-method="modelToItemMethod(modelValue)" />');
 
         // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
         expect(element[0].value).toBe('value1');
@@ -98,7 +106,11 @@ describe('ion-autocomplete single select', function () {
 
     it('must not show any value if the model is cleared', function () {
         scope.model = {key: {value: "value1"}};
-        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" />');
+        scope.modelToItemMethod = function (query) {
+            return query;
+        };
+        spyOn(scope, 'modelToItemMethod').and.callThrough();
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="key.value" model-to-item-method="modelToItemMethod(modelValue)" />');
 
         // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
         expect(element[0].value).toBe('value1');

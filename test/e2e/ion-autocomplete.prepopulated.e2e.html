@@ -57,14 +57,13 @@
                 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off"
                        ng-model="model"
                        search-items="preselectedSearchItems"
-                                  item-value-key="name"
-                                  item-view-value-key="view"
-                                  items-method="getTestItems(query)"
-                                  items-method-value-key="items"
-                                  multiple-select="true"
-                                  placeholder="Enter test query ..."
-                                  items-clicked-method="itemsClicked(callback)"
-                                  model-to-item-method="getItemFromModelValue(modelValue)"/>
+                       item-value-key="name"
+                       item-view-value-key="view"
+                       items-method="getTestItems(query)"
+                       items-method-value-key="items"
+                       placeholder="Enter test query ..."
+                       items-clicked-method="itemsClicked(callback)"
+                       model-to-item-method="getItemFromModelValue(modelValue)"/>
             </label>
 
             <label class="item item-input">

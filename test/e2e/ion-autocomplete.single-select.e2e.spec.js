@@ -102,7 +102,7 @@ describe('ion-autocomplete single select', function () {
                 // expect the callback value
                 element(by.css('input.ion-autocomplete-callback-model')).evaluate('callbackValueModel').then(function (callbackModelValue) {
                     expect(callbackModelValue.item.name).toEqual('test1');
-                    expect(callbackModelValue.selectedItems.length).toEqual(0);
+                    expect(callbackModelValue.selectedItems.length).toEqual(1);
                     expect(callbackModelValue.componentId).toEqual('comp1');
                 });
             })

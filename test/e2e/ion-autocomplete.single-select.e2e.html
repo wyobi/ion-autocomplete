@@ -44,13 +44,14 @@
                 <span class="input-label">Single select autocomplete</span>
                 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off"
                        ng-model="model"
-                                  item-value-key="name"
-                                  item-view-value-key="view"
-                                  items-method="getTestItems(query)"
-                                  items-method-value-key="items"
-                                  placeholder="Enter test query ..."
-                                  items-clicked-method="itemsClicked(callback)"
-                                  component-id="comp1"/>
+                       item-value-key="name"
+                       item-view-value-key="view"
+                       items-method="getTestItems(query)"
+                       items-method-value-key="items"
+                       placeholder="Enter test query ..."
+                       items-clicked-method="itemsClicked(callback)"
+                       component-id="comp1"
+                       max-selected-items="1"/>
             </label>
 
             <label class="item item-input">

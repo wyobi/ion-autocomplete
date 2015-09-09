@@ -20,7 +20,7 @@ ion-autocomplete
         - [The `items-method-value-key`](#the-items-method-value-key)
         - [The `item-value-key`](#the-item-value-key)
         - [The `item-view-value-key`](#the-item-view-value-key)
-        - [The `multiple-select`](#the-multiple-select)
+        - [The `max-selected-items`](#the-max-selected-items)
         - [The `items-clicked-method`](#the-items-clicked-method)
         - [The `items-removed-method`](#the-items-removed-method)
         - [The `model-to-item-method`](#the-model-to-item-method)
@@ -91,16 +91,16 @@ ion-autocomplete version | Ionic version
 
 # Usage
 
-To use the `ion-autocomplete` directive in single select mode you need to add the following snippet to your template:
+To use the `ion-autocomplete` directive in single select mode you need set the `max-selected-items` attribute and add the following snippet to your template:
+```html
+//usage with the attribute restriction
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" max-selected-items="1" />
+```
+
+If you want to use it in multiple select mode you do not need to add anything special, just the following snippet to your template: 
 ```html
 //usage with the attribute restriction
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />
-```
-
-If you want to use it in multiple select mode you need to add the following snippet to your template: 
-```html
-//usage with the attribute restriction
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" multiple-select="true" />
 ```
 
 Check out the next chapter on how to configure the directive.
@@ -212,14 +212,14 @@ And now you set the following `item-view-value-key`:
 Now when the user selects the `Item 1` from the list, then the value of the objects `name` is showed in both input fields. If
 no `item-view-value-key` is passed into the directive, the whole item object will be showed in both input fields.
 
-### The `multiple-select`
+### The `max-selected-items`
 
-You are able to set the `multiple-select` attribute to `true` to enable the multiple select feature. Here an example:
+You are able to set the `max-selected-items` attribute to any number to set the maximum selectable items inside the component. Here an example:
 ```html
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" max-selected-items="3" />
 ```
 
-Then the user is able to select multiple items out of the returned items and also delete them again. The given `ng-model` is an 
+Then the user is just able to select three items out of the returned items and also delete them again. The given `ng-model` is an 
 array if multiple items are selected.
 
 ### The `items-clicked-method`
