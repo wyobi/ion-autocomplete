@@ -35,6 +35,7 @@ ion-autocomplete
         - [Loading icon](#loading-icon)
         - [Manage externally](#manage-externally)
         - [Search items](#search-items)
+        - [Selected items](#selected-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -462,6 +463,12 @@ And set the `search-items` on the directive:
 
 Then when the user opens the component, then he will right away see the already pre populated search items.
 
+### Selected items
+
+If you want to clear the selected items programmatically, then you are able to set the `selected-items` attribute with a two way binded model value which then gets updated 
+when the items get selected. If you want to clear them just set the given model value to an empty array.
+
+Please *do not* use it for pre populating the selected items. For this use the standard `ng-model` value and [the `model-to-item-method`](#the-model-to-item-method).
 
 ## Using expressions in value keys
 

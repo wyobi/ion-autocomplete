@@ -10,6 +10,8 @@ describe('ion-autocomplete multiple select', function () {
         expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
         expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
 
+        expect($('input.ion-autocomplete-selected-items-model').getAttribute('value')).toEqual('[object Object],[object Object]');
+
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();
 
@@ -17,6 +19,8 @@ describe('ion-autocomplete multiple select', function () {
             expect(selectedItemList.count()).toEqual(2);
             expect(selectedItemList.get(0).getText()).toEqual('view: test1');
             expect(selectedItemList.get(1).getText()).toEqual('view: test2');
+
+
         });
     });
 

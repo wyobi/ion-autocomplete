@@ -20,6 +20,7 @@
                     $scope.preselectedSearchItems = [
                         {id: "1", name: "1", view: "view: 1"},
                         {id: "2", name: "2", view: "view: 2"}];
+                    $scope.selectedItems = [];
 
                     $scope.callbackValueModel = "";
 
@@ -63,7 +64,8 @@
                        items-method-value-key="items"
                        placeholder="Enter test query ..."
                        items-clicked-method="itemsClicked(callback)"
-                       model-to-item-method="getItemFromModelValue(modelValue)"/>
+                       model-to-item-method="getItemFromModelValue(modelValue)"
+                       selected-items="selectedItems"/>
             </label>
 
             <label class="item item-input">
@@ -80,6 +82,12 @@
             <label class="item item-input">
                 <span class="input-label">Search items</span>
                 <input type="text" class="ion-autocomplete-search-items-model" ng-model="preselectedSearchItems"
+                       autocomplete="off">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Selected items</span>
+                <input type="text" class="ion-autocomplete-selected-items-model" ng-model="selectedItems"
                        autocomplete="off">
             </label>
 

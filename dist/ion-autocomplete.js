@@ -23,6 +23,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 itemsRemovedMethod: '&',
                 modelToItemMethod: '&',
                 searchItems: '=',
+                selectedItems: '=',
                 cancelButtonClickedMethod: '&'
             },
             controllerAs: 'viewModel',
@@ -51,7 +52,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // the items, selected items and the query for the list
                 this.searchItems = valueOrDefault(this.searchItems, []);
-                this.selectedItems = [];
+                this.selectedItems = valueOrDefault(this.selectedItems, []);
                 this.searchQuery = undefined;
             },
             link: function (scope, element, attrs, controllers) {
