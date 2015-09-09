@@ -133,16 +133,23 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ionAutocompleteController.searchQuery = undefined;
                     }
 
-                    // return if the maximum amount of selected items is reached
-                    if (ionAutocompleteController.maxSelectedItems == ionAutocompleteController.selectedItems.length) {
+                    // return if the max selected items is not equal to 1 and the maximum amount of selected items is reached
+                    if (ionAutocompleteController.maxSelectedItems != "1" &&
+                        ionAutocompleteController.maxSelectedItems == ionAutocompleteController.selectedItems.length) {
                         return;
                     }
 
                     // store the selected items
                     if (!isKeyValueInObjectArray(ionAutocompleteController.selectedItems,
                             ionAutocompleteController.itemValueKey, ionAutocompleteController.getItemValue(item, ionAutocompleteController.itemValueKey))) {
-                        // create a new array to update the model. See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
-                        ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.concat([item]);
+
+                        // if it is a single select set the item directly
+                        if (ionAutocompleteController.maxSelectedItems == "1") {
+                            ionAutocompleteController.selectedItems = [item];
+                        } else {
+                            // create a new array to update the model. See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
+                            ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.concat([item]);
+                        }
                     }
 
                     // set the view value and render it
