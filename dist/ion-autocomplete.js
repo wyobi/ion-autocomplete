@@ -72,7 +72,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" placeholder="{{viewModel.placeholder}}"/>',
                     '</label>',
                     '<div class="ion-autocomplete-loading-icon" ng-if="viewModel.showLoadingIcon && viewModel.loadingIcon"><ion-spinner icon="{{viewModel.loadingIcon}}"></ion-spinner></div>',
-                    '<button class="ion-autocomplete-cancel button button-clear">{{viewModel.cancelLabel}}</button>',
+                    '<button class="ion-autocomplete-cancel button button-clear" ng-click="viewModel.cancelClick()">{{viewModel.cancelLabel}}</button>',
                     '</div>',
                     '<ion-content class="has-header">',
                     '<ion-item class="item-divider" ng-show="viewModel.selectedItems.length > 0">{{viewModel.selectedItemsLabel}}</ion-item>',
@@ -120,9 +120,6 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     }
                     return item;
                 };
-
-                // get the compiled search field
-                var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' input'));
 
                 // function which selects the item, hides the search container and the ionic backdrop if it has not maximum selected items attribute set
                 ionAutocompleteController.selectItem = function (item, preserveSearchItems) {
@@ -264,6 +261,9 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ionAutocompleteController.hideModal();
                     }, 300);
 
+                    // get the compiled search field
+                    var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' input'));
+
                     // focus on the search input field
                     if (searchInputElement.length > 0) {
                         searchInputElement[0].focus();
@@ -362,7 +362,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // cancel handler for the cancel button which clears the search input field model and hides the
                 // search container and the ionic backdrop and calls the cancel button clicked callback
-                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' button')).bind('click', function () {
+                ionAutocompleteController.cancelClick = function () {
                     ionAutocompleteController.searchQuery = undefined;
                     ionAutocompleteController.hideModal();
 
@@ -375,7 +375,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             }
                         });
                     }
-                });
+                };
 
                 // prepopulate view and selected items if model is already set
                 if (ionAutocompleteController.ngModel && angular.isFunction(ionAutocompleteController.modelToItemMethod)) {
