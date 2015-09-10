@@ -62,11 +62,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 var ionAutocompleteController = controllers[1];
 
                 // use a random css class to bind the modal to the component
-                var randomCssClass = "ion-autocomplete-random-" + Math.floor((Math.random() * 1000) + 1);
+                ionAutocompleteController.randomCssClass = "ion-autocomplete-random-" + Math.floor((Math.random() * 1000) + 1);
 
                 var template = [
-                    '<div class="ion-autocomplete-container ' + randomCssClass + ' modal" style="display: none;">',
+                    '<div class="ion-autocomplete-container ' + ionAutocompleteController.randomCssClass + ' modal" style="display: none;">',
                     '<div class="bar bar-header item-input-inset">',
+                    '{{viewModel.randomCssClass}}',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-search placeholder-icon"></i>',
                     '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" placeholder="{{viewModel.placeholder}}"/>',
@@ -122,7 +123,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 };
 
                 // get the compiled search field
-                var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' input'));
+                var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' input'));
 
                 // function which selects the item, hides the search container and the ionic backdrop if it has not maximum selected items attribute set
                 ionAutocompleteController.selectItem = function (item, preserveSearchItems) {
@@ -257,7 +258,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // show the backdrop and the search container
                     $ionicBackdrop.retain();
-                    angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass)).css('display', 'block');
+                    angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass)).css('display', 'block');
 
                     // hide the container if the back button is pressed
                     scope.$deregisterBackButton = $ionicPlatform.registerBackButtonAction(function () {
@@ -279,7 +280,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 };
 
                 ionAutocompleteController.hideModal = function () {
-                    angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass)).css('display', 'none');
+                    angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass)).css('display', 'none');
                     $ionicBackdrop.release();
                     scope.$deregisterBackButton && scope.$deregisterBackButton();
                     searchContainerDisplayed = false;
@@ -362,7 +363,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                 // cancel handler for the cancel button which clears the search input field model and hides the
                 // search container and the ionic backdrop and calls the cancel button clicked callback
-                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + randomCssClass + ' button')).bind('click', function () {
+                angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' button')).bind('click', function () {
                     ionAutocompleteController.searchQuery = undefined;
                     ionAutocompleteController.hideModal();
 
