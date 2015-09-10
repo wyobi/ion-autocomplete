@@ -67,7 +67,6 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 var template = [
                     '<div class="ion-autocomplete-container ' + ionAutocompleteController.randomCssClass + ' modal" style="display: none;">',
                     '<div class="bar bar-header item-input-inset">',
-                    '{{viewModel.randomCssClass}}',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-search placeholder-icon"></i>',
                     '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" placeholder="{{viewModel.placeholder}}"/>',
