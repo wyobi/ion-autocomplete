@@ -5,17 +5,18 @@ describe('ion-autocomplete single select', function () {
     var templateUrl = 'test/templates/test-template.html';
     var templateDataUrl = 'test/templates/test-template-data.html';
 
-    var scope, document, compile, q, templateCache;
+    var scope, document, compile, q, templateCache, timeout;
 
     // load the directive's module
     beforeEach(module('ionic', 'ion-autocomplete', templateUrl, templateDataUrl));
 
-    beforeEach(inject(function ($rootScope, $document, $compile, $q, $templateCache) {
+    beforeEach(inject(function ($rootScope, $document, $compile, $q, $templateCache, $timeout) {
         scope = $rootScope.$new();
         document = $document;
         compile = $compile;
         q = $q;
         templateCache = $templateCache;
+        timeout = $timeout;
     }));
 
     afterEach(function () {
@@ -25,52 +26,33 @@ describe('ion-autocomplete single select', function () {
         angular.element(document[0].querySelector('div.test-template-div')).remove();
     });
 
-    it('must have the default values set on element directive', function () {
-        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"/>');
-
-        // expect the default values of the input field
-        expect(element[0].type).toBe('text');
-        expect(element[0].readOnly).toBe(true);
-        expect(element.hasClass('ion-autocomplete')).toBe(true);
-        expect(element[0].placeholder).toBe('');
-
-        // expect the default values of the search input fields
-        var searchInputElement = getSearchInputElement();
-        expect(searchInputElement[0].type).toBe('search');
-        expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
-        expect(searchInputElement[0].placeholder).toBe('Click to enter a value...');
-
-        // expect the default values of the cancel button
-        var cancelButtonElement = getCancelButtonElement();
-        expect(cancelButtonElement.hasClass('button')).toBe(true);
-        expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
-        expect(cancelButtonElement[0].innerText).toBe('Done');
-    });
-
     it('must have the default values set on attribute directive', function () {
         var element = compileElement('<input ion-autocomplete ng-model="model" type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" />');
 
-        // expect the default values of the input field
-        expect(element[0].type).toBe('text');
-        expect(element[0].readOnly).toBe(true);
-        expect(element.hasClass('ion-autocomplete')).toBe(true);
-        expect(element[0].placeholder).toBe('');
+        timeout(function () {
+            // expect the default values of the input field
+            expect(element[0].type).toBe('text');
+            expect(element[0].readOnly).toBe(true);
+            expect(element.hasClass('ion-autocomplete')).toBe(true);
+            expect(element[0].placeholder).toBe('');
 
-        // expect the default values of the search input field
-        var searchInputElement = getSearchInputElement();
-        expect(searchInputElement[0].type).toBe('search');
-        expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
-        expect(searchInputElement.attr('placeholder')).toBe('Click to enter a value...');
+            // expect the default values of the search input field
+            var searchInputElement = getSearchInputElement();
+            expect(searchInputElement[0].type).toBe('search');
+            expect(searchInputElement.hasClass('ion-autocomplete-search')).toBe(true);
+            expect(searchInputElement.attr('placeholder')).toBe('Click to enter a value...');
 
-        // expect the placeholder icon element to no be platform dependent
-        var placeholderIcon = getPlaceholderIconElement();
-        expect(placeholderIcon.hasClass('ion-search')).toBe(true);
+            // expect the placeholder icon element to no be platform dependent
+            var placeholderIcon = getPlaceholderIconElement();
+            expect(placeholderIcon.hasClass('ion-search')).toBe(true);
 
-        // expect the default values of the cancel button
-        var cancelButtonElement = getCancelButtonElement();
-        expect(cancelButtonElement.hasClass('button')).toBe(true);
-        expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
-        expect(cancelButtonElement.text()).toBe('Done');
+            // expect the default values of the cancel button
+            var cancelButtonElement = getCancelButtonElement();
+            expect(cancelButtonElement.hasClass('button')).toBe(true);
+            expect(cancelButtonElement.hasClass('button-clear')).toBe(true);
+            expect(cancelButtonElement.text()).toBe('Done');
+        });
+
     });
 
     it('must show no value in the input field if the model is not defined', function () {

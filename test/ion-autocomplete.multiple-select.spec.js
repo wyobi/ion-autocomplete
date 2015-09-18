@@ -21,13 +21,6 @@ describe('ion-autocomplete multiple select', function () {
         angular.element(document[0].querySelector('div.backdrop')).remove();
     });
 
-    it('must set the cancel label on the button', function () {
-        var cancelLabelValue = "Done";
-        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" multiple-select="true"/>');
-
-        expect(getCancelButtonElement()[0].innerText).toBe(cancelLabelValue);
-    });
-
     it('must set the selectItems label', function () {
         var selectItemLabelValue = "select-item";
         compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" select-items-label="' + selectItemLabelValue + '"/>');

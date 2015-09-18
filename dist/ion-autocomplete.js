@@ -1,7 +1,7 @@
 /*
  * ion-autocomplete 0.3.0
- * Copyright 2015 Danny Povolotski 
- * Copyright modifications 2015 Guy Brand 
+ * Copyright 2015 Danny Povolotski
+ * Copyright modifications 2015 Guy Brand
  * https://github.com/guylabs/ion-autocomplete
  */
 (function() {
@@ -24,21 +24,31 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 modelToItemMethod: '&',
                 searchItems: '=',
                 selectedItems: '=',
-                cancelButtonClickedMethod: '&'
+                cancelButtonClickedMethod: '&',
+                placeholder: '@',
+                cancelLabel: '@',
+                selectItemsLabel: '@',
+                selectedItemsLabel: '@'
             },
             controllerAs: 'viewModel',
-            controller: function ($attrs) {
+            controller: function ($attrs, $timeout) {
+
                 var valueOrDefault = function (value, defaultValue) {
                     return !value ? defaultValue : value;
                 };
 
+                var controller = this;
+
+                // set the default values of the one way binded attributes
+                $timeout(function () {
+                    controller.placeholder = valueOrDefault(controller.placeholder, 'Click to enter a value...');
+                    controller.cancelLabel = valueOrDefault(controller.cancelLabel, 'Done');
+                    controller.selectItemsLabel = valueOrDefault(controller.selectItemsLabel, "Select an item...");
+                    controller.selectedItemsLabel = valueOrDefault(controller.selectedItemsLabel, $interpolate("Selected items{{maxSelectedItems ? ' (max. ' + maxSelectedItems + ')' : ''}}:")(controller));
+                });
+
                 // set the default values of the passed in attributes
-                this.placeholder = valueOrDefault($attrs.placeholder, 'Click to enter a value...');
-                this.cancelLabel = valueOrDefault($attrs.cancelLabel, 'Done');
-                this.selectItemsLabel = valueOrDefault($attrs.selectItemsLabel, 'Select an item...');
                 this.maxSelectedItems = valueOrDefault($attrs.maxSelectedItems, undefined);
-                this.selectedItemsLabel = $interpolate(valueOrDefault($attrs.selectedItemsLabel,
-                    "Selected items{{maxSelectedItems ? ' (max. ' + maxSelectedItems + ')' : ''}}:"))(this);
                 this.templateUrl = valueOrDefault($attrs.templateUrl, undefined);
                 this.itemsMethodValueKey = valueOrDefault($attrs.itemsMethodValueKey, undefined);
                 this.itemValueKey = valueOrDefault($attrs.itemValueKey, undefined);
