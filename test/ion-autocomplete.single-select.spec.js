@@ -63,12 +63,12 @@ describe('ion-autocomplete single select', function () {
     });
 
     it('must show the value in the input field if the model is already defined', function () {
-        scope.model = "123";
+        scope.externalModel = "123";
         scope.modelToItemMethod = function (query) {
             return 'Model ' + [query];
         };
         spyOn(scope, 'modelToItemMethod').and.callThrough();
-        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />');
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel" model-to-item-method="modelToItemMethod(modelValue)" />');
 
         // expect the value of the input field to be already set
         expect(element[0].value).toBe('Model 123');

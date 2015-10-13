@@ -16,7 +16,8 @@
         var app = angular.module('ion-autocomplete-sample', ['ionic', 'ion-autocomplete'])
                 .controller('IonAutocompleteController', function ($scope) {
 
-                    $scope.model = ['test1', 'test2'];
+                    $scope.model = [];
+                    $scope.externalModel = {data: ['test1', 'test2']};
                     $scope.preselectedSearchItems = [
                         {id: "1", name: "1", view: "view: 1"},
                         {id: "2", name: "2", view: "view: 2"}];
@@ -43,6 +44,11 @@
 
                     $scope.itemsClicked = function (callback) {
                         $scope.callbackValueModel = callback;
+                    };
+
+                    $scope.updateModel = function () {
+                        $scope.externalModel.data = ['test1', 'test2', 'test3', 'test4'];
+                        console.log("external Model");
                     }
                 });
     </script>
@@ -65,12 +71,19 @@
                        placeholder="Enter test query ..."
                        items-clicked-method="itemsClicked(callback)"
                        model-to-item-method="getItemFromModelValue(modelValue)"
-                       selected-items="selectedItems"/>
+                       selected-items="selectedItems"
+                       external-model="externalModel.data"/>
             </label>
 
             <label class="item item-input">
                 <span class="input-label">Multiple select autocomplete model value</span>
                 <input type="text" class="ion-autocomplete-test-model" ng-model="model" autocomplete="off">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Multiple select autocomplete external model value</span>
+                <input type="text" class="ion-autocomplete-external-model" ng-model="externalModel.data"
+                       autocomplete="off">
             </label>
 
             <label class="item item-input">
@@ -84,14 +97,11 @@
                 <input type="text" class="ion-autocomplete-search-items-model" ng-model="preselectedSearchItems"
                        autocomplete="off">
             </label>
-
-            <label class="item item-input">
-                <span class="input-label">Selected items</span>
-                <input type="text" class="ion-autocomplete-selected-items-model" ng-model="selectedItems"
-                       autocomplete="off">
-            </label>
-
         </form>
+
+        <button ng-click="updateModel()">
+            Increment
+        </button>
     </ion-content>
 </ion-view>
 </body>

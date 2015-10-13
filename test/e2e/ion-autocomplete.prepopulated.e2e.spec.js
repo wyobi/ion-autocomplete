@@ -10,7 +10,7 @@ describe('ion-autocomplete multiple select', function () {
         expect($('input.ion-autocomplete-test-model').isDisplayed()).toBeTruthy();
         expect($('input.ion-autocomplete-test-model').getAttribute('value')).toEqual('test1,test2');
 
-        expect($('input.ion-autocomplete-selected-items-model').getAttribute('value')).toEqual('[object Object],[object Object]');
+        expect($('input.ion-autocomplete-external-model').getAttribute('value')).toEqual('test1,test2');
 
         element(by.css('input.ion-autocomplete')).click().then(function () {
             expect($('input.ion-autocomplete-search').isDisplayed()).toBeTruthy();

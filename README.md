@@ -23,6 +23,7 @@ ion-autocomplete
         - [The `max-selected-items`](#the-max-selected-items)
         - [The `items-clicked-method`](#the-items-clicked-method)
         - [The `items-removed-method`](#the-items-removed-method)
+        - [External model](#external-model)
         - [The `model-to-item-method`](#the-model-to-item-method)
         - [The `cancel-button-clicked-method`](#the-cancel-button-clicked-method)
         - [ComponentId](#component-id)
@@ -35,7 +36,6 @@ ion-autocomplete
         - [Loading icon](#loading-icon)
         - [Manage externally](#manage-externally)
         - [Search items](#search-items)
-        - [Selected items](#selected-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
@@ -280,15 +280,23 @@ And pass in the callback method in the directive:
 
 Then you get a callback object with the removed item and the selected items.
 
+### External model
+
+The two way binded external model (`external-model` attribute on the component) is used to prepopulate the selected items with the model value. The [`model-to-item-method`](#the-model-to-item-method) is used to get the view item to the model and then the item is selected in the 
+component. Be aware that the `external-model` is not updated by the component when an item is selected. It is just used to prepopulate or clear the selected items. If you need to get the current selected items you are able 
+to read the value of the `ng-model`. For an example have a look at the [`model-to-item-method`](#the-model-to-item-method) documentation.
+
+If you need to clear the selected items then you are able to set the `external-model` to an empty array.
+
 ### The `model-to-item-method`
 
-This method is used if you want to prepopulate the model of the `ion-autocomplete` component. The prepopulated model needs 
-to be have the same data as it would be saved when you select the items by hand. The component then takes the model values 
+This method is used if you want to prepopulate the model of the `ion-autocomplete` component. The [external model](#external-model) needs 
+to have the same data as it would have when you select the items by hand. The component then takes the model values 
 and calls the specified `model-to-item-method` to resolve the item from the back end and select it such that it is preselected.
 
 Here a small example:
 
-Define the `model-to-item-method` in your scope:
+Define the `model-to-item-method` and `external-model` in your scope:
 ```javascript
 $scope.modelToItemMethod = function (modelValue) {
 
@@ -296,11 +304,12 @@ $scope.modelToItemMethod = function (modelValue) {
     var modelItem = getModelItem(modelValue);
     return modelItem;
 }
+$scope.externalModel = {data: ['test1', 'test2', 'test3'];
 ```
 
 And set the `model-to-item-method` on the directive:
 ```html
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" model-to-item-method="modelToItemMethod(modelValue)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel.data" model-to-item-method="modelToItemMethod(modelValue)" />
 ```
 
 You are also able to return a promise from this callback method. For example:
