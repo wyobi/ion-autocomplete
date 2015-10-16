@@ -378,7 +378,15 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 };
 
                 // watch the external model for changes and select the items inside the model
-                scope.$watch("viewModel.externalModel", function (newModel) {
+                scope.$watchCollection("viewModel.externalModel", function (newModel) {
+                    //if (!newModel || (angular.isArray(newModel) && newModel.length == 0)) {
+                    if ((angular.isArray(newModel) && newModel.length == 0)) {
+                        // clear the selected items and set the view value and render it
+                        ionAutocompleteController.selectedItems = [];
+                        ngModelController.$setViewValue(ionAutocompleteController.selectedItems);
+                        ngModelController.$render();
+                        return;
+                    }
 
                     // prepopulate view and selected items if external model is already set
                     if (newModel && angular.isFunction(ionAutocompleteController.modelToItemMethod)) {

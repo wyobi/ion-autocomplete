@@ -286,7 +286,7 @@ The two way binded external model (`external-model` attribute on the component) 
 component. Be aware that the `external-model` is not updated by the component when an item is selected. It is just used to prepopulate or clear the selected items. If you need to get the current selected items you are able 
 to read the value of the `ng-model`. For an example have a look at the [`model-to-item-method`](#the-model-to-item-method) documentation.
 
-If you need to clear the selected items then you are able to set the `external-model` to an empty array.
+If you need to clear the selected items then you are able to set the `external-model` to an empty array (another value is not clearing the selected items).
 
 ### The `model-to-item-method`
 
@@ -304,12 +304,12 @@ $scope.modelToItemMethod = function (modelValue) {
     var modelItem = getModelItem(modelValue);
     return modelItem;
 }
-$scope.externalModel = {data: ['test1', 'test2', 'test3'];
+$scope.externalModel = ['test1', 'test2', 'test3'];
 ```
 
 And set the `model-to-item-method` on the directive:
 ```html
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel.data" model-to-item-method="modelToItemMethod(modelValue)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel" model-to-item-method="modelToItemMethod(modelValue)" />
 ```
 
 You are also able to return a promise from this callback method. For example:
