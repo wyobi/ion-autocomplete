@@ -35,7 +35,6 @@ ion-autocomplete
         - [Template data](#template-data)
         - [Loading icon](#loading-icon)
         - [Manage externally](#manage-externally)
-        - [Search items](#search-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
