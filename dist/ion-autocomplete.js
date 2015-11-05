@@ -31,7 +31,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 selectedItemsLabel: '@'
             },
             controllerAs: 'viewModel',
-            controller: ['$attrs', '$timeout', function ($attrs, $timeout) {
+            controller: ['$attrs', '$timeout', '$scope', function ($attrs, $timeout, $scope) {
 
                 var valueOrDefault = function (value, defaultValue) {
                     return !value ? defaultValue : value;
@@ -56,6 +56,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 this.componentId = valueOrDefault($attrs.componentId, undefined);
                 this.loadingIcon = valueOrDefault($attrs.loadingIcon, undefined);
                 this.manageExternally = valueOrDefault($attrs.manageExternally, "false");
+                this.ngModelOptions = valueOrDefault($scope.$eval($attrs.ngModelOptions), {});
 
                 // loading flag if the items-method is a function
                 this.showLoadingIcon = false;
@@ -79,7 +80,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '<div class="bar bar-header item-input-inset">',
                     '<label class="item-input-wrapper">',
                     '<i class="icon ion-search placeholder-icon"></i>',
-                    '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" placeholder="{{viewModel.placeholder}}"/>',
+                    '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" ng-model-options="viewModel.ngModelOptions" placeholder="{{viewModel.placeholder}}"/>',
                     '</label>',
                     '<div class="ion-autocomplete-loading-icon" ng-if="viewModel.showLoadingIcon && viewModel.loadingIcon"><ion-spinner icon="{{viewModel.loadingIcon}}"></ion-spinner></div>',
                     '<button class="ion-autocomplete-cancel button button-clear" ng-click="viewModel.cancelClick()">{{viewModel.cancelLabel}}</button>',

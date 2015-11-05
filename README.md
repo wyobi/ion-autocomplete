@@ -37,6 +37,7 @@ ion-autocomplete
         - [Manage externally](#manage-externally)
         - [Search items](#search-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
+    - [Debouncing](#debouncing)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -503,6 +504,16 @@ name attribute of the child object:
 
 ```html
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="child.name" />
+```
+
+## Debouncing
+
+If you want to debounce the search input field request, then you are able to set the `ng-model-options` attribute on the input field where you define the `ion-autocomplete`
+directive. These options will then be added to the search input field. Be aware that when you add a debounce the update of the model value will also be debounced the 
+ same amount as the request to the `items-method`. Here a small example:
+ 
+```html
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" ng-model-options="{debounce:1000}" />
 ```
 
 # Release notes

@@ -369,6 +369,17 @@ describe('ion-autocomplete single select', function () {
         expect(getSearchContainerElement().css('display')).toBe('none');
     });
 
+    it('must pass the outter ng-model-options to the inner search input field', function () {
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" ng-model-options="{debounce: 1000}"/>');
+
+        // click on the element
+        element.triggerHandler('click');
+        scope.$digest();
+
+        // show the search container externally
+        expect(getSearchInputElement().controller('ngModel').$options.debounce).toBe(1000);
+    });
+
     /**
      * Compiles the given element and executes a digest cycle on the scope.
      *

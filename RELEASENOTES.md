@@ -11,6 +11,7 @@
 * Added the `max-selected-items` attribute to restrict the selected search items - [#58](https://github.com/guylabs/ion-autocomplete/issues/58).
 * Added the `cancel-button-clicked-method` attribute to be able to get notified when the cancel button is clicked - [#63](https://github.com/guylabs/ion-autocomplete/issues/63).
 * Added the `external-model` attribute to be able to prepopulate the selected items and to clear them programmatically - [#66](https://github.com/guylabs/ion-autocomplete/issues/66), [#89](https://github.com/guylabs/ion-autocomplete/issues/89).
+* Added the ability to pass the `ng-model-options` to the inner search input field - [#91](https://github.com/guylabs/ion-autocomplete/issues/91)
 
 ### Migration notes
 
