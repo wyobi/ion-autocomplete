@@ -442,11 +442,11 @@ be shown at the right side of the search input field.
 ### Manage externally
 
 To manage the `ion-autocomplete` component externally means that you need to handle when the search modal is shown. To enable this functionality 
-you need to set the `externally-managed` attribute to `true` and then you can call the `showModal()` method on the controller. Here an example:
+you need to set the `manage-externally` attribute to `true` and then you can call the `showModal()` method on the controller. Here an example:
 
 ```javascript
 // create the externally managed component and a button which has a click handler to a scope method
-<input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" externally-managed="true" />
+<input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" manage-externally="true" />
 <button class="button" ng-click="clickButton()">Open modal</button>
 
 // inside your controller you can define the 'clickButton()' method the following way
