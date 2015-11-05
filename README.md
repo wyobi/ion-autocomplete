@@ -394,7 +394,7 @@ You are also able to set an own template for the autocomplete component (default
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-url="templates/template.html" />`
 ```
 
-This way you are able to override the default template (the `searchContainerTemplate` variable [here](https://github.com/guylabs/ion-autocomplete/blob/master/src/ion-autocomplete.js#L75)) 
+This way you are able to override the default template (the `template` variable [here](https://github.com/guylabs/ion-autocomplete/blob/master/src/ion-autocomplete.js#L68)) 
 and use your own template. The component will use the default template if the `template-url` is not defined.
 
 You are able to use all the configurable attributes as expressions in your template. I would advise to use the default template as base template
@@ -403,7 +403,12 @@ and then add your custom additions to it.
 > Please also take care when you change how the items are shown or what method is called if an item is clicked, 
 > because changing this could make the component unusable.
 
-The template itself will be loaded with the `$ionicTemplateLoader` and this will also use the Angular `$templateCache`.
+You will need to set the proper `randomCssClass` for the outer most div container in your template and you can get the value by using the `{{viewModel.randomCssClass}}` expression
+like in the following example:
+
+```html
+<div class="ion-autocomplete-container {{viewModel.randomCssClass}} modal" style="display: none;">
+```
 
 ### Template data
 
