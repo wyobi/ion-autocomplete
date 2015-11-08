@@ -168,7 +168,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }
 
                         // call items clicked callback
-                        if (angular.isFunction(ionAutocompleteController.itemsClickedMethod)) {
+                        if (angular.isDefined(attrs.itemsClickedMethod)) {
                             ionAutocompleteController.itemsClickedMethod({
                                 callback: {
                                     item: item,
@@ -191,7 +191,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ngModelController.$render();
 
                         // call items clicked callback
-                        if (angular.isFunction(ionAutocompleteController.itemsRemovedMethod)) {
+                        if (angular.isDefined(attrs.itemsRemovedMethod)) {
                             ionAutocompleteController.itemsRemovedMethod({
                                 callback: {
                                     item: removed,
@@ -215,7 +215,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             ionAutocompleteController.searchItems = [];
                         }
 
-                        if (angular.isFunction(ionAutocompleteController.itemsMethod)) {
+                        if (angular.isDefined(attrs.itemsMethod)) {
 
                             // show the loading icon
                             ionAutocompleteController.showLoadingIcon = true;
@@ -376,7 +376,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ionAutocompleteController.hideModal();
 
                         // call cancel button clicked callback
-                        if (angular.isFunction(ionAutocompleteController.cancelButtonClickedMethod)) {
+                        if (angular.isDefined(attrs.cancelButtonClickedMethod)) {
                             ionAutocompleteController.cancelButtonClickedMethod({
                                 callback: {
                                     selectedItems: ionAutocompleteController.selectedItems.slice(),
@@ -390,7 +390,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     scope.$watch("viewModel.externalModel", function (newModel) {
 
                         // prepopulate view and selected items if external model is already set
-                        if (newModel && angular.isFunction(ionAutocompleteController.modelToItemMethod)) {
+                        if (newModel && angular.isDefined(attrs.modelToItemMethod)) {
                             if (angular.isArray(newModel)) {
                                 ionAutocompleteController.selectedItems = [];
                                 angular.forEach(newModel, function (modelValue) {
