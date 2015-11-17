@@ -35,7 +35,6 @@ ion-autocomplete
         - [Template data](#template-data)
         - [Loading icon](#loading-icon)
         - [Manage externally](#manage-externally)
-        - [Search items](#search-items)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
     - [Debouncing](#debouncing)
 - [Release notes](#release-notes)
@@ -120,7 +119,7 @@ return a static item of the query:
 
 Define the callback in your scope:
 ```javascript
-$scope.callbackMethod = function (query) {
+$scope.callbackMethod = function (query, isInitializing) {
     return [query];
 }
 ```
@@ -132,7 +131,7 @@ And set the items method on the directive:
 
 You are also able to return a promise from this callback method. For example:
 ```javascript
-$scope.callbackMethod = function (query) {
+$scope.callbackMethod = function (query, isInitializing) {
     return $http.get(endpoint);
 }
 ```
@@ -140,11 +139,45 @@ $scope.callbackMethod = function (query) {
 Note that the parameter for the `callbackMethod` needs to be named `query`. Otherwise the callback will not get called properly.
 If you want to also retrieve the [ComponentId](#component-id) then you need to add a second parameter called `componentId`:
 ```javascript
-$scope.callbackMethod = function (query, componentId) {
+$scope.callbackMethod = function (query, isInitializing, componentId) {
     if(componentId == "component1") {
         return $http.get(endpoint1);
     }
     return [query];
+}
+```
+
+If you want to pre populate the items which are shown when the modal is visible before the user enters a query then you can check the `isInitializing` flag of
+the `items-method` as this is set to true if it is called for the initial items. Here is an example which shows the `test` item as an initial item:
+```javascript
+$scope.callbackMethod = function (query, isInitializing) {
+    if(isInitializing) {
+        // depends on the configuration of the `items-method-value-key` (items) and the `item-value-key` (name) and `item-view-value-key` (name)
+        return { items: [ { name: "test" } ] }
+    } else {
+        return $http.get(endpoint);
+    }
+}
+```
+
+If you want to clear the list each time the user opens the modal then just return an empty array like in the following example:
+```javascript
+$scope.callbackMethod = function (query, isInitializing) {
+    if(isInitializing) {
+        // depends on the configuration of the `items-method-value-key` (items) and the `item-value-key` (name) and `item-view-value-key` (name)
+        return { items: [] }
+    } else {
+        return $http.get(endpoint);
+    }
+}
+```
+
+And if you do not want that the searched items list gets modified then just return nothing as in this example:
+```javascript
+$scope.callbackMethod = function (query, isInitializing) {
+    if(!isInitializing) {
+        return $http.get(endpoint);
+    }
 }
 ```
 
@@ -287,7 +320,7 @@ The two way binded external model (`external-model` attribute on the component) 
 component. Be aware that the `external-model` is not updated by the component when an item is selected. It is just used to prepopulate or clear the selected items. If you need to get the current selected items you are able 
 to read the value of the `ng-model`. For an example have a look at the [`model-to-item-method`](#the-model-to-item-method) documentation.
 
-If you need to clear the selected items then you are able to set the `external-model` to an empty array.
+If you need to clear the selected items then you are able to set the `external-model` to an empty array (another value is not clearing the selected items).
 
 ### The `model-to-item-method`
 
@@ -305,12 +338,12 @@ $scope.modelToItemMethod = function (modelValue) {
     var modelItem = getModelItem(modelValue);
     return modelItem;
 }
-$scope.externalModel = {data: ['test1', 'test2', 'test3'];
+$scope.externalModel = ['test1', 'test2', 'test3'];
 ```
 
 And set the `model-to-item-method` on the directive:
 ```html
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel.data" model-to-item-method="modelToItemMethod(modelValue)" />
+<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" external-model="externalModel" model-to-item-method="modelToItemMethod(modelValue)" />
 ```
 
 You are also able to return a promise from this callback method. For example:
@@ -458,25 +491,6 @@ this.clickButton = function () {
 
 Then you will need to click on the button to open the search modal. This functionality is useful if the user wants to edit the selected item inside the 
 input field after she/he selected the item/s.
-
-### Search items
-
-If you want to pre populate the items which are shown when the user enters a query then you can set the `search-items` attribute to an array of 
-values that have the same structure like the value which is returned from the `items-method`.
-
-Here a small example:
-
-Define the pre populated items in your scope:
-```javascript
-$scope.prepopulatedItems = [ { "name" : "item1" },{ "name" : "item2" }, ... ];
-```
-
-And set the `search-items` on the directive:
-```html
-<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" search-items="prepopulatedItems" />
-```
-
-Then when the user opens the component, then he will right away see the already pre populated search items.
 
 ### Selected items
 
