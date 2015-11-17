@@ -256,7 +256,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                                 return $q.reject(error);
                             });
                         }
-                    });
+                    };
 
                     var searchContainerDisplayed = false;
 

@@ -17,6 +17,8 @@
 
 * As of version `0.3.1` the `multiple-select` attribute has been dropped in favor of the `max-selected-items` attribute.
 Please have a look at the documentation here https://github.com/guylabs/ion-autocomplete#the-max-selected-items on how to migrate this.
+* The `search-items` attribute has been removed as now the initialization of the `search-items` is done in the `items-method`. See the 
+new documentation here https://github.com/guylabs/ion-autocomplete#the-items-method.
 
 ## Version 0.3.0
 
