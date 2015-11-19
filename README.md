@@ -71,8 +71,8 @@ bower install ion-autocomplete --save
 ```
 2. Import the `ion-autocomplete` javascript and css file into your HTML file:
 ```html
-<script src="bower_components/ion-autocomplete/dist/ion-autocomplete.js"></script>
-<link href="bower_components/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">
+<script src="lib/ion-autocomplete/dist/ion-autocomplete.js"></script>
+<link href="lib/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">
 ```
 3. Add `ion-autocomplete` as a dependency on your Ionic app:
 ```javascript
