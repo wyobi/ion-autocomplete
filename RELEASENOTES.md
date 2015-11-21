@@ -1,5 +1,19 @@
 # Release notes of ion-autocomplete
 
+## Version 0.3.2
+
+* Tag: [0.3.2](https://github.com/guylabs/ion-autocomplete/tree/v0.3.2)
+* Release: [ion-autocomplete-0.3.2.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.3.2.zip)
+
+### Changes
+
+* A single selected item is not an array anymore with a single value - [#115](https://github.com/guylabs/ion-autocomplete/issues/115)
+
+### Migration notes
+
+* As part of the [#115](https://github.com/guylabs/ion-autocomplete/issues/115) issue when you now select a single value (`maxSelectedItems=1`) then the item
+is now returned as object and not as an array with one element. If you use a custom template, please also check the changes in the default template.
+
 ## Version 0.3.1
 
 * Tag: [0.3.1](https://github.com/guylabs/ion-autocomplete/tree/v0.3.1)
