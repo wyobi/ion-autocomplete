@@ -23,9 +23,9 @@ describe('ion-autocomplete multiple select', function () {
 
     it('must set the selectItems label', function () {
         var selectItemLabelValue = "select-item";
-        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" select-items-label="' + selectItemLabelValue + '"/>');
+        compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" selected-items-label="' + selectItemLabelValue + '"/>');
 
-        expect(getItemDividerElement(1)[0].innerText).toBe(selectItemLabelValue);
+        expect(getItemDividerElement(0)[0].innerText).toBe(selectItemLabelValue);
     });
 
     it('must set the selectedItemsLabel label', function () {
@@ -49,7 +49,7 @@ describe('ion-autocomplete multiple select', function () {
         expect(getSearchContainerElement().css('display')).toBe('block');
 
         // expect that the selectItems divider is hidden
-        expect(getItemDividerElement(1).hasClass('ng-hide')).toBeTruthy();
+        expect(getItemDividerElement(1)[0]).toBe(undefined);
 
         // add some items
         element.controller('ionAutocomplete').searchItems = ["value1", "value2"];
