@@ -486,6 +486,7 @@ you need to set the `manage-externally` attribute to `true` and then you can cal
 // inside your controller you can define the 'clickButton()' method the following way
 this.clickButton = function () {
     var ionAutocompleteElement = document.getElementsByClassName("ion-autocomplete");
+    angular.element(ionAutocompleteElement).controller('ionAutocomplete').fetchSearchQuery("", true);
     angular.element(ionAutocompleteElement).controller('ionAutocomplete').showModal();
 }
 ```
