@@ -335,7 +335,8 @@ Define the `model-to-item-method` and `external-model` in your scope:
 ```javascript
 $scope.modelToItemMethod = function (modelValue) {
 
-    // get the full model item from the model value and return it
+    // get the full model item from the model value and return it. You need to implement the `getModelItem` method by yourself 
+    // as this is just a sample. The method needs to retrieve the whole item (like the `items-method`) from just the model value.
     var modelItem = getModelItem(modelValue);
     return modelItem;
 }
