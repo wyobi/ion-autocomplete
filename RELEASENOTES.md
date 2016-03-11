@@ -8,6 +8,7 @@
 ### Changes
 
 * A single selected item is not an array anymore with a single value - [#115](https://github.com/guylabs/ion-autocomplete/issues/115)
+* The item repeat has been switched from `collection-repeat` to `ng-repeat` as there were some issues - [#126](https://github.com/guylabs/ion-autocomplete/issues/126)
 
 ### Migration notes
 
