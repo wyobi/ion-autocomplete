@@ -265,12 +265,12 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                                 // force the collection repeat to redraw itself as there were issues when the first items were added
                                 $ionicScrollDelegate.resize();
-
-                                // hide the loading icon
-                                ionAutocompleteController.showLoadingIcon = false;
                             }, function (error) {
                                 // reject the error because we do not handle the error here
                                 return $q.reject(error);
+                            }).finally(function () {
+                                // hide the loading icon
+                                ionAutocompleteController.showLoadingIcon = false;
                             });
                         }
                     };
