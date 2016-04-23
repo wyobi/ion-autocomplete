@@ -182,21 +182,21 @@ $scope.callbackMethod = function (query, isInitializing) {
 }
 ```
 
-A common usage for the items-method would be to use the [google map geocode api](https://developers.google.com/maps/documentation/geocoding/intro?hl=de#Geocoding) for address suggestions.
+A common usage for the `items-method` is to use the [Google Map Geocode API](https://developers.google.com/maps/documentation/geocoding/intro?hl=de#Geocoding) for address suggestions.
 
-To use googles api you have to hotlink the library in your index.html file:
+To use Googles API you need to link the required library in your `index.html` file:
 ```html
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 ```
 
-In you input you set items method to the below methos getAddressSuggestions and set the value key to formatted_address to display the geocoder object formatted address:
+In the `ion-autocomplete` input field you set the `items-method` to the below shown method `getAddressSuggestions` and set the value key to `formatted_address` to display the formatted address:
 ```html
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"
 item-view-value-key="formatted_address"
 items-method="getAddressSuggestions(query)" />
 ```
 
-To query googles api you have to create a geocoder instance and put in a string as query parameter. It will return a list of
+To query Googles API you have to create a `Geocoder` instance and use the `queryString` as input and return the result object in a promise.
 ```javascript
 var geocoder = new google.maps.Geocoder();
 
