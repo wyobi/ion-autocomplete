@@ -87,6 +87,19 @@ describe('ion-autocomplete single select', function () {
         expect(element[0].value).toBe('value1');
     });
 
+    it('must show the dynamic itemViewValueKey of the value in the input field if the model is already defined', function () {
+        scope.model = {key: {value: "value1"}};
+        scope.modelToItemMethod = function (query) {
+            return query;
+        };
+        scope.dynamicViewValueKey = "key.value";
+        spyOn(scope, 'modelToItemMethod').and.callThrough();
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" item-view-value-key="{{dynamicViewValueKey}}" model-to-item-method="modelToItemMethod(modelValue)" />');
+
+        // expect the value of the input field to be the evaluated itemViewValueKey expression on the model
+        expect(element[0].value).toBe('value1');
+    });
+
     it('must not show any value if the model is cleared', function () {
         scope.model = {key: {value: "value1"}};
         scope.modelToItemMethod = function (query) {
