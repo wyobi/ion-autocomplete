@@ -4,11 +4,12 @@ describe('ion-autocomplete single select', function () {
 
     var templateUrl = 'test/templates/test-template.html';
     var templateDataUrl = 'test/templates/test-template-data.html';
+    var templateDynamicUrl = 'test/templates/test-template-dynamic.html';
 
     var scope, document, compile, q, templateCache, timeout;
 
     // load the directive's module
-    beforeEach(module('ionic', 'ion-autocomplete', templateUrl, templateDataUrl));
+    beforeEach(module('ionic', 'ion-autocomplete', templateUrl, templateDataUrl, templateDynamicUrl));
 
     beforeEach(inject(function ($rootScope, $document, $compile, $q, $templateCache, $timeout) {
         scope = $rootScope.$new();
@@ -111,6 +112,22 @@ describe('ion-autocomplete single select', function () {
 
         expect(element[0].placeholder).toBe(placeholderValue);
         expect(getSearchInputElement()[0].placeholder).toBe(placeholderValue);
+    });
+
+    it('must set the template-url with a dynamically binded value', function () {
+        var template = templateCache.get(templateDynamicUrl);
+        templateCache.removeAll();
+        templateCache.put(templateDynamicUrl, template);
+
+        scope.dynamicTemplateUrl = templateDynamicUrl;
+        var element = compileElement('<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" template-url="{{dynamicTemplateUrl}}"/>');
+
+        // click on the element
+        element.triggerHandler('click');
+        scope.$digest();
+
+        // check that the new test template is shown
+        expect(angular.element(document[0].querySelector('div#test-dynamic-template-div')).css('display')).toBe('block');
     });
 
     it('must set the cancel label on the button', function () {
@@ -313,6 +330,7 @@ describe('ion-autocomplete single select', function () {
 
     it('must be able to set a templateUrl', function () {
         var template = templateCache.get(templateUrl);
+        templateCache.removeAll();
         templateCache.put(templateUrl, template);
 
         var placeholder = "placeholder text";

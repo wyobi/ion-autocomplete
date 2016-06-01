@@ -27,7 +27,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 placeholder: '@',
                 cancelLabel: '@',
                 selectItemsLabel: '@',
-                selectedItemsLabel: '@'
+                selectedItemsLabel: '@',
+                templateUrl: '@'
             },
             controllerAs: 'viewModel',
             controller: ['$attrs', '$timeout', '$scope', function ($attrs, $timeout, $scope) {
@@ -44,11 +45,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     controller.cancelLabel = valueOrDefault(controller.cancelLabel, 'Done');
                     controller.selectItemsLabel = valueOrDefault(controller.selectItemsLabel, "Select an item...");
                     controller.selectedItemsLabel = valueOrDefault(controller.selectedItemsLabel, $interpolate("Selected items{{maxSelectedItems ? ' (max. ' + maxSelectedItems + ')' : ''}}:")(controller));
+                    controller.templateUrl = valueOrDefault(controller.templateUrl, undefined);
                 });
 
                 // set the default values of the passed in attributes
                 this.maxSelectedItems = valueOrDefault($attrs.maxSelectedItems, undefined);
-                this.templateUrl = valueOrDefault($attrs.templateUrl, undefined);
                 this.itemsMethodValueKey = valueOrDefault($attrs.itemsMethodValueKey, undefined);
                 this.itemValueKey = valueOrDefault($attrs.itemValueKey, undefined);
                 this.itemViewValueKey = valueOrDefault($attrs.itemViewValueKey, undefined);
@@ -449,6 +450,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // remove the component from the dom when scope is getting destroyed
                     scope.$on('$destroy', function () {
+                        $ionicBackdrop.release();
 
                         // angular takes care of cleaning all $watch's and listeners, but we still need to remove the modal
                         searchInputElement.remove();

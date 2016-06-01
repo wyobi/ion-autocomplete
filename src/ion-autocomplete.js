@@ -17,7 +17,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 placeholder: '@',
                 cancelLabel: '@',
                 selectItemsLabel: '@',
-                selectedItemsLabel: '@'
+                selectedItemsLabel: '@',
+                templateUrl: '@'
             },
             controllerAs: 'viewModel',
             controller: ['$attrs', '$timeout', '$scope', function ($attrs, $timeout, $scope) {
@@ -34,11 +35,11 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     controller.cancelLabel = valueOrDefault(controller.cancelLabel, 'Done');
                     controller.selectItemsLabel = valueOrDefault(controller.selectItemsLabel, "Select an item...");
                     controller.selectedItemsLabel = valueOrDefault(controller.selectedItemsLabel, $interpolate("Selected items{{maxSelectedItems ? ' (max. ' + maxSelectedItems + ')' : ''}}:")(controller));
+                    controller.templateUrl = valueOrDefault(controller.templateUrl, undefined);
                 });
 
                 // set the default values of the passed in attributes
                 this.maxSelectedItems = valueOrDefault($attrs.maxSelectedItems, undefined);
-                this.templateUrl = valueOrDefault($attrs.templateUrl, undefined);
                 this.itemsMethodValueKey = valueOrDefault($attrs.itemsMethodValueKey, undefined);
                 this.itemValueKey = valueOrDefault($attrs.itemValueKey, undefined);
                 this.itemViewValueKey = valueOrDefault($attrs.itemViewValueKey, undefined);
