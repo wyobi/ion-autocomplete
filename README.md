@@ -60,7 +60,7 @@ The ion-autocomplete component has the following features:
 - Configure what is stored in the model and what is seen in the list
 - Configure the template used to show the autocomplete component
 - Configure a callback when an item is clicked/removed
-- Configure a callback when the done button is clicked
+- Configure a callback when the cancel/done button is clicked
 - Configure all labels used in the component
 
 # Installation
@@ -389,9 +389,9 @@ $scope.modelToItemMethod = function (modelValue) {
 
 Note that the parameter for the `model-to-item-method` needs to be named `modelValue`. Otherwise the callback will not get called properly.
 
-### The `cancel-button-clicked-method`
+### The `cancel-button-clicked-method` (same as done button)
 
-You are able to pass a function to the `cancel-button-clicked-method` attribute to be notified when the cancel button is clicked to close the modal. The name of the 
+You are able to pass a function to the `cancel-button-clicked-method` attribute to be notified when the cancel/done button is clicked to close the modal. The name of the 
 parameter of the function must be `callback`. Here is an example:
 
 Define the callback in your scope:
