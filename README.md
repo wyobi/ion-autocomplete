@@ -25,7 +25,7 @@ ion-autocomplete
         - [The `items-removed-method`](#the-items-removed-method)
         - [External model](#external-model)
         - [The `model-to-item-method`](#the-model-to-item-method)
-        - [The `cancel-button-clicked-method`](#the-cancel-button-clicked-method)
+        - [The `cancel-button-clicked-method` (same as done button)](#the-cancel-button-clicked-method-same-as-done-button)
         - [ComponentId](#component-id)
         - [Placeholder](#placeholder)
         - [Cancel button label](#cancel-button-label)
