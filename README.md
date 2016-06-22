@@ -37,6 +37,7 @@ ion-autocomplete
         - [Manage externally](#manage-externally)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
     - [Debouncing](#debouncing)
+    - [Usage inside an Ionic modal](#usage-inside-an-ionic-modal)
 - [Release notes](#release-notes)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -568,6 +569,16 @@ directive. These options will then be added to the search input field. Be aware 
  
 ```html
 <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" ng-model-options="{debounce:1000}" />
+```
+
+## Usage inside an Ionic modal
+
+When you add the `ion-autocomplete` component to a separate Ionic modal, then you need to remove the modal when you switch the view. You can achieve this by adding the following scope `$destroy` listener where the separate modal is removed:
+
+```javascript
+$scope.$on('$destroy', function () {
+        $scope.modal.remove();
+    });
 ```
 
 # Release notes
