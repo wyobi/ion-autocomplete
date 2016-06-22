@@ -58,6 +58,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 this.componentId = valueOrDefault($attrs.componentId, undefined);
                 this.loadingIcon = valueOrDefault($attrs.loadingIcon, undefined);
                 this.manageExternally = valueOrDefault($attrs.manageExternally, "false");
+                this.clearOnSelect = valueOrDefault($attrs.clearOnSelect, "true");
                 this.ngModelOptions = valueOrDefault($scope.$eval($attrs.ngModelOptions), {});
 
                 // loading flag if the items-method is a function
@@ -154,8 +155,10 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // function which selects the item, hides the search container and the ionic backdrop if it has not maximum selected items attribute set
                     ionAutocompleteController.selectItem = function (item) {
 
-                        // clear the search query when an item is selected
-                        ionAutocompleteController.searchQuery = undefined;
+                        // if the clear on select is true, clear the search query when an item is selected
+                        if (ionAutocompleteController.clearOnSelect == "true") {
+                            ionAutocompleteController.searchQuery = undefined;
+                        }
 
                         // return if the max selected items is not equal to 1 and the maximum amount of selected items is reached
                         if (ionAutocompleteController.maxSelectedItems != "1" &&
