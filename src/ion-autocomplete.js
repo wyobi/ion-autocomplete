@@ -149,7 +149,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         if (ionAutocompleteController.clearOnSelect == "true") {
                             ionAutocompleteController.searchQuery = undefined;
                         }
-                        
+
                         // return if the max selected items is not equal to 1 and the maximum amount of selected items is reached
                         if (ionAutocompleteController.maxSelectedItems != "1" &&
                             angular.isArray(ionAutocompleteController.selectedItems) &&
@@ -305,7 +305,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             searchInputElement[0].focus();
                             setTimeout(function () {
                                 searchInputElement[0].focus();
-                            }, 0);
+                            }, 100);
                         }
 
                         // force the collection repeat to redraw itself as there were issues when the first items were added
