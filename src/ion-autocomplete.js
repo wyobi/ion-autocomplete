@@ -185,6 +185,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                                 callback: {
                                     item: item,
                                     selectedItems: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : ionAutocompleteController.selectedItems,
+                                    selectedItemsArray: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : [ionAutocompleteController.selectedItems],
                                     componentId: ionAutocompleteController.componentId
                                 }
                             });
@@ -214,6 +215,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                                 callback: {
                                     item: removed,
                                     selectedItems: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : ionAutocompleteController.selectedItems,
+                                    selectedItemsArray: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : [ionAutocompleteController.selectedItems],
                                     componentId: ionAutocompleteController.componentId
                                 }
                             });
@@ -422,6 +424,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             ionAutocompleteController.cancelButtonClickedMethod({
                                 callback: {
                                     selectedItems: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : ionAutocompleteController.selectedItems,
+                                    selectedItemsArray: angular.isArray(ionAutocompleteController.selectedItems) ? ionAutocompleteController.selectedItems.slice() : [ionAutocompleteController.selectedItems],
                                     componentId: ionAutocompleteController.componentId
                                 }
                             });
