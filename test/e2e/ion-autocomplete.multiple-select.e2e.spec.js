@@ -275,7 +275,6 @@ describe('ion-autocomplete multiple select', function () {
         for (var i = 0; i < count; i++) {
             expect(items.get(i).getText().isDisplayed()).toBeTruthy();
         }
-        //expect(items.get(count).getText().isDisplayed()).toBeFalsy();
     }
 
 });
