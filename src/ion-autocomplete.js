@@ -21,7 +21,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 selectedItemsLabel: '@',
                 templateUrl: '@',
                 itemValueKey: '@',
-                itemViewValueKey: '@'              
+                itemViewValueKey: '@'
             },
             controllerAs: 'viewModel',
             controller: ['$attrs', '$timeout', '$scope', function ($attrs, $timeout, $scope) {
@@ -483,7 +483,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // set the model value of the model
                     ngModelController.$parsers.push(function (viewValue) {
                         return ionAutocompleteController.getItemValue(viewValue, ionAutocompleteController.itemValueKey);
-                    });                  
+                    });        
 
                 });
 
