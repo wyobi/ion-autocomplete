@@ -5,7 +5,7 @@
     bottom: 0;
     left: 0;
     z-index: 20;
-    display: none;
+    /*display: none;*/
     margin: auto;
 }
 
@@ -16,4 +16,12 @@ input.ion-autocomplete[readonly] {
 
 .ion-autocomplete-loading-icon {
     padding-left: 10px;
+}
+
+.ion-autocomplete-open {
+    display: block;
+}
+
+.ion-autocomplete-close {
+    display: none;
 }
