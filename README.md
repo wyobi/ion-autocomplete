@@ -39,7 +39,7 @@ ion-autocomplete
         - [Manage externally](#manage-externally)
         - [Selected items](#selected-items)
         - [Clear on select](#clear-on-select)
-        - [Override open and close class ](#open-close-class)
+        - [Open and close CSS class ](#open-and-close-css-class)
     - [Using expressions in value keys](#using-expressions-in-value-keys)
     - [Debouncing](#debouncing)
     - [Usage inside an Ionic modal](#usage-inside-an-ionic-modal)
@@ -561,9 +561,9 @@ This option is to clear the search input when an item is selected. You need to s
 <input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="off" ng-model="model" clear-on-select="true" />
 ```
 
-### Override open and close class
+### Open and close CSS class
 
-By default 2 classes are used to display and hide the modal `ion-autocomplete-open` and `ion-autocomplete-close`, you can override those classes with your own
+By default two CSS classes are used to display and hide the modal, namely the ion-autocomplete-open and the ion-autocomplete-close CSS class. These are used to show and hide the modal. When you need to override these classes, you can define the following two properties with your CSS class.
 
 ```javascript
 <input ion-autocomplete type="text" class="ion-autocomplete" open-class="my-open-class" close-class="my-close-class" />
