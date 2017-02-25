@@ -43,15 +43,12 @@
     </script>
     <style>
         .test-open-class {
-            opacity: 1;
-            bottom: 0;     
-            top:0;          
+            display: block;
         }
 
-        .test-close-class {              
-            top: auto;                      
-            bottom: -100%;            
-        }          
+        .test-close-class {
+            display: none;
+        }
 
     </style>
 </head>
@@ -74,7 +71,7 @@
                        component-id="comp1"
                        max-selected-items="1"
                        cancel-button-clicked-method="doneButtonClicked(callback)"
-                       open-class="test-open-class" 
+                       open-class="test-open-class"
                        close-class="test-close-class"/>
             </label>
 
