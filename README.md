@@ -99,7 +99,8 @@ ion-autocomplete version | Ionic version
 0.2.0 - 0.2.1 | 1.0.0-rc.3
 0.2.2 - 0.2.3 | 1.0.0
 0.3.0 - 0.3.1 | 1.1.0
-0.3.2 - latest | 1.1.1
+0.3.2 - 0.3.3 | 1.1.1
+0.4.0 - latest | 1.3.2
 
 # Usage
 

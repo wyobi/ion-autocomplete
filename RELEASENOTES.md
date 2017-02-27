@@ -1,5 +1,15 @@
 # Release notes of ion-autocomplete
 
+## Version 0.4.0
+
+* Tag: [0.4.0](https://github.com/guylabs/ion-autocomplete/tree/v0.4.0)
+* Release: [ion-autocomplete-0.4.0.zip](https://github.com/guylabs/ion-autocomplete/archive/v0.4.0.zip)
+
+### Changes
+
+* Upgraded to Ionic `1.3.2` and Angular `1.5.3` - [#189](https://github.com/guylabs/ion-autocomplete/issues/189)
+* Added open and close CSS class feature. Thanks to [@nlarche](https://github.com/nlarche) for the pull request. - [#221](https://github.com/guylabs/ion-autocomplete/pull/221)
+
 ## Version 0.3.3
 
 * Tag: [0.3.3](https://github.com/guylabs/ion-autocomplete/tree/v0.3.3)
