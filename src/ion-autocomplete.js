@@ -313,7 +313,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         }, 300);
 
                         // get the compiled search field
-                        var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' input'));
+                        var searchInputElement = angular.element($document[0].querySelector('div.ion-autocomplete-container.' + ionAutocompleteController.randomCssClass + ' input:not(.no-autofocus)'));
 
                         // focus on the search input field
                         if (searchInputElement.length > 0) {
