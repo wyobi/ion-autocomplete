@@ -1,7 +1,7 @@
 /*
  * ion-autocomplete 0.4.0
- * Copyright 2017 Danny Povolotski 
- * Copyright modifications 2017 Guy Brand 
+ * Copyright 2024 Danny Povolotski 
+ * Copyright modifications 2024 Guy Brand 
  * https://github.com/guylabs/ion-autocomplete
  */
 (function() {
@@ -80,6 +80,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                 // get the two needed controllers
                 var ngModelController = controllers[0];
                 var ionAutocompleteController = controllers[1];
+                var itemsMethodLoaded = false;
 
                 // use a random css class to bind the modal to the component
                 ionAutocompleteController.randomCssClass = "ion-autocomplete-random-" + Math.floor((Math.random() * 1000) + 1);
@@ -156,6 +157,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
 
                     // function which selects the item, hides the search container and the ionic backdrop if it has not maximum selected items attribute set
                     ionAutocompleteController.selectItem = function (item) {
+                      
 
                         // if the clear on select is true, clear the search query when an item is selected
                         if (ionAutocompleteController.clearOnSelect == "true") {
@@ -187,7 +189,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         ngModelController.$render();
 
                         // hide the container and the ionic backdrop if it is a single select to enhance usability
-                        if (ionAutocompleteController.maxSelectedItems == 1) {
+                        if (ionAutocompleteController.maxSelectedItems == 1 && itemsMethodLoaded) {
                             ionAutocompleteController.hideModal();
                         }
 
@@ -276,6 +278,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                             var promise = $q.when(ionAutocompleteController.itemsMethod(queryObject));
 
                             promise.then(function (promiseData) {
+                                itemsMethodLoaded = true;
 
                                 // if the promise data is not set do nothing
                                 if (!promiseData) {
@@ -310,6 +313,8 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                         if (searchContainerDisplayed) {
                             return;
                         }
+
+                        itemsMethodLoaded = false;
 
                         // show the backdrop and the search container
                         $ionicBackdrop.retain();
