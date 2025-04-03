@@ -102,7 +102,7 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     '{{viewModel.getItemValue(selectedItem, viewModel.itemViewValueKey)}}',
                     '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="viewModel.removeItem($index)"></i>',
                     '</ion-item>',
-                    '<ion-item ng-if="!viewModel.isArray(viewModel.selectedItems)" class="item-icon-left item-icon-right item-text-wrap">',
+                    '<ion-item ng-if="!viewModel.isArray(viewModel.selectedItems) && viewModel.selectedItems" class="item-icon-left item-icon-right item-text-wrap">',
                     '<i class="icon ion-checkmark"></i>',
                     '{{viewModel.getItemValue(viewModel.selectedItems, viewModel.itemViewValueKey)}}',
                     '<i class="icon ion-trash-a" style="cursor:pointer" ng-click="viewModel.removeItem(0)"></i>',
