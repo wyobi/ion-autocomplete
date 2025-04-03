@@ -199,14 +199,21 @@ angular.module('ion-autocomplete', []).directive('ionAutocomplete', [
                     // function which removes the item from the selected items.
                     ionAutocompleteController.removeItem = function (index) {
 
-                        // clear the selected items if just one item is selected
-                        if (!angular.isArray(ionAutocompleteController.selectedItems)) {
-                            ionAutocompleteController.selectedItems = [];
-                        } else {
-                            // remove the item from the selected items and create a copy of the array to update the model.
-                            // See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
-                            var removed = ionAutocompleteController.selectedItems.splice(index, 1)[0];
-                            ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.slice();
+                        var removed = null;
+                        if(ionAutocompleteController.maxSelectedItems == 1) {
+                            removed = ionAutocompleteController.selectedItems;
+                            ionAutocompleteController.selectedItems = null;
+                        }
+                        else {
+                            // clear the selected items if just one item is selected
+                            if (!angular.isArray(ionAutocompleteController.selectedItems)) {
+                                ionAutocompleteController.selectedItems = [];
+                            } else {
+                                // remove the item from the selected items and create a copy of the array to update the model.
+                                // See https://github.com/angular-ui/ui-select/issues/191#issuecomment-55471732
+                                removed = ionAutocompleteController.selectedItems.splice(index, 1)[0];
+                                ionAutocompleteController.selectedItems = ionAutocompleteController.selectedItems.slice();
+                            }
                         }
 
                         // set the view value and render it
