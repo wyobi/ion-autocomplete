@@ -1,7 +1,7 @@
 /*
  * ion-autocomplete 0.4.0
- * Copyright 2024 Danny Povolotski 
- * Copyright modifications 2024 Guy Brand 
+ * Copyright 2025 Danny Povolotski 
+ * Copyright modifications 2025 Guy Brand 
  * https://github.com/guylabs/ion-autocomplete
  */
 (function() {
